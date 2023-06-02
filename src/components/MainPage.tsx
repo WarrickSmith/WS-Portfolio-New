@@ -1,14 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 const GridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -43,9 +35,8 @@ const EqualHeightBox = styled.div`
   text-align: center;
 `;
 
-const MainPage = () => {
+const MainPage: React.FC<{ children: React.ReactNode }>= ({ children }) => {
   return (
-    <Container>
       <GridContainer>
         <FullHeightBox>Box 1</FullHeightBox>
         <EqualHeightBox>Box 2</EqualHeightBox>
@@ -53,7 +44,6 @@ const MainPage = () => {
         <EqualHeightBox>Box 4</EqualHeightBox>
         <EqualHeightBox>Box 5</EqualHeightBox>
       </GridContainer>
-    </Container>
   );
 };
 
