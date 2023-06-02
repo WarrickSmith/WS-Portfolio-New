@@ -4,42 +4,31 @@ import styled from 'styled-components';
 const GridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  width: 100%;
-  height: 100%;
-  grid-gap: 1rem;
+  width: calc(100% - 3rem);
+  height: calc(100% - 3rem);
+  grid-gap: 2rem;
   justify-content: center;
   align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
-  background-color: grey;
-
-  /* gap: 2.5rem 1.5rem; */
-  /* list-style: none; */
-  padding: 0 1rem;
-  /* margin: 0; */
-`;
+  background-color: lightgray;
+`
 
 const FullHeightBox = styled.div`
   grid-row: 1 / span 2;
   grid-column: 1 / span 1;
-  /* background-color: #eaeaea; */
-  background-color: #f1f1f1;
+  background-color: lightcyan;
   padding: 20px;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
   border: 2px solid blue;
+  border-radius: 14px;
 `;
 
 const EqualHeightBox = styled.div`
-  background-color: #eaeaea;
-  /* background-color: #f1f1f1; */
+  background-color: lightcyan;
   padding: 20px;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
   border: 2px solid blue;
-`;
+  border-radius: 14px;
+`
 
 const MainPage: React.FC = () => {
   return (

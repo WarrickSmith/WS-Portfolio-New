@@ -23,7 +23,7 @@ const GlobalStyle: GlobalStyleComponent<
     line-height: 1.5;
     font-weight: 400;
     color-scheme: light dark;
-    color: rgba(255, 255, 255, 0.87);
+    color: black;
     background-color: lightyellow;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
@@ -33,11 +33,11 @@ const GlobalStyle: GlobalStyleComponent<
   }
    a {
     font-weight: 500;
-    color: #646cff;
+    color: blue;
     text-decoration: inherit;
   }
   a:hover {
-    color: #535bf2;
+    color: blue;
   }
    body {
     margin: 0;
