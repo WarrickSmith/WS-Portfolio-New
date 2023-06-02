@@ -1,9 +1,12 @@
 import React from 'react'
 
 const DisplayImage: React.FC = () => {
+  const imageSource = './src/assets/warrick.jpg'
+  const imageAltText = 'wsImage'
+
   return (
     <div>
-      <img src="./src/assets/warrick.jpg" alt="wsImage" />
+      <img src={imageSource} alt={imageAltText} />
     </div>
   )
 }
