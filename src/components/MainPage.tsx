@@ -1,5 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from 'react'
+import styled from 'styled-components'
+import DisplayImage from './DisplayImage'
 
 const GridContainer = styled.div`
   display: grid;
@@ -20,7 +21,7 @@ const FullHeightBox = styled.div`
   text-align: center;
   border: 2px solid blue;
   border-radius: 14px;
-`;
+`
 
 const EqualHeightBox = styled.div`
   background-color: lightcyan;
@@ -33,13 +34,15 @@ const EqualHeightBox = styled.div`
 const MainPage: React.FC = () => {
   return (
     <GridContainer>
-      <FullHeightBox>Box 1</FullHeightBox>
+      <FullHeightBox>
+        <DisplayImage />
+      </FullHeightBox>
       <EqualHeightBox>Box 2</EqualHeightBox>
       <EqualHeightBox>Box 3</EqualHeightBox>
       <EqualHeightBox>Box 4</EqualHeightBox>
       <EqualHeightBox>Box 5</EqualHeightBox>
     </GridContainer>
-  );
-};
+  )
+}
 
-export default MainPage;
+export default MainPage
