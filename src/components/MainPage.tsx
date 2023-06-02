@@ -6,13 +6,17 @@ const GridContainer = styled.div`
   grid-template-columns: repeat(3, 1fr);
   width: 100%;
   height: 100%;
-  grid-gap: 20px;
+  grid-gap: 1rem;
   justify-content: center;
   align-items: center;
   max-width: 1200px;
   margin: 0 auto;
-  background-color: #eaeaea;
-  /* padding: 20px; */
+  background-color: grey;
+
+  /* gap: 2.5rem 1.5rem; */
+  /* list-style: none; */
+  padding: 0 1rem;
+  /* margin: 0; */
 `;
 
 const FullHeightBox = styled.div`
@@ -24,6 +28,7 @@ const FullHeightBox = styled.div`
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
+  border: 2px solid blue;
 `;
 
 const EqualHeightBox = styled.div`
@@ -33,17 +38,18 @@ const EqualHeightBox = styled.div`
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
+  border: 2px solid blue;
 `;
 
-const MainPage: React.FC<{ children: React.ReactNode }>= ({ children }) => {
+const MainPage: React.FC = () => {
   return (
-      <GridContainer>
-        <FullHeightBox>Box 1</FullHeightBox>
-        <EqualHeightBox>Box 2</EqualHeightBox>
-        <EqualHeightBox>Box 3</EqualHeightBox>
-        <EqualHeightBox>Box 4</EqualHeightBox>
-        <EqualHeightBox>Box 5</EqualHeightBox>
-      </GridContainer>
+    <GridContainer>
+      <FullHeightBox>Box 1</FullHeightBox>
+      <EqualHeightBox>Box 2</EqualHeightBox>
+      <EqualHeightBox>Box 3</EqualHeightBox>
+      <EqualHeightBox>Box 4</EqualHeightBox>
+      <EqualHeightBox>Box 5</EqualHeightBox>
+    </GridContainer>
   );
 };
 
