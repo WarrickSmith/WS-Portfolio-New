@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import DisplayImage from './DisplayImage'
+import Box2 from './Box2/Box2'
 
 const GridContainer = styled.div`
   display: grid;
@@ -40,7 +41,7 @@ const MainPage: React.FC = () => {
       <FullHeightBox>
         <DisplayImage />
       </FullHeightBox>
-      <EqualHeightBox>Box 2</EqualHeightBox>
+      <EqualHeightBox><Box2/></EqualHeightBox>
       <EqualHeightBox>Box 3</EqualHeightBox>
       <EqualHeightBox>Box 4</EqualHeightBox>
       <EqualHeightBox>Box 5</EqualHeightBox>
