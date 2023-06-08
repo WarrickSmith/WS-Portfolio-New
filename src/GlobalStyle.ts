@@ -18,6 +18,7 @@ const GlobalStyle: GlobalStyleComponent<
   GlobalStyleProps,
   DefaultTheme
 > = createGlobalStyle`
+
   :root {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
@@ -31,42 +32,146 @@ const GlobalStyle: GlobalStyleComponent<
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%;
   }
-   a {
-    font-weight: 500;
-    color: blue;
-    text-decoration: inherit;
+
+  body,
+  html {
+    font-size: 100%;
+    padding: 0;
+    margin: 0;
+    height: 100%;
   }
-  a:hover {
-    color: blue;
+
+  *,
+  *:after,
+  *:before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
   }
-   body {
+
+  body {
+    font-family: "Lato", serif, Calibri, Arial;
     margin: 0;
     display: flex;
     place-items: center;
     min-width: 320px;
     min-height: 100vh;
+    
+    color: #656c6d;
+    background: #efe9e9;
+    font-size: 0.9em;
+    font-weight: 400;
   }
-   h1 {
-    font-size: 3.2em;
-    line-height: 1.1;
+  .second-font {
+  font-family: "Lato", sans-serif;
   }
-   button {
-    border-radius: 8px;
-    border: 1px solid transparent;
-    padding: 0.6em 1.2em;
-    font-size: 1em;
+
+  .p-none {
+    padding: 0 !important;
+  }
+
+  .m-none {
+    margin: 0 !important;
+  }
+
+  .mb-0 {
+    margin-bottom: 0 !important;
+  }
+
+  .btn {
+    font-family: "Lato", sans-serif, Calibri, Arial;
+    box-shadow: none;
+    border-radius: 0;
+    font-weight: 600;
+    height: 42px;
+  }
+
+  .btn i {
+    font-size: 14px;
+    padding-left: 8px;
+  }
+
+  .btn:hover {
+    box-shadow: none;
+    color: #eee;
+  }
+
+  .uppercase {
+    text-transform: uppercase;
+  }
+
+  .font-weight-300 {
+    font-weight: 300;
+  }
+
+  .font-weight-400 {
+    font-weight: 400;
+  }
+
+  .font-weight-500 {
     font-weight: 500;
-    font-family: inherit;
-    background-color: #1a1a1a;
-    cursor: pointer;
-    transition: border-color 0.25s;
   }
-  button:hover {
-    border-color: #646cff;
+
+  .font-weight-600 {
+    font-weight: 600;
   }
-  button:focus,
-  button:focus-visible {
-    outline: 4px auto -webkit-focus-ring-color;
-  }   
+
+  .font-weight-700 {
+    font-weight: 700;
+  }
+
+  .font-weight-900 {
+    font-weight: 900;
+  }
+
+  .wrapper {
+    overflow: hidden;
+  }
+
+  .section-padding {
+    padding: 0 24px !important;
+  }
+  .section-padding.section-padding-right-none {
+    padding-right: 0 !important;
+  }
+
+  .container {
+    margin: 0 auto;
+    max-width: 1280px;
+    width: 100%;
+  }
+
+  @media only screen and (min-width: 601px) {
+    .blog .container {
+      width: 95%;
+    }
+  }
+
+  @media only screen and (min-width: 993px) {
+    .blog .container {
+      width: 95%;
+    }
+  }
+
+  @media only screen and (min-width: 1199px) {
+    .blog .container {
+      width: 1170px;
+    }
+  }
+
+  .d-inline-block {
+    display: inline-block;
+  }
+
+  .main-picture {
+    background-image: url(https://warricksmith.com/images/warrick.jpg);
+    padding: 0;
+    margin-top: 24px;
+    margin-left: 24px;
+    height: calc(100vh - 48px);
+    background-size: cover;
+    background-position: center center;
+    width: calc(33.3333333333% - 48px);
+  }
 `
 export default GlobalStyle
