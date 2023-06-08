@@ -6,20 +6,17 @@ const MyImage = styled.img`
   grid-column: 1 / span 1;
   height: calc(
     100vh - 3rem
-    ); /* Set the initial height to 100% of the parent container */
-    width: 100%;
+  ); /* Set the initial height to 100% of the parent container */
+  width: 100%;
   object-fit: cover;
 ` 
 
 const DisplayImage: React.FC = () => {
-  const imageSource = './src/assets/warrick.jpg'
+  const imageSource = 'https://warricksmith.com/images/warrick.jpg'
   const imageAltText = 'wsImage'
 
-  return (
-    <div>
-      <MyImage src={imageSource} alt={imageAltText} />
-    </div>
-  )
+  return <MyImage src={imageSource} alt={imageAltText} />
+      
 }
 
 export default DisplayImage
