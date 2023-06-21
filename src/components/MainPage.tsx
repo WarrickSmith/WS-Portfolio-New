@@ -11,27 +11,26 @@ const GridContainer = styled.div`
   grid-gap: 2rem;
   justify-content: center;
   align-items: center;
-  background-color: lightgray;
 `
 
 const FullHeightBox = styled.div`
   grid-row: 1 / span 2;
   grid-column: 1 / span 1;
-  background-color: lightcyan;
-
-  text-align: center;
-
+  place-items: center;
   height: 100%;
   width: 100%;
 `
 
 const EqualHeightBox = styled.div`
-  background-color: lightcyan;
-    text-align: center;
-  border: 2px solid blue;
-  border-radius: 14px;
+  text-align: center;
+  border: 0.05rem solid white;
+  border-radius: 1rem;
   height: 100%;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `
 
 
