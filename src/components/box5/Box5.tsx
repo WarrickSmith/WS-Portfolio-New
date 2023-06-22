@@ -1,7 +1,7 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
 import BoxContainer from '../common/BoxContainer'
-import WordSlider from '../common/WordSlider'
+import HoverText from '../common/HoverText'
 
 const Intro = styled.span`
   display: inline-block;
@@ -17,14 +17,12 @@ const MyName = styled.span`
 
 const words = ['full stack', 'developer']
 
-const Box2: React.FC = () => {
+const Box5: React.FC = () => {
   return (
     <BoxContainer>
-      <Intro>Hi There! - I'm</Intro>
-      <MyName>Warrick Smith</MyName>
-      <WordSlider words={words} />
+      <HoverText>Get In Touch</HoverText>
     </BoxContainer>
   )
 }
 
-export default Box2
+export default Box5

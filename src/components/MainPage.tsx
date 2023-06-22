@@ -2,6 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import DisplayImage from './DisplayImage'
 import Box2 from './box2/Box2'
+import Box3 from './box3/Box3'
+import Box4 from './box4/Box4'
+import Box5 from './box5/Box5'
 
 const GridContainer = styled.div`
   display: grid;
@@ -25,13 +28,14 @@ const EqualHeightBox = styled.div`
   text-align: center;
   border: 0.05rem solid white;
   border-radius: 1rem;
-  height: 100%;
+  height: 46vh;
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 `
+
 
 
 const MainPage: React.FC = () => {
@@ -41,9 +45,9 @@ const MainPage: React.FC = () => {
         <DisplayImage />
       </FullHeightBox>
       <EqualHeightBox><Box2/></EqualHeightBox>
-      <EqualHeightBox>Box 3</EqualHeightBox>
-      <EqualHeightBox>Box 4</EqualHeightBox>
-      <EqualHeightBox>Box 5</EqualHeightBox>
+      <EqualHeightBox><Box3/></EqualHeightBox>
+      <EqualHeightBox><Box4/></EqualHeightBox>
+      <EqualHeightBox><Box5/></EqualHeightBox>
     </GridContainer>
   )
 }
