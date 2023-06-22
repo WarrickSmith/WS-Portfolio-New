@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import DisplayImage from './DisplayImage'
-import Box2 from './Box2/Box2'
+import Box2 from './box2/Box2'
 
 const GridContainer = styled.div`
   display: grid;
