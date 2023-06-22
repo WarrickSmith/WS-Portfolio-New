@@ -28,7 +28,6 @@ const TextContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100%;
 `
 
 interface TextProps {
@@ -74,7 +73,7 @@ const WordSlider: React.FC<WordSliderProps> = ({ words }) => {
         setCurrentWordIndex((prevIndex) => (prevIndex + 1) % words.length)
         setAnimateIn(true)
       }, 1000)
-    }, 2000)
+    }, 3000)
 
     return () => {
       clearInterval(interval)
