@@ -22,9 +22,10 @@ const GlobalStyle: GlobalStyleComponent<
   :root {
     font-synthesis: none;
     text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-text-size-adjust: 100%;
+    --color: white;
+    --color-alt: #ffb400;
+    --bg-color: black;
+    --bg-color-alt: darkgrey;
   }
 
   body,
@@ -45,8 +46,8 @@ const GlobalStyle: GlobalStyleComponent<
   body {
     min-width: 320px;
     min-height: 100vh;
-    color: #ffb400;
-    background: #111;
+    color: var(--color);
+    background: var(--bg-color);
   }
 `
 export default GlobalStyle
