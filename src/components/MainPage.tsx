@@ -24,7 +24,7 @@ const FullHeightBox = styled.div`
   width: 100%;
 `
 
-const EqualHeightBox = styled.div`
+const GridBox = styled.div`
   text-align: center;
   border: 0.05rem solid white;
   border-radius: 1rem;
@@ -44,10 +44,10 @@ const MainPage: React.FC = () => {
       <FullHeightBox>
         <DisplayImage />
       </FullHeightBox>
-      <EqualHeightBox><Box2/></EqualHeightBox>
-      <EqualHeightBox><Box3/></EqualHeightBox>
-      <EqualHeightBox><Box4/></EqualHeightBox>
-      <EqualHeightBox><Box5/></EqualHeightBox>
+      <GridBox><Box2/></GridBox>
+      <GridBox><Box3/></GridBox>
+      <GridBox><Box4/></GridBox>
+      <GridBox><Box5/></GridBox>
     </GridContainer>
   )
 }
