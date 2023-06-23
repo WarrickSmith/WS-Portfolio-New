@@ -16,7 +16,8 @@ const GridContainer = styled.div`
   align-items: center;
 `
 
-const FullHeightBox = styled.div`
+const PictureBox = styled.div`
+  background: var(--bg-color);
   grid-row: 1 / span 2;
   grid-column: 1 / span 1;
   place-items: center;
@@ -24,7 +25,7 @@ const FullHeightBox = styled.div`
   width: 100%;
 `
 
-const GridBox = styled.div`
+const Box = styled.div`
   text-align: center;
   border: 0.05rem solid white;
   border-radius: 1rem;
@@ -36,18 +37,33 @@ const GridBox = styled.div`
   align-items: center;
 `
 
+const GridBox = styled(Box)`
+  background: var(--bg-color);
+`
+
+const GridBoxGrey = styled(Box)`
+  background: var(--bg-color-alt);
+`
 
 
 const MainPage: React.FC = () => {
   return (
     <GridContainer>
-      <FullHeightBox>
+      <PictureBox>
         <DisplayImage />
-      </FullHeightBox>
-      <GridBox><Box2/></GridBox>
-      <GridBox><Box3/></GridBox>
-      <GridBox><Box4/></GridBox>
-      <GridBox><Box5/></GridBox>
+      </PictureBox>
+      <GridBox>
+        <Box2 />
+      </GridBox>
+      <GridBoxGrey>
+        <Box3 />
+      </GridBoxGrey>
+      <GridBoxGrey>
+        <Box4 />
+      </GridBoxGrey>
+      <GridBoxGrey>
+        <Box5 />
+      </GridBoxGrey>
     </GridContainer>
   )
 }

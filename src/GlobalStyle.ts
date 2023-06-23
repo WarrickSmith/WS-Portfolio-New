@@ -24,8 +24,8 @@ const GlobalStyle: GlobalStyleComponent<
     text-rendering: optimizeLegibility;
     --color: white;
     --color-alt: #ffb400;
-    --bg-color: black;
-    --bg-color-alt: darkgrey;
+    --bg-color: #111111;
+    --bg-color-alt: #222222;
   }
 
   body,
