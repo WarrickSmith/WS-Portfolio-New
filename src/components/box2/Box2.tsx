@@ -11,7 +11,7 @@ const Intro = styled.span`
 
 const MyName = styled.span`
   display: inline-block;
-  font-size: 3rem;
+  font-size: 3.5rem;
   font-weight: 700;
 `
 
