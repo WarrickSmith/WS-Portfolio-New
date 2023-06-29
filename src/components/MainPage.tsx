@@ -35,6 +35,7 @@ const Box = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 `
 
 const GridBox = styled(Box)`
@@ -43,6 +44,7 @@ const GridBox = styled(Box)`
 
 const GridBoxGrey = styled(Box)`
   background: var(--bg-color-alt);
+  cursor: pointer;
 `
 
 

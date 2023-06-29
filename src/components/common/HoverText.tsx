@@ -1,8 +1,17 @@
-import styled from 'styled-components'
+import HoverTextWrapper from './HoverTextWrapper'
 
-const HoverText = styled.span`
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #ffb400;
-`
+const HoverText = ({ words }: { words: string[] }) => {
+  return (
+    <>
+      {words.map((word, index) => (
+        <span key={index} style={{ color: index === 0 ? 'white' : 'var(--color-alt)' }}>
+          {word}
+          {'\u00A0'}
+        </span>
+      ))}
+    </>
+  )
+}
+
 export default HoverText
+

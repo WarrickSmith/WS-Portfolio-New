@@ -1,15 +1,14 @@
 import React from 'react'
-import styled, { css } from 'styled-components'
-import BoxContainer from '../common/BoxContainer'
+import HoverTextWrapper from '../common/HoverTextWrapper'
 import HoverText from '../common/HoverText'
 
-const words = ['full stack', 'developer']
+const words = ['My', 'Portfolio']
 
 const Box4: React.FC = () => {
   return (
-    <BoxContainer>
-      <HoverText>MyPortfolio</HoverText>
-    </BoxContainer>
+    <HoverTextWrapper>
+      <HoverText words={words}></HoverText>
+    </HoverTextWrapper>
   )
 }
 
