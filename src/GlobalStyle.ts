@@ -48,6 +48,7 @@ const GlobalStyle: GlobalStyleComponent<
     min-height: 100vh;
     color: var(--color);
     background: var(--bg-color);
+    font-weight: 700;
   }
 `
 export default GlobalStyle
