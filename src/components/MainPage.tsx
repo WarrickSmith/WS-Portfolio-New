@@ -8,7 +8,8 @@ import Box5 from './box5/Box5'
 
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
   width: calc(100% - 3rem);
   height: calc(100% - 3rem);
   grid-gap: 2rem;
@@ -29,9 +30,9 @@ const Box = styled.div`
   text-align: center;
   border: 0.05rem solid white;
   border-radius: 1rem;
-  height: 46vh;
+  height: 100%;
   width: 100%;
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;

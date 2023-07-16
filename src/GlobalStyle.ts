@@ -44,11 +44,12 @@ const GlobalStyle: GlobalStyleComponent<
   }
 
   body {
-    min-width: 320px;
+    min-width: 33vw;
     min-height: 100vh;
     color: var(--color);
     background: var(--bg-color);
     font-weight: 700;
+    overflow: hidden;
   }
 `
 export default GlobalStyle
