@@ -36,7 +36,7 @@ interface TextProps {
 }
 
 const Text = styled.span<TextProps>`
-  font-size: 2rem;
+  font-size: var(--fs-med);
   color: var(--color-alt);
   animation-duration: 1s;
   animation-fill-mode: forwards;

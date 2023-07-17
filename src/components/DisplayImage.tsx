@@ -4,11 +4,18 @@ import styled from 'styled-components'
 const MyImage = styled.img`
   grid-row: 1 / span 2;
   grid-column: 1 / span 1;
-  height: calc(
-    100% 
-  ); /* Set the initial height to 100% of the parent container */
+  height: calc(100%);
   width: 100%;
   object-fit: cover;
+  margin: auto;
+
+  @media (max-width: 768px) {
+    grid-row: 1 / span 2;
+    grid-column: 1 / span 1;
+    height: calc(100%);
+    width: 30%;
+    object-fit: cover;
+  }
 ` 
 
 const DisplayImage: React.FC = () => {

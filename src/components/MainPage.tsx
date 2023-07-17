@@ -12,18 +12,30 @@ const GridContainer = styled.div`
   grid-template-rows: 1fr 1fr;
   width: calc(100% - 3rem);
   height: calc(100% - 3rem);
-  grid-gap: 2rem;
+  grid-gap: 1.5rem;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
 `
 
 const PictureBox = styled.div`
   background: var(--bg-color);
   grid-row: 1 / span 2;
-  grid-column: 1 / span 1;
-  place-items: center;
   height: 100%;
   width: 100%;
+  overflow: hidden;
+  text-align: center;
+
+  @media (max-width: 768px) {
+    /* grid-row: 1 / span 1;
+    border: 0.05rem solid white;
+    border-radius: 1rem; */
+    display: none;
+  }
 `
 
 const Box = styled.div`

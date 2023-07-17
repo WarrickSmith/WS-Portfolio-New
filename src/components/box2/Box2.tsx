@@ -5,13 +5,13 @@ import WordSlider from '../common/WordSlider'
 
 const Intro = styled.span`
   display: inline-block;
-  font-size: 1.5rem;
+  font-size: var(--fs-sm);
   font-weight: 400;
 `
 
 const MyName = styled.span`
   display: inline-block;
-  font-size: 3.5rem;
+  font-size: var(--fs-lge);
   font-weight: 700;
 `
 

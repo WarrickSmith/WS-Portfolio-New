@@ -26,6 +26,9 @@ const GlobalStyle: GlobalStyleComponent<
     --color-alt: #ffb400;
     --bg-color: #111111;
     --bg-color-alt: #222222;
+    --fs-sm: 2.22vh;
+    --fs-med: 3.33vh;
+    --fs-lge: 4.44vh;
   }
 
   body,
