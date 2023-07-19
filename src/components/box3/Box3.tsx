@@ -21,7 +21,7 @@ const Box3: React.FC = () => {
   return (
     <>
       {showFullScreen ? (
-        <FullScreenComponent onClose={handleClose} content={Box3Content} />
+    <FullScreenComponent onClose={handleClose} content={Box3Content} />
       ) : (
         <HoverTextWrapper onClick={handleClick}>
           <HoverText words={words} />
