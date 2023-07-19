@@ -32,7 +32,6 @@ const FullScreenContent = styled.div`
 `
 
 const CloseButton = styled.div`
-  z-index: 9997;
   position: absolute;
   top: 0rem;
   right: 1rem;
