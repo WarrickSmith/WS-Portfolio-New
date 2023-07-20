@@ -24,7 +24,7 @@ const Box3: React.FC = () => {
         <FullScreenComponent
           onClose={handleClose}
           content={Box3Content}
-          transformX="50%"
+          transformX="100%"
           transformY="-100%"
         />
       ) : (
