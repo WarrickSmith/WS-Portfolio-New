@@ -17,8 +17,8 @@ const FullScreenComponentWrapper = styled.div<{
   z-index: 9998;
   position: fixed;
   top: 0;
-  left: 0;
-  width: 100%;
+  left: 33%;
+  width: 66.67%;
   height: 100%;
   background-color: var(--bg-color);
   display: flex;
@@ -47,6 +47,7 @@ const CloseButton = styled.div`
   background-color: var(--bg-color);
   cursor: pointer;
   font-size: var(--fs-lge);
+  font-weight:500;
 `
 
 const FullScreenComponent: React.FC<{

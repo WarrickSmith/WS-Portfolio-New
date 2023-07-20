@@ -31,9 +31,6 @@ const PictureBox = styled.div`
   text-align: center;
 
   @media (max-width: 768px) {
-    /* grid-row: 1 / span 1;
-    border: 0.05rem solid white;
-    border-radius: 1rem; */
     display: none;
   }
 `
