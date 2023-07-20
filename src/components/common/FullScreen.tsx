@@ -10,7 +10,10 @@ const fadeIn = keyframes`
   }
 `
 
-const FullScreenComponentWrapper = styled.div`
+const FullScreenComponentWrapper = styled.div<{
+  transformX: string
+  transformY: string
+}>`
   z-index: 9998;
   position: fixed;
   top: 0;
@@ -22,7 +25,8 @@ const FullScreenComponentWrapper = styled.div`
   align-items: center;
   justify-content: center;
   transition: transform 0.5s ease-out;
-  transform: translateX(200%) translateY(-100%);
+  transform: translateX(${(props) => props.transformX})
+    translateY(${(props) => props.transformY});
   cursor: default;
 
   &.open {
@@ -48,7 +52,9 @@ const CloseButton = styled.div`
 const FullScreenComponent: React.FC<{
   onClose: () => void
   content: React.ReactNode
-}> = ({ onClose, content }) => {
+  transformX: string
+  transformY: string
+}> = ({ onClose, content, transformX, transformY }) => {
   const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
@@ -61,7 +67,7 @@ const FullScreenComponent: React.FC<{
   }
 
   return (
-    <FullScreenComponentWrapper className={isOpen ? 'open' : ''}>
+    <FullScreenComponentWrapper className={isOpen ? 'open' : ''} transformX={transformX} transformY={transformY} >
       <CloseButton onClick={handleClose}>x</CloseButton>
       <FullScreenContent>{content}</FullScreenContent>
     </FullScreenComponentWrapper>
