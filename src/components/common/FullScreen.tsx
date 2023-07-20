@@ -1,6 +1,4 @@
-// FullScreen.tsx
-
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled, { keyframes } from 'styled-components'
 
 const fadeIn = keyframes`
@@ -23,8 +21,13 @@ const FullScreenComponentWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: ${fadeIn} 0.5s ease-in;
+  transition: transform 0.5s ease-out;
+  transform: translateX(200%) translateY(-100%);
   cursor: default;
+
+  &.open {
+    transform: translateX(0) translateY(0);
+  }
 `
 
 const FullScreenContent = styled.div`
@@ -46,9 +49,20 @@ const FullScreenComponent: React.FC<{
   onClose: () => void
   content: React.ReactNode
 }> = ({ onClose, content }) => {
+  const [isOpen, setIsOpen] = useState(false)
+
+  useEffect(() => {
+    setIsOpen(true)
+  }, [])
+
+  const handleClose = () => {
+    setIsOpen(false)
+    setTimeout(onClose, 500)
+  }
+
   return (
-    <FullScreenComponentWrapper>
-      <CloseButton onClick={onClose}>x</CloseButton>
+    <FullScreenComponentWrapper className={isOpen ? 'open' : ''}>
+      <CloseButton onClick={handleClose}>x</CloseButton>
       <FullScreenContent>{content}</FullScreenContent>
     </FullScreenComponentWrapper>
   )
