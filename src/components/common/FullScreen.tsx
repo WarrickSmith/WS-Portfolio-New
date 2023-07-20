@@ -32,6 +32,11 @@ const FullScreenComponentWrapper = styled.div<{
   &.open {
     transform: translateX(0) translateY(0);
   }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    left: 0;
+  }
 `
 
 const FullScreenContent = styled.div`
