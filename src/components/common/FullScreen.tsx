@@ -1,20 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import styled, { keyframes } from 'styled-components'
 
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-`
-
 const FullScreenComponentWrapper = styled.div<{
   transformX: string
   transformY: string
 }>`
-  z-index: 9998;
+  z-index: 9995;
   position: fixed;
   top: 0;
   left: 33%;
@@ -40,7 +31,7 @@ const FullScreenComponentWrapper = styled.div<{
 `
 
 const FullScreenContent = styled.div`
-  /* Your styles for the content of the FullScreenComponent */
+  /* Common styles for the content of the FullScreenComponent */
 `
 
 const CloseButton = styled.div`
