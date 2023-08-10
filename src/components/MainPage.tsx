@@ -1,83 +1,58 @@
-import React from 'react'
-import styled from 'styled-components'
-import DisplayImage from './DisplayImage'
+import { useState, useRef } from 'react'
+import { GridContainer, DimmedLayer, Card } from './common/GridComponents'
 import Box2 from './box2/Box2'
 import Box3 from './box3/Box3'
 import Box4 from './box4/Box4'
 import Box5 from './box5/Box5'
 
-const GridContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  width: calc(100% - 3rem);
-  height: calc(100% - 3rem);
-  grid-gap: 1.5rem;
-  justify-content: center;
-  align-items: center;
+const cards = [
+  { id: 1, component: <h1>Card 1</h1> },
+  { id: 2, component: <h1>Card 2</h1> },
+  { id: 3, component: <h3>Card 3</h3> },
+  { id: 4, component: <h3>Card 4</h3> },
+  { id: 5, component: <h3>Card 5</h3> },
+]
 
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
+const renderChildDiv = (selectedId: number | null) => {
+  console.log("selectedId", selectedId)
+  switch (selectedId) {
+    case 3:
+      return <h1>Child Div for Card 3</h1>
+    case 4:
+      return <h1>Child Div for Card 4</h1>
+    case 5:
+      return <h1>Child Div for Card 5</h1>
+    default:
+      return null
   }
-`
+}
 
-const PictureBox = styled.div`
-  background: var(--bg-color);
-  grid-row: 1 / span 2;
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-  text-align: center;
+export const MainPage = () => {
+  const containerRefs = useRef(new Array())
+  const [selectedId, setSelectedId] = useState<number | null>(null)
 
-  @media (max-width: 768px) {
-    display: none;
-  }
-`
+  if (selectedId === 1 || selectedId === 2) setSelectedId(null)
 
-const Box = styled.div`
-  text-align: center;
-  border: 0.05rem solid white;
-  border-radius: 1rem;
-  height: 100%;
-  width: 100%;
-  display: inline-flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-`
-
-const GridBox = styled(Box)`
-  background: var(--bg-color);
-`
-
-const GridBoxGrey = styled(Box)`
-  background: var(--bg-color-alt);
-  cursor: pointer;
-`
-
-
-const MainPage: React.FC = () => {
   return (
     <GridContainer>
-      <PictureBox>
-        <DisplayImage />
-      </PictureBox>
-      <GridBox>
-        <Box2 />
-      </GridBox>
-      <GridBoxGrey>
-        <Box3 />
-      </GridBoxGrey>
-      <GridBoxGrey>
-        <Box4 />
-      </GridBoxGrey>
-      <GridBoxGrey>
-        <Box5 />
-      </GridBoxGrey>
+      {cards.map((card, i) => (
+        <Card
+          opened={selectedId === card.id}
+          key={i}
+          layout
+          ref={(el) => (containerRefs.current[card.id] = el)}
+          onClick={() => setSelectedId(selectedId === card.id ? null : card.id)}
+        >
+          {selectedId !== card.id && card.component}
+          {selectedId === card.id && (
+            <>
+              <div> X </div>
+              <div>{renderChildDiv(selectedId)}</div>
+            </>
+          )}
+        </Card>
+      ))}
+      <DimmedLayer animate={{ opacity: selectedId ? 0.3 : 0 }} />
     </GridContainer>
   )
 }
-
-export default MainPage

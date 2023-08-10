@@ -1,23 +1,13 @@
-import { useState } from 'react';
-import MainPage from './components/MainPage';
-import styled from 'styled-components';
-
-const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+import { MainContainer } from './components/common/GridComponents'
+import { MainPage } from './components/MainPage'
 
 const App = () => {
-  const [counter, setCounter] = useState(0);
 
   return (
-    <Container>
+    <MainContainer>
       <MainPage />
-    </Container>
-  );
-};
+    </MainContainer>
+  )
+}
 
-export default App;
+export default App
