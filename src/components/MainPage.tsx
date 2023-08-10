@@ -6,15 +6,14 @@ import Box4 from './box4/Box4'
 import Box5 from './box5/Box5'
 
 const cards = [
-  { id: 1, component: <h1>Card 1</h1> },
-  { id: 2, component: <h1>Card 2</h1> },
-  { id: 3, component: <h3>Card 3</h3> },
-  { id: 4, component: <h3>Card 4</h3> },
-  { id: 5, component: <h3>Card 5</h3> },
+  { id: 1, component: <></> },
+  { id: 2, component: <Box2 /> },
+  { id: 3, component: <Box3 /> },
+  { id: 4, component: <Box4 /> },
+  { id: 5, component: <Box5 /> },
 ]
 
 const renderChildDiv = (selectedId: number | null) => {
-  console.log("selectedId", selectedId)
   switch (selectedId) {
     case 3:
       return <h1>Child Div for Card 3</h1>
