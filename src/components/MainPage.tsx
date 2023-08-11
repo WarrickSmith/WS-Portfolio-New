@@ -1,7 +1,9 @@
 import { useState, useRef } from 'react'
+import styled from 'styled-components'
 import { GridContainer, DimmedLayer, Card } from './common/GridComponents'
 import Box2 from './box2/Box2'
 import Box3 from './box3/Box3'
+import Box3Content from './box3/Box3Content'
 import Box4 from './box4/Box4'
 import Box5 from './box5/Box5'
 
@@ -13,10 +15,12 @@ const cards = [
   { id: 5, component: <Box5 /> },
 ]
 
+const CloseButton = styled.div``
+
 const renderChildDiv = (selectedId: number | null) => {
   switch (selectedId) {
     case 3:
-      return <h1>Child Div for Card 3</h1>
+      return <Box3Content />
     case 4:
       return <h1>Child Div for Card 4</h1>
     case 5:
@@ -45,7 +49,7 @@ export const MainPage = () => {
           {selectedId !== card.id && card.component}
           {selectedId === card.id && (
             <>
-              <div> X </div>
+              <CloseButton >x</CloseButton>
               <div>{renderChildDiv(selectedId)}</div>
             </>
           )}

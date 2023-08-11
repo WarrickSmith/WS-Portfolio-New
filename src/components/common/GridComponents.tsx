@@ -49,7 +49,7 @@ export const Card = styled(motion.div)<CardProps>`
   border-radius: 1.5rem;
   width: 100%;
   height: 100%;
-  cursor: pointer;
+  overflow: hidden;
 
   &:nth-child(1) {
     grid-row: span 2;

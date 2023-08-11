@@ -20,18 +20,18 @@ const Box3: React.FC = () => {
 
   return (
     <>
-      {showFullScreen ? (
+      {/* {showFullScreen ? (
         <FullScreenComponent
           onClose={handleClose}
           content={Box3Content}
           transformX="50%"
           transformY="-50%"
         />
-      ) : (
-        <HoverTextWrapper onClick={handleClick}>
+      ) : ( */}
+        <HoverTextWrapper>
           <HoverText words={words} />
         </HoverTextWrapper>
-      )}
+      {/* )} */}
     </>
   )
 }
