@@ -22,14 +22,22 @@ const renderChildDiv = (
   setIsClosed: (value: boolean) => void,
   setSelectedId: (value: number | null) => void
 ) => {
-  console.log('selectedId in renderDiv', selectedId)
+  console.log('RenderDiv - Selected Id : ', selectedId)
 
   switch (selectedId) {
     case 3:
       return (
         <>
+          <CloseButton
+            onClick={() => {
+              setIsClosed(true)
+              setSelectedId(null)
+              console.log('closed button clicked', selectedId)
+            }}
+          >
+            x
+          </CloseButton>
           <Box3Content />
-  <CloseButton onClick={() => {;setIsClosed(true); setSelectedId(null);console.log('closed button clicked',selectedId)}}>x</CloseButton>
         </>
       )
 
@@ -48,12 +56,14 @@ export const MainPage = () => {
   const [isClosed, setIsClosed] = useState(false)
   console.log('Is Closed : ', isClosed)
 
-useEffect(() => {
-  if (isClosed && selectedId !== null) {
-    console.log('closed detected', selectedId)
-    setSelectedId(null)
-  }
-}, [isClosed])
+  useEffect(() => {
+    console.log('Use Effect Triggered', selectedId, isClosed)
+    if (isClosed && selectedId !== null) {
+      console.log('Use Effect closed detected', selectedId)
+      setIsClosed(false)
+      setSelectedId(null)
+    }
+  }, [isClosed, selectedId])
 
   if (selectedId === 1 || selectedId === 2) setSelectedId(null)
 
@@ -65,7 +75,8 @@ useEffect(() => {
           key={i}
           layout
           ref={(el) => (containerRefs.current[card.id] = el)}
-          onClick={() => setSelectedId(selectedId === card.id ? null : card.id)}
+          // onClick={() => setSelectedId(selectedId === card.id ? null : card.id)}
+          onClick={() => setSelectedId(card.id)}
         >
           {selectedId !== card.id && card.component}
           {selectedId === card.id && !isClosed && (
