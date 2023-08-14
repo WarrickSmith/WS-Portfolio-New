@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components'
 import { motion } from 'framer-motion'
+import backgroundImage from '../../assets/warrick.jpg'
 
 interface CardProps {
   opened: boolean
@@ -53,7 +54,7 @@ export const Card = styled(motion.div)<CardProps>`
 
   &:nth-child(1) {
     grid-row: span 2;
-    background-image: url('https://warricksmith.com/images/warrick.jpg');
+    background-image: url(${backgroundImage});
     background-size: cover;
     background-position: center;
   }
