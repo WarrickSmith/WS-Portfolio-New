@@ -17,26 +17,14 @@ const cards = [
 
 const CloseButton = styled.div``
 
-const renderChildDiv = (
-  selectedId: number | null,
-  setIsClosed: (value: boolean) => void,
-  setSelectedId: (value: number | null) => void
-) => {
+const renderChildDiv = (selectedId: number | null, closeCard: () => void) => {
   console.log('RenderDiv - Selected Id : ', selectedId)
 
   switch (selectedId) {
     case 3:
       return (
         <>
-          <CloseButton
-            onClick={() => {
-              setIsClosed(true)
-              setSelectedId(null)
-              console.log('closed button clicked', selectedId)
-            }}
-          >
-            x
-          </CloseButton>
+          <CloseButton onClick={closeCard}>x</CloseButton>
           <Box3Content />
         </>
       )
@@ -55,6 +43,11 @@ export const MainPage = () => {
   const [selectedId, setSelectedId] = useState<number | null>(null)
   const [isClosed, setIsClosed] = useState(false)
   console.log('Is Closed : ', isClosed)
+
+  const closeCard = () => {
+    setIsClosed(true)
+    setSelectedId(null)
+  }
 
   useEffect(() => {
     console.log('Use Effect Triggered', selectedId, isClosed)
@@ -80,7 +73,7 @@ export const MainPage = () => {
         >
           {selectedId !== card.id && card.component}
           {selectedId === card.id && !isClosed && (
-            <div>{renderChildDiv(selectedId, setIsClosed, setSelectedId)}</div>
+            <div>{renderChildDiv(selectedId, closeCard)}</div>
           )}
         </Card>
       ))}
