@@ -51,6 +51,7 @@ const HoverTextWrapper = styled.div`
   text-transform: uppercase;
   width: 100%;
   height: 100%;
+  cursor: pointer;
 
   transition: text-shadow 1s ease-out;
   position: relative;

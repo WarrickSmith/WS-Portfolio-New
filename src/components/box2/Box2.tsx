@@ -1,16 +1,21 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
-import BoxContainer from '../common/BoxContainer'
 import WordSlider from '../common/WordSlider'
 
+const BoxContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-transform: uppercase;
+`
 const Intro = styled.span`
-  display: inline-block;
   font-size: var(--fs-sm);
   font-weight: 400;
 `
 
 const MyName = styled.span`
-  display: inline-block;
+  text-align: center;
   font-size: var(--fs-lge);
   font-weight: 700;
 `

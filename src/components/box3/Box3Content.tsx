@@ -4,6 +4,7 @@ const Content = styled.div`
   color: var(--color-alt);
   font-size: var(--fs-lge);
 `
-const Box3Content = <Content>Box3 Content</Content>
-
-export default Box3Content 
+const Box3Content = () => {
+  return <Content>Box3 Content</Content>
+}
+export default Box3Content

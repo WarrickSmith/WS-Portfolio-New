@@ -1,5 +1,3 @@
-import HoverTextWrapper from './HoverTextWrapper'
-
 const HoverText = ({ words }: { words: string[] }) => {
   return (
     <>

@@ -1,83 +1,48 @@
-import React from 'react'
-import styled from 'styled-components'
-import DisplayImage from './DisplayImage'
-import Box2 from './box2/Box2'
-import Box3 from './box3/Box3'
-import Box4 from './box4/Box4'
-import Box5 from './box5/Box5'
+import { useState, useEffect } from 'react'
+import { GridContainer, DimmedLayer, Card } from './common/GridComponents'
+import { renderChildDiv, cards } from './common/renderChildDiv'
+import CloseButton from './common/CloseButton'
 
-const GridContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  width: calc(100% - 3rem);
-  height: calc(100% - 3rem);
-  grid-gap: 1.5rem;
-  justify-content: center;
-  align-items: center;
+export const MainPage = () => {
+  const [selectedId, setSelectedId] = useState<number | null>(null)
+  const [isClosed, setIsClosed] = useState(false)
 
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
+  const handleCardClick = (id: number | null) => {
+    if (id === 1 || id === 2) return
+    setSelectedId(id)
   }
-`
 
-const PictureBox = styled.div`
-  background: var(--bg-color);
-  grid-row: 1 / span 2;
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-  text-align: center;
-
-  @media (max-width: 768px) {
-    display: none;
+  const closeCard = () => {
+    setIsClosed(true)
+    setSelectedId(null)
   }
-`
 
-const Box = styled.div`
-  text-align: center;
-  border: 0.05rem solid white;
-  border-radius: 1rem;
-  height: 100%;
-  width: 100%;
-  display: inline-flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-`
+  useEffect(() => {
+    if (isClosed) {
+      setIsClosed(false)
+      setSelectedId(null)
+    }
+  }, [isClosed])
 
-const GridBox = styled(Box)`
-  background: var(--bg-color);
-`
-
-const GridBoxGrey = styled(Box)`
-  background: var(--bg-color-alt);
-  cursor: pointer;
-`
-
-
-const MainPage: React.FC = () => {
   return (
     <GridContainer>
-      <PictureBox>
-        <DisplayImage />
-      </PictureBox>
-      <GridBox>
-        <Box2 />
-      </GridBox>
-      <GridBoxGrey>
-        <Box3 />
-      </GridBoxGrey>
-      <GridBoxGrey>
-        <Box4 />
-      </GridBoxGrey>
-      <GridBoxGrey>
-        <Box5 />
-      </GridBoxGrey>
+      {cards.map((card, i) => (
+        <Card
+          opened={selectedId === card.id}
+          key={i}
+          layout
+          onClick={() => handleCardClick(card.id)}
+        >
+          {selectedId !== card.id && card.component}
+          {selectedId === card.id && !isClosed && (
+            <>
+              <CloseButton onClick={closeCard}>x</CloseButton>
+              <div>{renderChildDiv(selectedId)}</div>
+            </>
+          )}
+        </Card>
+      ))}
+      <DimmedLayer animate={{ opacity: selectedId ? 0.3 : 0 }} />
     </GridContainer>
   )
 }
-
-export default MainPage
