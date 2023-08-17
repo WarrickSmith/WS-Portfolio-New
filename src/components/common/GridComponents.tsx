@@ -43,8 +43,9 @@ export const DimmedLayer = styled(motion.div)`
 `
 
 export const Card = styled(motion.div)<CardProps>`
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: var(--bg-color-alt);
   border: 2px solid var(--color);
   border-radius: 1.5rem;
@@ -68,21 +69,17 @@ export const Card = styled(motion.div)<CardProps>`
   ${(props) =>
     props.opened &&
     css`
-      display: grid;
-      place-items: center;
-      color: var(--color);
       background-color: grey;
-      border: 2px solid var(--color);
-      border-radius: 1.5rem;
-      cursor: pointer;
       height: calc(100vh - 7rem);
       width: calc(100vw - 7em);
       position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
+      inset: 0;
       margin: auto;
       z-index: 10;
+
+      @media (max-width: 768px) {
+        align-items: flex-start;
+        overflow-y: scroll;
+      }
     `}
 `
