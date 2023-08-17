@@ -71,15 +71,18 @@ export const Card = styled(motion.div)<CardProps>`
     css`
       background-color: grey;
       height: calc(100vh - 7rem);
-      width: calc(100vw - 7em);
+      width: calc(66vw - 7em);
       position: absolute;
       inset: 0;
-      margin: auto;
+      margin-left: auto;
       z-index: 10;
 
       @media (max-width: 768px) {
         align-items: flex-start;
-        overflow-y: scroll;
+        height: calc(100vh - 1.5rem);
+        width: calc(100vw - 1.5rem);
+        margin: auto;
+        overflow-y: auto;
       }
     `}
 `
