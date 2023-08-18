@@ -70,7 +70,7 @@ export const Card = styled(motion.div)<CardProps>`
     props.opened &&
     css`
       background-color: grey;
-      height: calc(100vh);
+      height: calc(100vh - 1.5rem);
       width: calc(66vw);
       position: absolute;
       inset: 0;
