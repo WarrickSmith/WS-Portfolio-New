@@ -70,11 +70,13 @@ export const Card = styled(motion.div)<CardProps>`
     props.opened &&
     css`
       background-color: grey;
-      height: calc(100vh - 1.5rem);
-      width: calc(66vw);
+      height: calc(100vh - 3rem);
+      width: calc(66vw - 1.5rem);
       position: absolute;
       inset: 0;
       margin-left: auto;
+      margin-top: 1.5rem;	
+      margin-right: 1.5rem;
       z-index: 10;
 
       @media (max-width: 768px) {
