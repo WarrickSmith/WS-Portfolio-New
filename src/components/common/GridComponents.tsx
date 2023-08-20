@@ -71,7 +71,7 @@ export const Card = styled(motion.div)<CardProps>`
     css`
       background-color: grey;
       height: calc(100vh - 3rem);
-      width: calc(66vw - 1.5rem);
+      width: calc(65.8vw - 1.5rem);
       position: absolute;
       inset: 0;
       margin-left: auto;
