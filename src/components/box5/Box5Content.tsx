@@ -1,11 +1,6 @@
-import styled from 'styled-components'
+import CardHeader from '../common/CardHeader'
 
-const Content = styled.div`
-  color: var(--color-alt);
-  font-size: var(--fs-lge);
-`
 const Box5Content = () => {
-  return <Content>Box5 Content</Content>
+  return <CardHeader words={['Get', 'In', 'Touch']} icon={'faEnvelopeOpen'} />
 }
-
 export default Box5Content
