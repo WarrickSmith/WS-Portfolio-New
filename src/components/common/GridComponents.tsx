@@ -44,7 +44,6 @@ export const DimmedLayer = styled(motion.div)`
 
 export const Card = styled(motion.div)<CardProps>`
   display: flex;
-  align-items: center;
   justify-content: center;
   background-color: var(--bg-color-alt);
   border: 2px solid var(--color);
@@ -69,7 +68,7 @@ export const Card = styled(motion.div)<CardProps>`
   ${(props) =>
     props.opened &&
     css`
-      background-color: grey;
+      background-color: var(--bg-color-alt);
       height: calc(100vh - 3rem);
       width: calc(65.8vw - 1.5rem);
       position: absolute;

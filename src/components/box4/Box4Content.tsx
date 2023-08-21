@@ -11,6 +11,10 @@ const ImageContainer = styled.div`
   justify-content: center;
   align-items: center;
 
+  @media (max-width: 1300px) {
+    grid-template-columns: 1fr 1fr;
+  }
+
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
     padding-top: 4rem;

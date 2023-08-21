@@ -7,18 +7,17 @@ import HoverText from './HoverText'
 const TextContainer = styled.div`
   display: inline-flex;
   align-items: center;
-  width: 100%;
   justify-content: center;
-  font-size: var(--fs-med);
+  width: 100%;
+  font-size: var(--fs-lge);
   text-transform: uppercase;
 `
 
 const DividerContainer = styled.div`
-  padding: 3rem 0;
-  .divider {
-    height: 1px;
-  }
+  padding: 3rem 0 0 0;
+
   .center-align {
+    margin: 2rem 0;
     text-align: center;
   }
   .divider span {
@@ -30,8 +29,8 @@ const DividerContainer = styled.div`
     border-bottom: 1px solid #666;
   }
   .fa {
-    font-size: 20px;
-    margin: 0 20px;
+    font-size: var(--fs-sm);
+    margin: 0 2rem;
     color: var(--color-alt);
   }
 `
