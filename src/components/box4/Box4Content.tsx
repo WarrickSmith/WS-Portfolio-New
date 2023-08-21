@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import image1 from '../../assets/reservationizr.jpg'
 import image2 from '../../assets/raceday.jpg'
 import image3 from '../../assets/cat_couture.jpg'
+import CardHeader from '../common/CardHeader'
 
 const ImageContainer = styled.div`
   display: grid;
@@ -26,17 +27,20 @@ const AppImage = styled.img`
 `
 const Box4Content = () => {
 return (
-  <ImageContainer>
-    <a href="https://warricksmith.com/reservationizr">
-      <AppImage src={image1} />
-    </a>
-    <a href="https://warricksmith.com/raceday">
-      <AppImage src={image2} />
-    </a>
-    <a href="https://warricksmith.com/catcouture/">
-      <AppImage src={image3} />
-    </a>
-  </ImageContainer>
+  <>
+<CardHeader words={["My", "Portfolio"]} icon={"faSuitcase"}/>
+    <ImageContainer>
+      <a href="https://warricksmith.com/reservationizr">
+        <AppImage src={image1} />
+      </a>
+      <a href="https://warricksmith.com/raceday">
+        <AppImage src={image2} />
+      </a>
+      <a href="https://warricksmith.com/catcouture/">
+        <AppImage src={image3} />
+      </a>
+    </ImageContainer>
+  </>
 )
 }
 
