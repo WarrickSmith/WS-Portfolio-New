@@ -26,22 +26,22 @@ const AppImage = styled.img`
   cursor: pointer;
 `
 const Box4Content = () => {
-return (
-  <>
-<CardHeader words={["My", "Portfolio"]} icon={"faSuitcase"}/>
-    <ImageContainer>
-      <a href="https://warricksmith.com/reservationizr">
-        <AppImage src={image1} />
-      </a>
-      <a href="https://warricksmith.com/raceday">
-        <AppImage src={image2} />
-      </a>
-      <a href="https://warricksmith.com/catcouture/">
-        <AppImage src={image3} />
-      </a>
-    </ImageContainer>
-  </>
-)
+  return (
+    <>
+      <CardHeader words={['My', 'Portfolio']} icon={'faSuitcase'} />
+      <ImageContainer>
+        <a href="https://warricksmith.com/reservationizr">
+          <AppImage src={image1} />
+        </a>
+        <a href="https://warricksmith.com/raceday">
+          <AppImage src={image2} />
+        </a>
+        <a href="https://warricksmith.com/catcouture/">
+          <AppImage src={image3} />
+        </a>
+      </ImageContainer>
+    </>
+  )
 }
 
 export default Box4Content
