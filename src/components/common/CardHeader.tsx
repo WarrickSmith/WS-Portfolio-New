@@ -15,6 +15,7 @@ const TextContainer = styled.div`
 
 const DividerContainer = styled.div`
   padding: 3rem 0 0 0;
+  width: calc(65.8vw - 1.5rem);
 
   .center-align {
     margin: 2rem 0;
