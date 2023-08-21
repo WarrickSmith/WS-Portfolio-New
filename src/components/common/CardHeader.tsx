@@ -34,6 +34,9 @@ const DividerContainer = styled.div`
     margin: 0 2rem;
     color: var(--color-alt);
   }
+  @media (max-width: 768px) {
+    width: calc(100vw - 1.5rem);
+  }
 `
 
 const iconMap: { [key: string]: IconDefinition } = {
