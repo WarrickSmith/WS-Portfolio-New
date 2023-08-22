@@ -10,6 +10,7 @@ const ImageContainer = styled.div`
   grid-template-rows: auto;
   justify-content: center;
   align-items: center;
+  padding: 1rem;
 
   @media (max-width: 1300px) {
     grid-template-columns: 1fr 1fr;
@@ -17,7 +18,6 @@ const ImageContainer = styled.div`
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
-    padding: 1.5rem;
   }
 `
 const AppImage = styled.img`
