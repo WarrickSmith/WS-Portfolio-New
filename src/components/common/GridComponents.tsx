@@ -25,6 +25,11 @@ export const GridContainer = styled.div`
   align-items: center;
   background-color: var(--bg-color);
 
+  @media (max-width: 1000px) {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
     grid-template-rows: auto;
@@ -59,7 +64,7 @@ export const Card = styled(motion.div)<CardProps>`
     background-position: center;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 1000px) {
     &:nth-child(1) {
       display: none;
     }
@@ -78,7 +83,7 @@ export const Card = styled(motion.div)<CardProps>`
       margin-right: 1.5rem;
       z-index: 10;
 
-      @media (max-width: 768px) {
+      @media (max-width: 1000px) {
         align-items: flex-start;
         height: calc(100vh - 1.5rem);
         width: calc(100vw - 1.5rem);

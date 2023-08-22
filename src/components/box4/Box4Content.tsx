@@ -17,7 +17,6 @@ const ImageContainer = styled.div`
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
-    padding-top: 4rem;
   }
 `
 const AppImage = styled.img`
