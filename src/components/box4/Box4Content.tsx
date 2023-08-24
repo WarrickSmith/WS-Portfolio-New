@@ -33,18 +33,18 @@ const ImageCard = styled(motion.a)`
   position: relative;
   cursor: pointer;
   overflow: hidden;
-  /* color: var(--color); */
 
   &::before {
     background-color: orange;
     color: var(--color);
-    /* color: transparent; */
     content: attr(data-title);
     position: absolute;
     top: 110%;
-    left: -10px;
-    right: -10px;
-    bottom: -10px;
+    left: 1rem;
+    right: 0;
+    bottom: 0;
+    width: calc(100% - 2rem);
+    height: calc(100% - 2rem);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -54,7 +54,7 @@ const ImageCard = styled(motion.a)`
 
   &:hover::before {
     color: var(--color);
-    top: -10px;
+    top: 1rem;
     transition: top 0.5s cubic-bezier(0.22, 1, 0.36, 1);
   }
 `
