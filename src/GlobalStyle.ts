@@ -26,9 +26,9 @@ const GlobalStyle: GlobalStyleComponent<
     --color-alt: #ffb400;
     --bg-color: #111111;
     --bg-color-alt: #222222;
-    --fs-sm: calc(0.5vw + 2.25vh);
-    --fs-med: calc(0.75vw + 2.75vh);
-    --fs-lge: calc(1vw + 3vh);
+    --fs-sm: min(calc(0.5vw + 2.25vh), 1.5rem);
+    --fs-med: min(calc(0.75vw + 2.5vh), 2rem);
+    --fs-lge: min(calc(1vw + 2.75vh), 2.5rem);
 
   }
 

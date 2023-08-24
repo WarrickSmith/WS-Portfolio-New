@@ -18,8 +18,8 @@ export const GridContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-  width: calc(100% - 3rem);
-  height: calc(100% - 3rem);
+  width: calc(100% - 2rem);
+  height: calc(100% - 2rem);
   gap: 1.5rem;
   justify-content: center;
   align-items: center;
@@ -74,13 +74,13 @@ export const Card = styled(motion.div)<CardProps>`
     props.opened &&
     css`
       background-color: var(--bg-color-alt);
-      height: calc(100vh - 3rem);
-      width: calc(65.8vw - 1.5rem);
+      height: calc(100vh - 2rem);
+      width: calc(65.8vw - 1rem);
       position: absolute;
       inset: 0;
       margin-left: auto;
-      margin-top: 1.5rem;	
-      margin-right: 1.5rem;
+      margin-top: 1rem;	
+      margin-right: 1rem;
       z-index: 10;
 
       @media (max-width: 1000px) {
