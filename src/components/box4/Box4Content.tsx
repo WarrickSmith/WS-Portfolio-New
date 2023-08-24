@@ -29,36 +29,33 @@ const AppImage = styled.img`
   border-radius: 1.5rem;
 `
 
-const Card = styled(motion.a)`
+const ImageCard = styled(motion.a)`
   position: relative;
   cursor: pointer;
   overflow: hidden;
+  /* color: var(--color); */
 
   &::before {
+    background-color: orange;
+    color: var(--color);
+    /* color: transparent; */
     content: attr(data-title);
     position: absolute;
-    top: 100%;
+    top: 110%;
     left: -10px;
     right: -10px;
     bottom: -10px;
-    background-color: orange;
-    color: white;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: var(--fs-med);
     transition: top 0.5s ease-in-out;
-    transform: translateY(100%);
   }
 
   &:hover::before {
+    color: var(--color);
     top: -10px;
-    transform: translateY(0%);
-  }
-
-  &:not(:hover)::before {
-    background-color: transparent;
-    color: transparent;
+    transition: top 0.5s cubic-bezier(0.22, 1, 0.36, 1);
   }
 `
 
@@ -68,21 +65,21 @@ const Box4Content = () => {
     <>
       <CardHeader words={['My', 'Portfolio']} icon={'faSuitcase'} />
       <ImageContainer>
-        <Card
+        <ImageCard
           href="https://warricksmith.com/reservationizr"
           data-title="Reservationizr"
         >
           <AppImage src={image1} />
-        </Card>
-        <Card href="https://warricksmith.com/raceday" data-title="Raceday">
+        </ImageCard>
+        <ImageCard href="https://warricksmith.com/raceday" data-title="Raceday">
           <AppImage src={image2} />
-        </Card>
-        <Card
+        </ImageCard>
+        <ImageCard
           href="https://warricksmith.com/catcouture/"
           data-title="Cat Couture"
         >
           <AppImage src={image3} />
-        </Card>
+        </ImageCard>
       </ImageContainer>
     </>
   )
