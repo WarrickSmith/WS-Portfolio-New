@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import image1 from '../../assets/reservationizr.jpg'
 import image2 from '../../assets/raceday.jpg'
 import image3 from '../../assets/cat_couture.jpg'
+import image4 from '../../assets/ws-portfolio.jpg'
 import CardHeader from '../common/CardHeader'
 import { motion } from 'framer-motion'
 
@@ -47,6 +48,7 @@ const ImageCard = styled(motion.a)`
     height: calc(100% - 2rem);
     display: flex;
     justify-content: center;
+    text-align: center;
     align-items: center;
     font-size: var(--fs-med);
     transition: top 0.5s ease-in-out;
@@ -59,12 +61,14 @@ const ImageCard = styled(motion.a)`
   }
 `
 
-
 const Box4Content = () => {
   return (
     <>
       <CardHeader words={['My', 'Portfolio']} icon={'faSuitcase'} />
       <ImageContainer>
+        <ImageCard href="http://localhost:3000" data-title="This Portfolio Website">
+          <AppImage src={image4} />
+        </ImageCard>
         <ImageCard
           href="https://warricksmith.com/reservationizr"
           data-title="Reservationizr"
