@@ -24,12 +24,11 @@ export const GridContainer = styled.div`
   justify-content: center;
   align-items: center;
   background-color: var(--bg-color);
-
+  
   @media (max-width: 1000px) {
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
   }
-
+  
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
     grid-template-rows: auto;
@@ -82,13 +81,13 @@ export const Card = styled(motion.div)<CardProps>`
       margin-top: 1rem;	
       margin-right: 1rem;
       z-index: 10;
+      overflow-y: auto;
 
       @media (max-width: 1000px) {
         align-items: flex-start;
         height: calc(100vh - 1.5rem);
         width: calc(100vw - 1.5rem);
         margin: auto;
-        overflow-y: auto;
       }
     `}
 `
