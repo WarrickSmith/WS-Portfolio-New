@@ -1,36 +1,63 @@
 import styled from 'styled-components'
+import { motion } from 'framer-motion'
 
-interface BulletPointsProps {
-  bulletPoints: string[]
+interface Props {
+  title: string
+  points: string[]
+  image: string
 }
 
-const BulletPointsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+const Container = styled(motion.div)`
+  position: relative;
+  width: 320px;
+  height: 270px;
+  background-size: cover;
+  background-position: center;
+`
+
+const TextContainer = styled(motion.div)`
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  padding: 0 0 2rem 1.5rem;
-  background-color: var(--bg-color-alt);
-  color: var(--color-alt);
-  font-size: var(--fs-xsm);
+  height: 100%;
 `
 
-const BulletPointItem = styled.span`
-  margin-bottom: 0.5rem;
-  &:before {
-    content: '•';
-    margin-right: 0.5rem;
-    color: var(--color);
-  }
+const Title = styled.h1`
+  color: white;
 `
 
-const BulletPoints: React.FC<BulletPointsProps> = ({ bulletPoints }) => {
+const Bullets = styled.ul`
+  color: white;
+`
+
+const BulletPoint = styled.li``
+
+const BulletPoints: React.FC<Props> = ({ title, points, image }) => {
   return (
-    <BulletPointsContainer>
-      {bulletPoints.map((bulletPoint, index) => (
-        <BulletPointItem key={index}>{bulletPoint}</BulletPointItem>
-      ))}
-    </BulletPointsContainer>
+    <Container
+      style={{ backgroundColor: 'transparent' }}
+      initial={{ backgroundImage: `url(${image})` }}
+      whileHover={{
+        backgroundImage: 'none',
+        backgroundColor: 'orange',
+        transition: { duration: 1 },
+      }}
+      animate={{ transition: { duration: 1 } }}
+    >
+      <TextContainer
+        initial={{ opacity: 0 }}
+        whileHover={{ opacity: 1, transition: { duration: 1 } }}
+        animate={{ transition: { duration: 1 } }}
+      >
+        <Title>{title}</Title>
+        <Bullets>
+          {points.map((point, index) => (
+            <BulletPoint key={index}>{point}</BulletPoint>
+          ))}
+        </Bullets>
+      </TextContainer>
+    </Container>
   )
 }
 
