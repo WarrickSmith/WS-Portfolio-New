@@ -34,14 +34,6 @@ const Bullets = styled.ul`
 
 const BulletPoint = styled.li``
 
-const Background = styled(motion.div)`
-  position: absolute;
-  bottom: -100%;
-  left: 0;
-  width: 320px;
-  height: 280px;
-`
-
 const BulletPoints: React.FC<Props> = ({ title, points, image }) => {
   return (
     <Container
