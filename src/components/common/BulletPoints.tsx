@@ -17,6 +17,7 @@ const Container = styled(motion.div)`
 
 const TextContainer = styled(motion.div)`
   position: absolute;
+  background-color: orange;
   top: 0;
   left: 0;
   width: 100%;
@@ -33,14 +34,20 @@ const Bullets = styled.ul`
 
 const BulletPoint = styled.li``
 
+const Background = styled(motion.div)`
+  position: absolute;
+  bottom: -100%;
+  left: 0;
+  width: 320px;
+  height: 280px;
+`
+
 const BulletPoints: React.FC<Props> = ({ title, points, image }) => {
   return (
     <Container
-      style={{ backgroundColor: 'transparent' }}
       initial={{ backgroundImage: `url(${image})` }}
       whileHover={{
         backgroundImage: 'none',
-        backgroundColor: 'orange',
         transition: { duration: 1 },
       }}
       animate={{ transition: { duration: 1 } }}
