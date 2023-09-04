@@ -17,10 +17,11 @@ const bulletPoints1 = [
 const ImageContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.5rem;
   grid-template-rows: auto;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
+  padding: 1.5rem;
 
   @media (max-width: 1300px) {
     grid-template-columns: 1fr 1fr;
@@ -30,39 +31,15 @@ const ImageContainer = styled.div`
   }
 `
 
-const ImageCard = styled(motion.a)`
-  position: relative;
-  cursor: pointer;
-  overflow: hidden;
-  border-radius: 0.5rem;
-`
-
 const Box4Content = () => {
   return (
     <>
       <CardHeader words={['My', 'Portfolio']} icon={'faSuitcase'} />
       <ImageContainer>
-        {/* <ImageCard
-          href="http://localhost:3000"
-          data-title="This Portfolio Website"
-        > */}
         <BulletPoints title={'Title 1'} points={bulletPoints1} image={image4} />
-        {/* </ImageCard> */}
-        {/* <ImageCard
-          href="https://warricksmith.com/reservationizr"
-          data-title="Reservationizr"
-        > */}
         <BulletPoints title={'Title 1'} points={bulletPoints1} image={image1} />
-        {/* </ImageCard> */}
-        {/* <ImageCard href="https://warricksmith.com/raceday" data-title="Raceday"> */}
         <BulletPoints title={'Title 1'} points={bulletPoints1} image={image2} />
-        {/* </ImageCard> */}
-        {/* <ImageCard
-          href="https://warricksmith.com/catcouture/"
-          data-title="Cat Couture"
-        > */}
         <BulletPoints title={'Title 1'} points={bulletPoints1} image={image3} />
-        {/* </ImageCard> */}
       </ImageContainer>
     </>
   )

@@ -9,19 +9,19 @@ interface Props {
 
 const Container = styled(motion.div)`
   position: relative;
-  width: 100%;
-  height: 100%;
-  background-size: cover;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  background-size: 100% 100%;
   background-position: center;
 `
 
 const TextContainer = styled(motion.div)`
   position: relative;
   background-color: orange;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  /* top: 0; */
+  /* left: 0; */
+  /* width: 100%; */
+  /* height: 100%; */
 `
 
 const Title = styled.h1`
