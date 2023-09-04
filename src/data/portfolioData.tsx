@@ -30,7 +30,7 @@ const portfolioData = [
     image: image2,
   },
   {
-    ref: 'https://warricksmith.com/catcouture',
+    href: 'https://warricksmith.com/catcouture',
     title: 'Cat Coture Project',
     points: bulletPoints1,
     image: image3,
