@@ -22,12 +22,14 @@ const Container = styled(motion.a)`
 `
 
 const TextContainer = styled(motion.div)`
+  font-size: 1.5rem;
   position: relative;
   background-color: var(--color-alt);
   height: 100%;
 `
 
-const Title = styled.h1`
+const Title = styled(motion.div)`
+  font-size: var(--fs-sm);
   color: white;
   margin: 0;
   display: flex;
@@ -35,11 +37,14 @@ const Title = styled.h1`
   align-items: center;
 `
 
-const Bullets = styled.ul`
+const Bullets = styled(motion.ul)`
   color: white;
+  font-size: var(--fs-xsm);
 `
 
-const BulletPoint = styled.li``
+const BulletPoint = styled(motion.li)`
+  font-size: var(--fs-xsm);
+`
 
 const BulletPoints: React.FC<Props> = ({ href, title, points, image }) => {
   const [isHovered, setIsHovered] = useState(false)
