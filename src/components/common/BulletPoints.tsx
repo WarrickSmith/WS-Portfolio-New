@@ -1,7 +1,9 @@
+import { useState } from 'react'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
 
 interface Props {
+  href: string
   title: string
   points: string[]
   image: string
@@ -10,11 +12,13 @@ interface Props {
 const Container = styled(motion.a)`
   position: relative;
   cursor: pointer;
+  text-decoration: none;
   border-radius: 0.5rem;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
   height: 100%;
+  overflow: hidden;
 `
 
 const TextContainer = styled(motion.div)`
@@ -37,29 +41,36 @@ const Bullets = styled.ul`
 
 const BulletPoint = styled.li``
 
-const BulletPoints: React.FC<Props> = ({ title, points, image }) => {
+const BulletPoints: React.FC<Props> = ({ href, title, points, image }) => {
+  const [isHovered, setIsHovered] = useState(false)
+
   return (
-      <Container
-        initial={{ backgroundImage: `url(${image})` }}
-        whileHover={{
-          backgroundImage: 'none',
-          transition: { duration: 1 },
+    <Container
+      href={href}
+      initial={{ backgroundImage: `url(${image})` }}
+      whileHover={{
+        backgroundImage: 'none',
+        transition: { duration: 0.5 },
+      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <TextContainer
+        initial={{ opacity: 0, translateY: '100%' }}
+        animate={{
+          opacity: isHovered ? 1 : 0,
+          translateY: isHovered ? '0%' : '100%',
         }}
-        animate={{ transition: { duration: 1 } }}
+        transition={{ duration: 0.5 }}
       >
-        <TextContainer
-          initial={{ opacity: 0 }}
-          whileHover={{ opacity: 1, transition: { duration: 1 } }}
-          animate={{ transition: { duration: 1 } }}
-        >
-          <Title>{title}</Title>
-          <Bullets>
-            {points.map((point, index) => (
-              <BulletPoint key={index}>{point}</BulletPoint>
-            ))}
-          </Bullets>
-        </TextContainer>
-      </Container>
+        <Title>{title}</Title>
+        <Bullets>
+          {points.map((point, index) => (
+            <BulletPoint key={index}>{point}</BulletPoint>
+          ))}
+        </Bullets>
+      </TextContainer>
+    </Container>
   )
 }
 
