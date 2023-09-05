@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import CardHeader from '../common/CardHeader'
 import ContactMe from './ContactMe'
+import ContactForm from './ContactForm'
 
 const ContactContainer = styled.div`
   display: grid;
@@ -21,8 +22,8 @@ const Box5Content = () => {
     <>
       <CardHeader words={['Get', 'In', 'Touch']} icon={'faEnvelopeOpen'} />
       <ContactContainer>
-        <ContactMe/>
-        <p>Some Stuff</p>
+        <ContactMe />
+        <ContactForm />
       </ContactContainer>
     </>
   )
