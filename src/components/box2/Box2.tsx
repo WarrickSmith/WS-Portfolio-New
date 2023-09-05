@@ -18,6 +18,7 @@ const MyName = styled.span`
   text-align: center;
   font-size: var(--fs-lge);
   font-weight: 700;
+  margin: 0.5rem;
 `
 
 const words = ['full stack', 'developer']

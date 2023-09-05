@@ -1,14 +1,20 @@
 import styled from 'styled-components'
+import CloseButtonImage from '../../assets/211651_close_round_icon.svg'
 
-export const CloseButton = styled.div`
+type CloseButtonProps = {
+  onClick: () => void
+}
+
+export const CloseButton = styled.img<CloseButtonProps>`
   position: absolute;
-  top: 0rem;
+  top: 1rem;
   right: 1rem;
-  padding: 0rem 1rem;
-  color: var(--color);
-  background-color: grey;
+  width: 2rem;
+  height: 2rem;
   cursor: pointer;
-  font-size: var(--fs-lge);
-  font-weight: 500;
+  filter: brightness(0) invert(1);
 `
-export default CloseButton
+
+export default ({ onClick }: CloseButtonProps) => (
+  <CloseButton src={CloseButtonImage} alt="Close" onClick={onClick} />
+)

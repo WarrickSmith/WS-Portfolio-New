@@ -1,10 +1,6 @@
-import styled from 'styled-components'
+import CardHeader from '../common/CardHeader'
 
-const Content = styled.div`
-  color: var(--color-alt);
-  font-size: var(--fs-lge);
-`
 const Box3Content = () => {
-  return <Content>Box3 Content</Content>
+  return <CardHeader words={['About', 'Me']} icon={'faIdCard'} />
 }
 export default Box3Content

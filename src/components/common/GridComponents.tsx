@@ -18,13 +18,17 @@ export const GridContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-  width: calc(100% - 3rem);
-  height: calc(100% - 3rem);
+  width: calc(100% - 2rem);
+  height: calc(100% - 2rem);
   gap: 1.5rem;
   justify-content: center;
   align-items: center;
   background-color: var(--bg-color);
-
+  
+  @media (max-width: 1000px) {
+    grid-template-columns: 1fr 1fr;
+  }
+  
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
     grid-template-rows: auto;
@@ -43,8 +47,8 @@ export const DimmedLayer = styled(motion.div)`
 `
 
 export const Card = styled(motion.div)<CardProps>`
-  display: grid;
-  place-items: center;
+  display: flex;
+  justify-content: center;
   background-color: var(--bg-color-alt);
   border: 2px solid var(--color);
   border-radius: 1.5rem;
@@ -59,7 +63,7 @@ export const Card = styled(motion.div)<CardProps>`
     background-position: center;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 1000px) {
     &:nth-child(1) {
       display: none;
     }
@@ -68,21 +72,22 @@ export const Card = styled(motion.div)<CardProps>`
   ${(props) =>
     props.opened &&
     css`
-      display: grid;
-      place-items: center;
-      color: var(--color);
-      background-color: grey;
-      border: 2px solid var(--color);
-      border-radius: 1.5rem;
-      cursor: pointer;
-      height: calc(100vh - 7rem);
-      width: calc(100vw - 7em);
+      background-color: var(--bg-color-alt);
+      height: calc(100vh - 2rem);
+      width: calc(65.8vw - 1rem);
       position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      margin: auto;
+      inset: 0;
+      margin-left: auto;
+      margin-top: 1rem;	
+      margin-right: 1rem;
       z-index: 10;
+      overflow-y: auto;
+
+      @media (max-width: 1000px) {
+        align-items: flex-start;
+        height: calc(100vh - 1.5rem);
+        width: calc(100vw - 1.5rem);
+        margin: auto;
+      }
     `}
 `
