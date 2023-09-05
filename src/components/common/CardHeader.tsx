@@ -1,8 +1,6 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { IconDefinition } from '@fortawesome/fontawesome-common-types'
-import * as icons from '@fortawesome/free-solid-svg-icons'
 import styled from 'styled-components'
 import HoverText from './HoverText'
+import FaIcon from '../common/FaIcon'
 
 const TextContainer = styled.div`
   display: inline-flex;
@@ -29,7 +27,7 @@ const DividerContainer = styled.div`
     width: 25%;
     border-bottom: 1px solid #666;
   }
-  .fa {
+  .fa-icon {
     font-size: var(--fs-sm);
     margin: 0 2rem;
     color: var(--color-alt);
@@ -39,13 +37,6 @@ const DividerContainer = styled.div`
   }
 `
 
-const iconMap: { [key: string]: IconDefinition } = {
-  faSuitcase: icons.faSuitcase,
-  faCoffee: icons.faCoffee,
-  faIdCard: icons.faIdCard,
-  faEnvelopeOpen: icons.faEnvelopeOpen,
-}
-
 const CardHeader = ({
   words,
   icon = 'faSuitcase',
@@ -53,8 +44,6 @@ const CardHeader = ({
   words: string[]
   icon: string
 }) => {
-  const IconComponent = iconMap[icon]
-
   return (
     <DividerContainer>
       <TextContainer>
@@ -62,9 +51,7 @@ const CardHeader = ({
       </TextContainer>
       <div className="divider center-align">
         <span className="outer-line"></span>
-        {IconComponent && (
-          <FontAwesomeIcon icon={IconComponent} className="fa" />
-        )}
+        <FaIcon icon={icon} className="fa-icon" />
         <span className="outer-line"></span>
       </div>
     </DividerContainer>
