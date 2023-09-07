@@ -25,7 +25,7 @@ const DividerContainer = styled.div`
   }
   .outer-line {
     width: 25%;
-    border-bottom: 1px solid #666;
+    border-bottom: var(--border-style);
   }
   .fa-icon {
     font-size: var(--fs-sm);

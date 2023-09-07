@@ -26,6 +26,8 @@ const GlobalStyle: GlobalStyleComponent<
     --color-alt: #ffb400;
     --bg-color: #111111;
     --bg-color-alt: #222222;
+    --border-style: 1px solid #666;
+    --border-style-alt: 1px solid white;
     --fs-xsm: min(calc(0.25vw + 2vh), 1.1rem);
     --fs-sm: min(calc(0.5vw + 2.25vh), 1.5rem);
     --fs-med: min(calc(0.75vw + 2.5vh), 2rem);
@@ -34,7 +36,7 @@ const GlobalStyle: GlobalStyleComponent<
   }
 
   body,
-  html {
+  html, input,textarea {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     padding: 0;
     margin: 0;

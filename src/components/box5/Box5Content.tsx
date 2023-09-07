@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import CardHeader from '../common/CardHeader'
 import ContactMe from './ContactMe'
+import ContactForm from './ContactForm'
 
 const ContactContainer = styled.div`
   display: grid;
@@ -8,7 +9,7 @@ const ContactContainer = styled.div`
   gap: 1.5rem;
   grid-template-rows: auto;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   padding: 1.5rem;
 
   @media (max-width: 768px) {
@@ -21,8 +22,8 @@ const Box5Content = () => {
     <>
       <CardHeader words={['Get', 'In', 'Touch']} icon={'faEnvelopeOpen'} />
       <ContactContainer>
-        <ContactMe/>
-        <p>Some Stuff</p>
+        <ContactMe />
+        <ContactForm />
       </ContactContainer>
     </>
   )

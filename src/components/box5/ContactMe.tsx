@@ -10,7 +10,7 @@ const ContactMeContainer = styled.div`
     align-items: center;
   }
 
-  h1 {
+  h3 {
     font-size: var(--fs-sm);
     color: var(--color-alt);
     font-weight: 500;
@@ -36,17 +36,17 @@ const ContactMeContainer = styled.div`
 const ContactMe = () => {
   return (
     <ContactMeContainer>
-      <h1>PHONE</h1>
+      <h3>PHONE</h3>
       <span>
         <FaIcon icon={'faPhone'} className="fa-icon" />
         <p>021 0248 8139</p>
       </span>
-      <h1>ADDRESS</h1>
+      <h3>ADDRESS</h3>
       <span>
         <FaIcon icon={'faSuitcase'} className="fa-icon" />
         <p>Auckland, New Zealand</p>
       </span>
-      <h1>SOCIAL</h1>
+      <h3>SOCIAL</h3>
       <a href="https://www.linkedin.com/in/warrick-smith/">
         <span>
           <FaIcon icon={'faLinkedin'} className="fa-icon" />

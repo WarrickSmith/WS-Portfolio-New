@@ -8,7 +8,10 @@ const iconMap: { [key: string]: IconDefinition } = {
   faCoffee: icons.faCoffee,
   faIdCard: icons.faIdCard,
   faEnvelopeOpen: icons.faEnvelopeOpen,
+  faEnvelope: icons.faEnvelope,
+  faComments: icons.faComments,
   faPhone: icons.faPhone,
+  faImagePortrait: icons.faImagePortrait,
   faLinkedin: brandIcons.faLinkedin,
 }
 
