@@ -84,9 +84,9 @@ const SubmitButton = styled.input<{ status: string }>`
   ${(props) =>
     props.status === 'SENDING EMAIL...' &&
     css`
-      color: blue;
+      color: dodgerblue;
       background-color: var(--bg-color-alt);
-      border: 2px solid blue;
+      border: 2px solid dodgerblue;
     `}
 
   ${(props) =>
