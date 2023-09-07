@@ -9,7 +9,7 @@ const ContactContainer = styled.div`
   gap: 1.5rem;
   grid-template-rows: auto;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   padding: 1.5rem;
 
   @media (max-width: 768px) {
