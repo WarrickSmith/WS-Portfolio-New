@@ -155,7 +155,7 @@ export const ContactMe = () => {
     <Form ref={form} onSubmit={sendEmail}>
       <FormText />
       <InputBox>
-        <FaIcon icon={'faImagePortrait'} className="fa-icon" />
+        <FaIcon icon={'faUser'} className="fa-icon" />
         <Input
           type="text"
           name="user_name"

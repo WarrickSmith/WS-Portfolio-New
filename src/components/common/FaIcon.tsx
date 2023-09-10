@@ -6,6 +6,7 @@ import * as brandIcons from '@fortawesome/free-brands-svg-icons/faLinkedin'
 const iconMap: { [key: string]: IconDefinition } = {
   faSuitcase: icons.faSuitcase,
   faCoffee: icons.faCoffee,
+  faUser: icons.faUser,
   faIdCard: icons.faIdCard,
   faEnvelopeOpen: icons.faEnvelopeOpen,
   faEnvelope: icons.faEnvelope,
