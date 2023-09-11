@@ -1,24 +1,30 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconDefinition } from '@fortawesome/fontawesome-common-types'
-import * as icons from '@fortawesome/free-solid-svg-icons'
-import * as brandIcons from '@fortawesome/free-brands-svg-icons/faLinkedin'
+import { IconName as SolidIconName } from '@fortawesome/free-solid-svg-icons'
+import { IconName as BrandIconName } from '@fortawesome/free-brands-svg-icons'
+import * as solidIcons from '@fortawesome/free-solid-svg-icons'
+import * as brandIcons from '@fortawesome/free-brands-svg-icons'
 
-const iconMap: { [key: string]: IconDefinition } = {
-  faSuitcase: icons.faSuitcase,
-  faCoffee: icons.faCoffee,
-  faUser: icons.faUser,
-  faIdCard: icons.faIdCard,
-  faEnvelopeOpen: icons.faEnvelopeOpen,
-  faEnvelope: icons.faEnvelope,
-  faComments: icons.faComments,
-  faPhone: icons.faPhone,
-  faImagePortrait: icons.faImagePortrait,
-  faLinkedin: brandIcons.faLinkedin,
+type IconMap = {
+  [key in SolidIconName | BrandIconName]: IconDefinition
 }
 
-const FaIcon = ({ icon, className }: { icon: string, className?: string }) => {
-     const IconComponent = iconMap[icon]
-    return <FontAwesomeIcon icon={IconComponent} className={className} />
+const icons = solidIcons as unknown as IconMap
+const brandIconsMap = brandIcons as unknown as IconMap
+
+const FaIcon = ({ icon, className }: { icon: string; className?: string }) => {
+  let IconComponent: IconDefinition | null = null
+
+  if (icons[icon as SolidIconName]) {
+    IconComponent = icons[icon as SolidIconName]
+  } else if (brandIconsMap[icon as BrandIconName]) {
+    IconComponent = brandIconsMap[icon as BrandIconName]
+  } else {
+    // Handle error if icon is not found
+    return <div>Icon not found</div>
+  }
+
+  return <FontAwesomeIcon icon={IconComponent} className={className} />
 }
 
 export default FaIcon
