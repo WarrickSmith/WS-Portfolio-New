@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import FaIcon from '../../common/FaIcon'
+import resume from '../../../assets/WSmith_Technical_Resume_v4.pdf'
 
 const Container = styled.div`
 display: grid;
@@ -34,11 +35,12 @@ const Cell1 = () => {
 
   return (
     <Container>
-      <ActionButton href={'https://github.com/WarrickSmith?tab=repositories'}>
-        DOWNLOAD RESUME <FaIcon icon={'faDownload'} />
+      <ActionButton href={resume}>
+        {`DOWNLOAD RESUME ${'\u00A0'}`}
+        <FaIcon icon={'faDownload'} />
       </ActionButton>
       <ActionButton href={'https://github.com/WarrickSmith?tab=repositories'}>
-        MY GITHUB REPOS' <FaIcon icon={'faGithub'} />
+        {`MY GITHUB REPOS' ${'\u00A0'}`} <FaIcon icon={'faGithub'} />
       </ActionButton>
     </Container>
   )
