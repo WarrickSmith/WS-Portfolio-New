@@ -1,6 +1,12 @@
 import styled, { css } from 'styled-components'
 import CardHeader from '../common/CardHeader'
 import FaIcon from '../common/FaIcon'
+import Cell1 from './cellContent/Cell1'
+import Cell2 from './cellContent/Cell2'
+import Cell3 from './cellContent/Cell3'
+import Cell4 from './cellContent/Cell4'
+import Cell5 from './cellContent/Cell5'
+
 
 const Box3Container = styled.div`
   display: grid;
@@ -12,7 +18,7 @@ const Box3Container = styled.div`
   padding: 1.5rem;
 
   @media (max-width: 1300px) {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 2fr;
   }
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
@@ -33,8 +39,7 @@ const Box3Container = styled.div`
   }
 `
 const MainText = styled.div`
-  grid-column: span 3;
-
+  grid-column: span 2;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -71,11 +76,11 @@ const Box3Content = () => {
             passion is for all things technology and I am a continous learner.
           </p>
         </MainText>
-        <p>Stuff</p>
-        <p>Stuff</p>
-        <p>Stuff</p>
-        <p>Stuff</p>
-        <p>Stuff</p>
+        <Cell1/>
+        <Cell2/>
+        <Cell3/>
+        <Cell4/>
+        <Cell5/>
       </Box3Container>
     </>
   )
