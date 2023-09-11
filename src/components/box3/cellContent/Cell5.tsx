@@ -1,17 +1,13 @@
 import styled from 'styled-components'
 import FaIcon from '../../common/FaIcon'
 
-const Container = styled.div`
-  /* display: flex;
-  flex-direction: column;
-  align-items: center; */
+const StyledContainer = styled.div`
   display: grid;
   gap: 0.5rem;
   justify-items: center;
   justify-content: center;
   width: 80%;
   margin: 0 auto;
-
 
   .fa-icon {
     font-size: var(--fs-lge);
@@ -30,17 +26,20 @@ const Container = styled.div`
   }
 `
 
-const today = new Date()
-const currentYear = today.getFullYear()
-const startYear = 2022
-const yearsExperience = currentYear - startYear
+const getYearsExperience = (startYear: number) => {
+  const currentYear = new Date().getFullYear()
+  return currentYear - startYear
+}
+
 const Cell5 = () => {
+  const yearsExperience = getYearsExperience(2022)
+
   return (
-    <Container>
+    <StyledContainer>
       <FaIcon icon={'faBriefcase'} className="fa-icon" />
       <p className="count">{yearsExperience}+</p>
       <p>YEARS EXPERIENCE</p>
-    </Container>
+    </StyledContainer>
   )
 }
 
