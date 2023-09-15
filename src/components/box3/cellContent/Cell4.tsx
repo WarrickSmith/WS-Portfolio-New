@@ -8,15 +8,15 @@ const PageContainer = styled(motion.div)`
 `
 
 const Page = styled.div`
-  width: 300px;
-  height: 400px;
-  background-color: #eee;
-  border-radius: 10px;
-  margin: 20px;
+  width: 100%;
+  color: var(--color);
+  background-color: var(--color-alt2);
+  border-radius: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
+  font-size: var(--fs-xsm);
+  font-weight: 400;
 `
 
 type PageDisplayProps = {

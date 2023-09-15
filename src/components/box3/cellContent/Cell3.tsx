@@ -5,28 +5,39 @@ import YearsExperience from './YearsExperience'
 const SelectorContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.5rem;
+  gap: 1rem;
   width: 100%;
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr 1fr 1fr;
-    
+
     .years-experience {
       display: none;
+    }
+
+    @media (max-width: 450px) {
+      gap: 0.25rem;
+    }
+
+    @media (max-width: 320px) {
+      grid-template-columns: 1fr;
     }
   }
 `
 
 const OptionButton = styled.button<{ isSelected: boolean }>`
-font-size: var(--fs-xsm);
+  font-size: var(--fs-xsm);
   color: ${({ isSelected }) =>
     isSelected ? 'var(--color)' : 'var(--color-alt2)'};
   background-color: ${({ isSelected }) =>
     isSelected ? 'var(--color-alt)' : 'var(--bg-color-alt)'};
-  padding: 10px 20px;
+  padding: 1rem;
   border: var(--border-style);
-  margin-right: 10px;
   cursor: pointer;
+
+  @media (max-width: 450px) {
+    padding:0.5rem;
+  }
 `
 
 type SelectorProps = {
