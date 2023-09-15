@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import FaIcon from '../../common/FaIcon'
 import YearsExperience from './YearsExperience'
 
 const SelectorContainer = styled.div`
@@ -7,6 +8,10 @@ const SelectorContainer = styled.div`
   grid-template-columns: 1fr;
   gap: 1rem;
   width: 100%;
+
+  .fa-icon{
+    margin-right: 0.5rem;
+  }
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr 1fr 1fr;
@@ -26,6 +31,8 @@ const SelectorContainer = styled.div`
 `
 
 const OptionButton = styled.button<{ isSelected: boolean }>`
+  display: flex;
+  align-items: center;
   font-size: var(--fs-xsm);
   color: ${({ isSelected }) =>
     isSelected ? 'var(--color)' : 'var(--color-alt2)'};
@@ -36,7 +43,7 @@ const OptionButton = styled.button<{ isSelected: boolean }>`
   cursor: pointer;
 
   @media (max-width: 450px) {
-    padding:0.5rem;
+    padding: 0.5rem;
   }
 `
 
@@ -60,18 +67,21 @@ const Cell3: React.FC<SelectorProps> = ({
           isSelected={selectedOption === 'experience'}
           onClick={() => handleOptionClick('experience')}
         >
+          <FaIcon icon="faBriefcase" className="fa-icon" />
           EXPERIENCE
         </OptionButton>
         <OptionButton
           isSelected={selectedOption === 'education'}
           onClick={() => handleOptionClick('education')}
         >
+          <FaIcon icon="faGraduationCap" className="fa-icon" />
           EDUCATION
         </OptionButton>
         <OptionButton
           isSelected={selectedOption === 'skills'}
           onClick={() => handleOptionClick('skills')}
         >
+          <FaIcon icon="faStar" className="fa-icon" />
           SKILLS
         </OptionButton>
         <div className="years-experience">
