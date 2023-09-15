@@ -95,9 +95,9 @@ const Box3Content = () => {
           setSelectedOption={setSelectedOption}
         />
         <Cell4 selectedOption={selectedOption} />
-        {/* <div className="years-exp">
+        <div className="years-exp">
           <YearsExperience />
-        </div> */}
+        </div>
       </Box3Container>
     </>
   )

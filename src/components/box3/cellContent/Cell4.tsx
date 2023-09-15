@@ -1,22 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
+import Education from './Education'
+import Experience from './Experience'
+import Skills from './Skills'
 
 const PageContainer = styled(motion.div)`
   display: flex;
   justify-content: center;
-`
-
-const Page = styled.div`
-  width: 100%;
-  color: var(--color);
-  background-color: var(--color-alt2);
-  border-radius: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--fs-xsm);
-  font-weight: 400;
 `
 
 type PageDisplayProps = {
@@ -30,9 +21,9 @@ const Cell4: React.FC<PageDisplayProps> = ({ selectedOption }) => {
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
     >
-      {selectedOption === 'experience' && <Page>Experience Page</Page>}
-      {selectedOption === 'education' && <Page>Education Page</Page>}
-      {selectedOption === 'skills' && <Page>Skills Page</Page>}
+      {selectedOption === 'experience' && <Experience/>}
+      {selectedOption === 'education' && <Education/>}
+      {selectedOption === 'skills' && <Skills/>}
     </PageContainer>
   )
 }
