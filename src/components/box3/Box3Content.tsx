@@ -6,38 +6,47 @@ import Cell1 from './cellContent/Cell1'
 import Cell2 from './cellContent/Cell2'
 import Cell3 from './cellContent/Cell3'
 import Cell4 from './cellContent/Cell4'
-import Cell5 from './cellContent/Cell5'
+import YearsExperience from './cellContent/YearsExperience'
 
   const Box3Container = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 1.5rem;
-  grid-template-rows: auto;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 1.5rem;
-
-  @media (max-width: 1300px) {
+    display: grid;
     grid-template-columns: 1fr 2fr;
-  }
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-  }
-  
-  h3 {
-    font-size: var(--fs-sm);
-    color: var(--color-alt);
-    font-weight: 500;
-    margin-top: 0;
-  }
-  
-  p {
-    font-size: var(--fs-xsm);
-    color: var(--color);
-    font-weight: 400;
-    margin: 0 0 1rem 0;
-  }
-`
+    gap: 1.5rem;
+    grid-template-rows: auto;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 1.5rem;
+    width: 100%;
+
+    .years-exp {
+      display: none;
+    }
+
+    @media (max-width: 1300px) {
+      grid-template-columns: 1fr 2fr;
+    }
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      .years-exp {
+        display: block;
+      }
+    }
+
+    h3 {
+      font-size: var(--fs-sm);
+      color: var(--color-alt);
+      font-weight: 500;
+      margin-top: 0;
+    }
+
+    p {
+      font-size: var(--fs-xsm);
+      color: var(--color);
+      font-weight: 400;
+      margin: 0 0 1rem 0;
+    }
+  `
 const MainText = styled.div`
   grid-column: span 2;
   display: flex;
@@ -86,7 +95,9 @@ const Box3Content = () => {
           setSelectedOption={setSelectedOption}
         />
         <Cell4 selectedOption={selectedOption} />
-        <Cell5 />
+        <div className="years-exp">
+          <YearsExperience />
+        </div>
       </Box3Container>
     </>
   )
