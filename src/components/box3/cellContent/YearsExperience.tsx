@@ -31,7 +31,7 @@ const getYearsExperience = (startYear: number) => {
   return currentYear - startYear
 }
 
-const Cell5 = () => {
+const YearsExperience = () => {
   const yearsExperience = getYearsExperience(2022)
 
   return (
@@ -43,4 +43,4 @@ const Cell5 = () => {
   )
 }
 
-export default Cell5
+export default YearsExperience
