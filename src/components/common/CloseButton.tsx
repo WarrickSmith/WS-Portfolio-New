@@ -6,9 +6,9 @@ type CloseButtonProps = {
 }
 
 export const CloseButton = styled.img<CloseButtonProps>`
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
   width: 2rem;
   height: 2rem;
   cursor: pointer;
