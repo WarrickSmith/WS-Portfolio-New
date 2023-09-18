@@ -16,7 +16,7 @@ interface ComponentProps {
 const Container = styled(motion.div)`
   position: relative;
   width: 100%;
-  `
+`
 
 const Component = styled(motion.div)<ComponentProps>`
   position: absolute;
@@ -24,12 +24,15 @@ const Component = styled(motion.div)<ComponentProps>`
   z-index: ${(props) => props.zIndex};
   border: 1px solid var(--color);
   border-radius: 0.5rem;
-  top: ${(props) => -((props.offset)*4)+60}px;
+  top: ${(props) => -props.offset * 4 + 60}px;
   left: ${(props) => props.offset}px;
 `
 
 const Cell4: React.FC<PageDisplayProps> = ({ selectedOption }) => {
-  const trackCard = { offset: 0, zindex: 3 }
+  const trackCard = {
+    offset: 0,
+    zIndex: 3,
+  }
 
   trackCard.offset =
     selectedOption === 'experience'
@@ -40,7 +43,7 @@ const Cell4: React.FC<PageDisplayProps> = ({ selectedOption }) => {
       ? 20
       : 0
 
-  trackCard.zindex =
+  trackCard.zIndex =
     selectedOption === 'experience'
       ? 3
       : selectedOption === 'education'
@@ -69,7 +72,7 @@ const Cell4: React.FC<PageDisplayProps> = ({ selectedOption }) => {
             initial={{ x: 0, y: 0, opacity: 0.5 }}
             animate={{ x: trackCard.offset, y: trackCard.offset, opacity: 1 }}
             exit={{ opacity: 0.5 }}
-            zIndex={trackCard.zindex}
+            zIndex={trackCard.zIndex}
             offset={trackCard.offset}
           >
             <Experience />
