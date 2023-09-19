@@ -58,9 +58,10 @@ const Cell4: React.FC<PageDisplayProps> = ({ selectedOption }) => {
         {selectedOption === 'experience' ? (
           <Component
             key="experience"
-            initial={{ x: 0, y: 0, opacity: 0.5 }}
-            animate={{ x: 0, y: 0, opacity: 1 }}
-            exit={{ opacity: 0.5 }}
+            initial={{ x: 0, y: 0 }}
+            animate={{ x: 0, y: 0 }}
+            exit={{}}
+            transition={{ duration: 0.5 }}
             zIndex={3}
             offset={0}
           >
@@ -69,9 +70,10 @@ const Cell4: React.FC<PageDisplayProps> = ({ selectedOption }) => {
         ) : (
           <Component
             key="noexperience"
-            initial={{ x: 0, y: 0, opacity: 0.5 }}
-            animate={{ x: trackCard.offset, y: trackCard.offset, opacity: 1 }}
-            exit={{ opacity: 0.5 }}
+            initial={{ x: trackCard.offset, y: trackCard.offset }}
+            animate={{ x: trackCard.offset, y: trackCard.offset }}
+            exit={{}}
+            transition={{ duration: 0.5 }}
             zIndex={trackCard.zIndex}
             offset={trackCard.offset}
           >
@@ -82,9 +84,10 @@ const Cell4: React.FC<PageDisplayProps> = ({ selectedOption }) => {
         {selectedOption === 'education' ? (
           <Component
             key="education"
-            initial={{ x: 10, y: 10, opacity: 0.5 }}
-            animate={{ x: 0, y: 0, opacity: 1 }}
-            exit={{ opacity: 0.5 }}
+            initial={{ x: 0, y: 0 }}
+            animate={{ x: 0, y: 0 }}
+            exit={{}}
+            transition={{ duration: 0.5 }}
             zIndex={3}
             offset={0}
           >
@@ -93,9 +96,10 @@ const Cell4: React.FC<PageDisplayProps> = ({ selectedOption }) => {
         ) : (
           <Component
             key="noeducation"
-            initial={{ x: 0, y: 0, opacity: 0.5 }}
-            animate={{ x: 10, y: 10, opacity: 1 }}
-            exit={{ opacity: 0.5 }}
+            initial={{ x: 10, y: 10 }}
+            animate={{ x: 10, y: 10 }}
+            exit={{}}
+            transition={{ duration: 0.5 }}
             zIndex={2}
             offset={10}
           >
@@ -106,9 +110,10 @@ const Cell4: React.FC<PageDisplayProps> = ({ selectedOption }) => {
         {selectedOption === 'skills' ? (
           <Component
             key="skills"
-            initial={{ x: 20, y: 20, opacity: 0.5 }}
-            animate={{ x: 0, y: 0, opacity: 1 }}
-            exit={{ opacity: 0.5 }}
+            initial={{ x: 0, y: 0 }}
+            animate={{ x: 0, y: 0 }}
+            exit={{}}
+            transition={{ duration: 0.5 }}
             zIndex={3}
             offset={0}
           >
@@ -117,9 +122,10 @@ const Cell4: React.FC<PageDisplayProps> = ({ selectedOption }) => {
         ) : (
           <Component
             key="noskills"
-            initial={{ x: 0, y: 0, opacity: 0.5 }}
-            animate={{ x: 20, y: 20, opacity: 1 }}
-            exit={{ opacity: 0.5 }}
+            initial={{ x: 20, y: 20 }}
+            animate={{ x: 20, y: 20 }}
+            exit={{}}
+            transition={{ duration: 0.5 }}
             zIndex={1}
             offset={20}
           >
