@@ -24,8 +24,9 @@ const Component = styled(motion.div)<ComponentProps>`
   z-index: ${(props) => props.zIndex};
   border: 1px solid var(--color);
   border-radius: 0.5rem;
-  top: ${(props) => -props.offset * 4 + 60}px;
+  top: ${(props) => -props.offset+40}px;
   left: ${(props) => props.offset}px;
+  transition: z-index 0.5s, transform 0.5s;
 `
 
 const Cell4: React.FC<PageDisplayProps> = ({ selectedOption }) => {
@@ -38,6 +39,7 @@ const Cell4: React.FC<PageDisplayProps> = ({ selectedOption }) => {
   const selectedComponent = components.find(
     (component) => component.key === selectedOption
   )
+  
   const zIndex3Component = components.find(
     (component) => component.zIndex === 3
   )
@@ -59,7 +61,7 @@ const Cell4: React.FC<PageDisplayProps> = ({ selectedOption }) => {
         {components.map((component) => (
           <Component
             key={component.key}
-            animate={{ x: 0, y: 0 }}
+            animate={{ x: component.offset, y: -component.offset}}
             exit={{}}
             transition={{ duration: 0.5 }}
             zIndex={component.zIndex}
