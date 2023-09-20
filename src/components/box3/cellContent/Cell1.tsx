@@ -17,6 +17,7 @@ const Container = styled.div`
     grid-template-columns: 1fr;
   }
 `
+
 const ActionButton = styled.a`
   color: var(--color);
   background-color: var(--color-alt);
@@ -33,7 +34,9 @@ const ActionButton = styled.a`
     text-align: center;
   }
 `
-const sendEmail = () => {
+const sendEmail = (button: string) => {
+
+  const message=button==='download'?'Your CV has been downloaded from warricksmith.com!':'Someone has clicked through to your GITHUB Repos!'
 
   // Get user's IP address
   const ipAddress = window?.location?.hostname || 'Unknown IP Address'
@@ -44,7 +47,7 @@ const sendEmail = () => {
 
   const templateParams = {
     user_name: 'Warrick',
-    notes: `Your CV has been downloaded from warricksmith.com!\n\nIP Address: ${ipAddress}\nUser Agent: ${userAgent}\nLanguage: ${language}`,
+notes: `${message}\n\nIP Address: ${ipAddress}\nUser Agent: ${userAgent}\nLanguage: ${language}`,
   }
 
   emailjs
@@ -62,17 +65,23 @@ const sendEmail = () => {
         console.log('FAILED...', error)
       }
     )
+    return
 }
 const Cell1 = () => {
   return (
     <Container>
-      <ActionButton href={resume} target="_blank" onClick={sendEmail}>
+      <ActionButton
+        href={resume}
+        target="_blank"
+        onClick={() => sendEmail('download')}
+      >
         {`DOWNLOAD RESUME ${'\u00A0'}`}
         <FaIcon icon={'faDownload'} />
       </ActionButton>
       <ActionButton
         href={'https://github.com/WarrickSmith?tab=repositories'}
         target="_blank"
+        onClick={() => sendEmail('github')}
       >
         {`MY GITHUB REPOS' ${'\u00A0'}`} <FaIcon icon={'faGithub'} />
       </ActionButton>
