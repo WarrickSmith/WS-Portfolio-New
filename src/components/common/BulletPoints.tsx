@@ -7,6 +7,7 @@ interface Props {
   title: string
   points: string[]
   image: string
+  target: string
 }
 
 const Container = styled(motion.a)`
@@ -46,7 +47,7 @@ const BulletPoint = styled(motion.li)`
   font-size: var(--fs-xsm);
 `
 
-const BulletPoints: React.FC<Props> = ({ href, title, points, image }) => {
+const BulletPoints: React.FC<Props> = ({ href, title, points, image, target }) => {
   const [isHovered, setIsHovered] = useState(false)
 
   return (
@@ -59,6 +60,7 @@ const BulletPoints: React.FC<Props> = ({ href, title, points, image }) => {
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      target={target}
     >
       <TextContainer
         initial={{ opacity: 0, translateY: '100%' }}

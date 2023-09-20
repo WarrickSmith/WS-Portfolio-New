@@ -32,6 +32,7 @@ const Box4Content = () => {
             title={data.title}
             points={data.points}
             image={data.image}
+            target="_blank"
           />
         ))}
       </ImageContainer>
