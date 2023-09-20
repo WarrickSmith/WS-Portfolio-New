@@ -20,11 +20,8 @@ const SelectorContainer = styled.div`
       display: none;
     }
 
-    @media (max-width: 450px) {
+    @media (max-width: 550px) {
       gap: 0.25rem;
-    }
-
-    @media (max-width: 320px) {
       grid-template-columns: 1fr;
     }
   }
