@@ -34,7 +34,7 @@ const Period = styled.div`
   font-weight: 400;
   margin-bottom: 0.5rem;
 
-  .fa-icon{
+  .fa-icon {
     margin-right: 0.5rem;
   }
 `
@@ -63,14 +63,17 @@ const Experience = () => {
     <Page>
       <Category>Experience</Category>
       {experience.map((experienceItem: Experienceprops, index: number) => (
-        <>
-          <ExpContainer key={experienceItem.role + index}>
+        <div key={experienceItem.role + index}>
+          <ExpContainer>
             <Role>{experienceItem.role}</Role>
-        <Period> <FaIcon icon="faCalendar" className='fa-icon' />{experienceItem.period}</Period>
+            <Period>
+              <FaIcon icon="faCalendar" className="fa-icon" />
+              {experienceItem.period}
+            </Period>
             <Description>{experienceItem.description}</Description>
           </ExpContainer>
           <ParagraphSeparator />
-        </>
+        </div>
       ))}
     </Page>
   )
