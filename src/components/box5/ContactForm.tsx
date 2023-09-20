@@ -1,5 +1,6 @@
 import { useRef, useState, FormEvent } from 'react'
 import emailjs from '@emailjs/browser'
+import ReCAPTCHA from 'react-google-recaptcha'
 import styled, { css } from 'styled-components'
 import FaIcon from '../common/FaIcon'
 
@@ -104,6 +105,13 @@ const SubmitButton = styled.input<{ status: string }>`
       background-color: var(--bg-color-alt);
       border: 2px solid red;
     `}
+    
+  ${(props) =>
+    props.disabled &&
+    css`
+      opacity: 0.5;
+      pointer-events: none;
+    `}
 `
 
 const FormText = () => {
@@ -123,7 +131,17 @@ export const ContactMe = () => {
   const form = useRef<HTMLFormElement>(null)
   const [sendStatus, setSendStatus] = useState<string>('')
 
+  const [captchaValid, setCaptchaValid] = useState(false)
+  const recaptchaRef = useRef<ReCAPTCHA>(null)
+
+ const onCaptchaChange = (value: string | null) => {
+   setCaptchaValid(true)
+ }
+
   const sendEmail = (e: FormEvent<HTMLFormElement>) => {
+      if (!captchaValid) {
+        return
+      }
     e.preventDefault()
     setSendStatus('SENDING EMAIL...')
 
@@ -138,15 +156,18 @@ export const ContactMe = () => {
         (result) => {
           form.current?.reset()
           setSendStatus('EMAIL SENT!')
+          recaptchaRef.current?.reset()
         },
         (error) => {
           setSendStatus('ERROR - SENDING EMAIL!')
+          recaptchaRef.current?.reset()
         }
       )
   }
 
   const handleInputFocus = () => {
     setSendStatus('')
+    setCaptchaValid(false)
   }
 
   return (
@@ -182,7 +203,13 @@ export const ContactMe = () => {
           onFocus={handleInputFocus}
         />
       </InputBox>
+      <ReCAPTCHA
+        ref={recaptchaRef}
+        sitekey={'6LdipJwUAAAAABDGvzYlHlnpzCl0YULOXeT6nJZL'}
+        onChange={onCaptchaChange}
+      />
       <SubmitButton
+        disabled={!captchaValid}
         type="submit"
         value={sendStatus ? sendStatus.toUpperCase() : 'SEND MESSAGE'}
         status={sendStatus}
