@@ -1,5 +1,5 @@
 # WS-Portfolio-New
-Personal Portfolio Project
+**Personal Portfolio Project**
 
 ## Project Overview
 
@@ -32,10 +32,14 @@ npm install
 # Start the development server
 npm run dev
 
+```
 The application will start running on http://localhost:3000.
 
-Contributing
+
+### Contributing
 Contributions are welcome.Please open an issue or submit a pull request if you have something to add or improve.
 
-License
+### License
 This project is licensed under the MIT License.
+
+
