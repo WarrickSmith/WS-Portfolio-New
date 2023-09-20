@@ -50,8 +50,8 @@ export const Card = styled(motion.div)<CardProps>`
   display: flex;
   justify-content: center;
   background-color: var(--bg-color-alt);
-  border: 2px solid var(--color);
-  border-radius: 1.5rem;
+  /* border: 2px solid var(--color-alt2); */
+  /* border-radius: 1.5rem; */
   width: 100%;
   height: 100%;
   overflow: hidden;

@@ -59,7 +59,7 @@ notes: `${message}\n\nIP Address: ${ipAddress}\nUser Agent: ${userAgent}\nLangua
     )
     .then(
       function (response) {
-        console.log('SUCCESS!', response.status, response.text)
+        return
       },
       function (error) {
         console.log('FAILED...', error)

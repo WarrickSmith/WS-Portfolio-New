@@ -136,12 +136,10 @@ export const ContactMe = () => {
       )
       .then(
         (result) => {
-          console.log(result.text)
           form.current?.reset()
           setSendStatus('EMAIL SENT!')
         },
         (error) => {
-          console.log(error.text)
           setSendStatus('ERROR - SENDING EMAIL!')
         }
       )
