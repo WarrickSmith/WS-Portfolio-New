@@ -22,9 +22,9 @@ const Component = styled(motion.div)<ComponentProps>`
   position: absolute;
   width: 93%;
   z-index: ${(props) => props.zIndex};
-  border: 1px solid var(--color);
+  border: var(--border-style);
   border-radius: 0.5rem;
-  top: ${(props) => -props.offset+40}px;
+  top: ${(props) => -props.offset + 40}px;
   left: ${(props) => props.offset}px;
   transition: z-index 0.5s, transform 0.5s;
 `
