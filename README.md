@@ -5,6 +5,8 @@
 
 WS-Portfolio-New is a personal portfolio project that showcases the work and skills of Warrick Smith. The portfolio includes a variety of projects, each with a detailed description and relevant links. The website is designed to be responsive and user-friendly, with a modern and clean design.
 
+This project is a React/Typescript re-write of my former profile site that was written in PHP.
+
 ## Key Technologies and Libraries
 
 This project is built using a variety of modern web development technologies and libraries:
