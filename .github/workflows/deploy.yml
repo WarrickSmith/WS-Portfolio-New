@@ -1,9 +1,11 @@
 name: Deploy React website
 
 on: 
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Tag of release package (eg: v1.0.0)'
+        required: true
 
 jobs:
   deploy:
@@ -35,5 +37,5 @@ jobs:
         PORT: ${{ secrets.PORT }}
         PASSWORD: ${{ secrets.PASSWORD }}
         source: "dist/**"
-        target: "/inetpub/wwwroot/testsite"
+        target: "/inetpub/wwwroot/"
         strip_components: 1
