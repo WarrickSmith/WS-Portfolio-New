@@ -50,11 +50,13 @@ export const Card = styled(motion.div)<CardProps>`
   display: flex;
   justify-content: center;
   background-color: var(--bg-color-alt);
-  /* border: 2px solid var(--color-alt2); */
-  /* border-radius: 1.5rem; */
   width: 100%;
   height: 100%;
   overflow: hidden;
+
+  &:nth-child(2) {
+background-color: var(--bg-color);
+  }
 
   &:nth-child(1) {
     grid-row: span 2;
@@ -78,7 +80,7 @@ export const Card = styled(motion.div)<CardProps>`
       position: absolute;
       inset: 0;
       margin-left: auto;
-      margin-top: 1rem;	
+      margin-top: 1rem;
       margin-right: 1rem;
       z-index: 10;
       overflow-y: auto;

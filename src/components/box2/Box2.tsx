@@ -8,6 +8,7 @@ const BoxContainer = styled.div`
   justify-content: center;
   flex-direction: column;
   text-transform: uppercase;
+  background-color: var(--bg-color);
 `
 const Intro = styled.span`
   font-size: var(--fs-sm);
