@@ -28,12 +28,11 @@ jobs:
         ssh-private-key: ${{ secrets.SERVER_SSH_KEY }}
       
     - name: Copy files via SSH 
-      uses: appleboy/scp-action@v2
-      env:
+      uses: appleboy/scp-action@v0.1.4
+      with:
         HOST: ${{ secrets.HOST }}
         USERNAME: ${{ secrets.USERNAME }}
         PORT: ${{ secrets.PORT }}
         PASSWORD: ${{ secrets.PASSWORD }}
-      with:
         source: "build/"
-        target: "/inetpub/wwwroot/myapp"
+        target: "/inetpub/wwwroot/testsite"
