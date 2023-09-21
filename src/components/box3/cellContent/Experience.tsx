@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import Page from '../../common/Page'
 import data from '../../../data/personalData'
 import FaIcon from '../../common/FaIcon'
+import ParagraphSeparator from '../../common/ParagraphSeparator'
 
 const { experience } = data
 
@@ -42,14 +43,6 @@ const Description = styled.div`
   font-size: var(--fs-xxsm);
   font-weight: 300;
   margin-bottom: 0.5rem;
-`
-
-const ParagraphSeparator = styled.hr`
-  width: 50%;
-  height: 1px;
-  border: 0;
-  background-color: var(--color-alt);
-  margin: 0 auto;
 `
 
 interface Experienceprops {
