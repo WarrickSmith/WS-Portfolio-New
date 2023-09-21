@@ -37,7 +37,7 @@ The application will start running on http://localhost:3000.
 
 
 ### Contributing
-Contributions are welcome.Please open an issue or submit a pull request if you have something to add or improve.
+Contributions are welcome.Please open an issue or submit a pull request if you have something to add or improve on.
 
 ### License
 This project is licensed under the MIT License.
