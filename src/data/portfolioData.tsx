@@ -4,13 +4,6 @@ import image3 from '../assets/cat_couture.jpg'
 import image4 from '../assets/ws-portfolio.jpg'
 import image5 from '../assets/raceday-api.jpg'
 
-const bulletPoints1 = [
-  'Bullet point 1',
-  'Bullet point 2',
-  'Bullet point 3',
-  'Bullet point 4',
-]
-
 const portfolioPoints = [
   'Personal Website',
   'React, Typescript',
