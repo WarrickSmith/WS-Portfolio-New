@@ -1,4 +1,4 @@
-name: Deploy React website
+name: Deploy Production
 
 on: 
   workflow_dispatch:
