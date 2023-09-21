@@ -47,7 +47,7 @@ const ContactMe = () => {
         <p>Auckland, New Zealand</p>
       </span>
       <h3>SOCIAL</h3>
-      <a href="https://www.linkedin.com/in/warrick-smith/">
+      <a href="https://www.linkedin.com/in/warrick-smith/" target="_blank">
         <span>
           <FaIcon icon={'faLinkedin'} className="fa-icon" />
           <p>Linkedin</p>
