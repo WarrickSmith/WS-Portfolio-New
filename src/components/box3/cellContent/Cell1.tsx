@@ -1,7 +1,7 @@
 import sendEmail from '../../common/sendEmail'
 import styled from 'styled-components'
 import FaIcon from '../../common/FaIcon'
-import resume from '../../../assets/WSmith_Technical_Resume_v4.pdf'
+import resume from '../../../assets/WSmith_Resume.pdf'
 
 const ActionContainer = styled.div`
   display: grid;
