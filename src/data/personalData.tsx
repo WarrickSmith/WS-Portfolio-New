@@ -1,6 +1,12 @@
 const data = {
   experience: [
     {
+      role: 'full stack developer - neo',
+      period: 'August 2022 - Present',
+      description:
+        'Building NEO\'s full-stack banking applications, utilising React, Typescript, Tailwind, Redux, Node, MongoDB, AWS (ECS, S3 & Lamda), Jest, Git/Github actions.',
+    },
+    {
       role: 'student full stack developer - develpers institute',
       period: 'June 2021 - June 2022',
       description:

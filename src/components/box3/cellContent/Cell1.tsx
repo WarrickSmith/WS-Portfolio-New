@@ -1,9 +1,9 @@
-import emailjs from '@emailjs/browser'
+import sendEmail from '../../common/sendEmail'
 import styled from 'styled-components'
 import FaIcon from '../../common/FaIcon'
-import resume from '../../../assets/WSmith_Technical_Resume_v4.pdf'
+import resume from '../../../assets/WSmith_Resume.pdf'
 
-const Container = styled.div`
+const ActionContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.5rem;
@@ -34,42 +34,9 @@ const ActionButton = styled.a`
     text-align: center;
   }
 `
-const sendEmail = (button: string) => {
-
-  const message=button==='download'?'Your CV has been downloaded from warricksmith.com!':'Someone has clicked through to your GITHUB Repos!'
-
-  // Get user's IP address
-  const ipAddress = window?.location?.hostname || 'Unknown IP Address'
-
-  // Get other user information
-  const userAgent = navigator.userAgent || 'Unknown User Agent'
-  const language = navigator.language || 'Unknown Language'
-
-  const templateParams = {
-    user_name: 'Warrick',
-notes: `${message}\n\nIP Address: ${ipAddress}\nUser Agent: ${userAgent}\nLanguage: ${language}`,
-  }
-
-  emailjs
-    .send(
-      'service_ee860nu',
-      'template_y0g26q6',
-      templateParams,
-      '3HyPrrduysCbj5IZK'
-    )
-    .then(
-      function (response) {
-        return
-      },
-      function (error) {
-        console.log('FAILED...', error)
-      }
-    )
-    return
-}
 const Cell1 = () => {
   return (
-    <Container>
+    <ActionContainer>
       <ActionButton
         href={resume}
         target="_blank"
@@ -85,7 +52,7 @@ const Cell1 = () => {
       >
         {`MY GITHUB REPOS' ${'\u00A0'}`} <FaIcon icon={'faGithub'} />
       </ActionButton>
-    </Container>
+    </ActionContainer>
   )
 }
 

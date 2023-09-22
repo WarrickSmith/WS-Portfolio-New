@@ -6,9 +6,9 @@ interface CardProps {
   opened: boolean
 }
 
-export const MainContainer = styled.div`
+export const MainContainer = styled.div<{ height: number }>`
   width: 100vw;
-  height: 100vh;
+  height: ${(props) => props.height}px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,8 +37,8 @@ export const GridContainer = styled.div`
 
 export const DimmedLayer = styled(motion.div)`
   position: absolute;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   left: 0;
   top: 0;
   background: black;
