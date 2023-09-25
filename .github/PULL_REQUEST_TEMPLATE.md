@@ -8,11 +8,11 @@
 
 ## Checklist
 
-- [ ] I have tested the changes locally and they work as expected
-- [ ] I have added appropriate documentation or updated existing documentation
-- [ ] I have followed the coding style and guidelines of the project
-- [ ] I have added/updated tests to ensure the changes are properly covered
-- [ ] I have reviewed the changes and ensured they meet the project's quality standards
+- [] You have tested the changes locally and they work as expected
+- [] You have added appropriate documentation or updated existing documentation
+- [] You have followed the coding style and guidelines of the project
+- [] You have added/updated tests to ensure the changes are properly covered
+- [] You have reviewed the changes and ensured they meet the project's quality standards
 
 ## Screenshots (if applicable)
 
@@ -20,5 +20,5 @@
 
 ## Additional Notes
 
-<!-- Add any additional notes or context about the changes made in this pull request -->
+<!-- Add any additional notes or context about the changes made in this pull request. -->
 

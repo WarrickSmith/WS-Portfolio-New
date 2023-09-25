@@ -8,26 +8,22 @@ on:
       - ready_for_review
 
 jobs:
-  populate-template:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 14
+          node-version: '16.x'
 
       - name: Install dependencies
         run: npm install
 
-      - name: Populate PR Template
-        run: |
-          cp .github/PULL_REQUEST_TEMPLATE.md .github/pull_request_template.md
-          git add .github/pull_request_template.md
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git commit -m "Populate PR Template" || true
-          git push origin HEAD:${{ github.head_ref }}
+      - name: Run Jest tests
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'test') }}
+        run: npm test
