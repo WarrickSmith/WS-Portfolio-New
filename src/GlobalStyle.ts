@@ -35,6 +35,7 @@ const GlobalStyle: GlobalStyleComponent<
     --fs-sm: min(calc(0.5vw + 2.25vh), 1.5rem);
     --fs-med: min(calc(0.75vw + 2.5vh), 2rem);
     --fs-lge: min(calc(1vw + 2.75vh), 2.5rem);
+    --media-mobile: 315px;
 
   }
 

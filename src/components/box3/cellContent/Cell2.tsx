@@ -12,7 +12,7 @@ const InfoContainer = styled.div`
     grid-template-rows: 1fr 1fr;
   }
 
-  @media (max-width: 320px) {
+  @media (max-width: var(--media-mobile)) {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
   }
