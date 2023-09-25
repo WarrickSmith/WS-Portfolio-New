@@ -20,5 +20,5 @@
 
 ## Additional Notes
 
-<!-- Add any additional notes or context about the changes made in this pull request -->
+<!-- Add any additional notes or context about the changes made in this pull request. -->
 
