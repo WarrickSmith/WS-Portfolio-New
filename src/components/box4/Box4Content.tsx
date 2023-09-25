@@ -11,7 +11,6 @@ const ImageContainer = styled.div`
   gap: 1.5rem;
   grid-template-rows: auto;
   justify-content: center;
-  align-items: center;
   padding: 1.5rem;
 
   @media (max-width: 1300px) {
@@ -22,21 +21,37 @@ const ImageContainer = styled.div`
   }
 `
 
+const ActionContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
 const ActionButton = styled.a`
-  display: inline-block;
   color: var(--color);
   background-color: var(--color-alt);
-  text-align: center;
+  margin-top: 1rem;
   padding: 1rem;
   font-size: var(--fs-xsm);
   font-weight: 500;
   text-decoration: none;
 `
+
+const ProjectContainer = styled.div`
+  display: grid;
+`
+
+const ProjectTitle = styled.h3`
+  color: var(--color-alt);
+  text-align: center;
+  text-transform: uppercase;
+  justify-self: center;
+`
+
 const Box4Content = () => {
   return (
     <>
       <CardHeader words={['My', 'Portfolio']} icon={'faSuitcase'} />
-      <ImageContainer>
+      <ActionContainer>
         <ActionButton
           href={'https://github.com/WarrickSmith?tab=repositories'}
           target="_blank"
@@ -44,20 +59,24 @@ const Box4Content = () => {
         >
           {`VIEW MY REPOS ON GITHUB' ${'\u00A0'}`} <FaIcon icon={'faGithub'} />
         </ActionButton>
-        {portfolioData.map((data) => (
-          <BulletPoints
-            key={data.title}
-            href={data.href}
-            title={data.title}
-            points={data.points}
-            image={data.image}
-            target="_blank"
-          />
+      </ActionContainer>
+      <ImageContainer>
+        {portfolioData.map((data, index) => (
+          <ProjectContainer key={`${data.title}_${index}`}>
+            <ProjectTitle>{data.title}</ProjectTitle>
+            <BulletPoints
+              key={data.title}
+              href={data.href}
+              title={data.title}
+              points={data.points}
+              image={data.image}
+              target="_blank"
+            />
+          </ProjectContainer>
         ))}
       </ImageContainer>
     </>
   )
 }
-
 
 export default Box4Content
