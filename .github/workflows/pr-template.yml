@@ -25,9 +25,9 @@ jobs:
 
       - name: Populate PR Template
         run: |
-          cp .github/PULL_REQUEST_TEMPLATE.md .github/ISSUE_TEMPLATE.md
-          git add .github/ISSUE_TEMPLATE.md
+          cp .github/PULL_REQUEST_TEMPLATE.md .github/pull_request_template.md
+          git add .github/pull_request_template.md
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git commit -m "Populate PR Template" || true
-          git push
+          git push origin HEAD:${{ github.head_ref }}
