@@ -1,0 +1,33 @@
+name: PR Template
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - ready_for_review
+
+jobs:
+  populate-template:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Populate PR Template
+        run: |
+          cp .github/PULL_REQUEST_TEMPLATE.md .github/ISSUE_TEMPLATE.md
+          git add .github/ISSUE_TEMPLATE.md
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -m "Populate PR Template" || true
+          git push
