@@ -32,7 +32,8 @@ jobs:
         HOST: ${{ secrets.HOST }}
         USERNAME: ${{ secrets.USERNAME }}
         PORT: ${{ secrets.PORT }}
-        PASSWORD: ${{ secrets.PASSWORD }}
+        # PASSWORD: ${{ secrets.PASSWORD }}
+        KEY: ${{ secrets.SERVER_SSH_KEY }}
         source: "dist/**"
         target: "/inetpub/wwwroot/"
         strip_components: 1
