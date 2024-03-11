@@ -6,8 +6,7 @@ WORKDIR /app
 ENV CHOKIDAR_USEPOLLING=true
 
 # Copy package.json and package-lock.json to /app
-COPY package*.json /app/
-COPY package-lock.json .
+COPY package*.json ./
 
 # Install dependencies
 RUN npm install --production
@@ -20,7 +19,6 @@ RUN npm run build
 
 # Set the environment variable to production
 ENV NODE_ENV=production
-
 
 # Expose port 3000
 EXPOSE 3000
