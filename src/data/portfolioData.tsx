@@ -1,8 +1,8 @@
-import image1 from '../assets/reservationizr.jpg'
-import image2 from '../assets/raceday.jpg'
+import image1 from '../assets/reservationizr-img.jpg'
+import image2 from '../assets/raceday-img.jpg'
 import image3 from '../assets/cat_couture.jpg'
 import image4 from '../assets/ws-portfolio.jpg'
-import image5 from '../assets/raceday-api.jpg'
+import image5 from '../assets/raceday-api-img.jpg'
 import image6 from '../assets/tic-tac-toe.png'
 
 const portfolioPoints = [
