@@ -1,9 +1,9 @@
-import image1 from '../assets/reservationizr-img.jpg'
-import image2 from '../assets/raceday-img.jpg'
-import image3 from '../assets/cat_couture.jpg'
-import image4 from '../assets/ws-portfolio.jpg'
-import image5 from '../assets/raceday-api-img.jpg'
-import image6 from '../assets/tic-tac-toe.png'
+import image1 from '../assets/reservationizr-img.jpg?url'
+import image2 from '../assets/raceday-img.jpg?url'
+import image3 from '../assets/cat_couture.jpg?url'
+import image4 from '../assets/ws-portfolio.jpg?url'
+import image5 from '../assets/raceday-api-img.jpg?url'
+import image6 from '../assets/tic-tac-toe.png?url'
 
 const portfolioPoints = [
   'Personal Website',
