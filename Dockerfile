@@ -1,5 +1,5 @@
 # Use an official Node runtime as a parent image
-FROM node:16-alpine
+FROM node:20-alpine
 
 # Set the working directory to /app
 WORKDIR /app
@@ -24,4 +24,4 @@ ENV NODE_ENV=production
 EXPOSE 3000
 
 # Start the application
-CMD ["npm", "run", "build"]
+CMD ["npm", "run", "preview"]
