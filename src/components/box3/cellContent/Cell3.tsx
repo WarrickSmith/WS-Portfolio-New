@@ -9,7 +9,7 @@ const SelectorContainer = styled.div`
   gap: 1rem;
   width: 100%;
 
-  .fa-icon{
+  .fa-icon {
     margin-right: 0.5rem;
   }
 
@@ -78,7 +78,7 @@ const Cell3: React.FC<SelectorProps> = ({
           isSelected={selectedOption === 'skills'}
           onClick={() => handleOptionClick('skills')}
         >
-          <FaIcon icon="faStar" className="fa-icon" />
+          <FaIcon icon="faCircleCheck" className="fa-icon" />
           SKILLS
         </OptionButton>
         <div className="years-experience">

@@ -32,7 +32,7 @@ const getYearsExperience = (startYear: number) => {
 }
 
 const YearsExperience = () => {
-  const yearsExperience = getYearsExperience(2022)
+  const yearsExperience = getYearsExperience(2021)
 
   return (
     <StyledContainer>
