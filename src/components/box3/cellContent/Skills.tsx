@@ -25,19 +25,24 @@ const SkillsGrid = styled.div`
   padding: 1rem;
 `
 
+const SkillItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+`
+
 const Skill = styled.div`
   text-transform: uppercase;
   font-size: var(--fs-xsm);
   font-weight: 400;
-  margin-bottom: 0.5rem;
 `
 
-const Stars = styled.div`
+const Checks = styled.div`
   color: var(--color-alt);
   text-transform: uppercase;
   font-size: var(--fs-xsm);
   font-weight: 400;
-  margin-bottom: 1.5rem;
   display: flex;
 `
 
@@ -52,20 +57,12 @@ const Skills = () => {
       <Category>Skills</Category>
       <SkillsGrid>
         {skills.map((skillItem: Skillprops, index: number) => (
-          <div key={skillItem.skill + index}>
+          <SkillItem key={skillItem.skill + index}>
+            <Checks>
+              <FaIcon key={1} icon={'faCircleCheck'} type={'solid'} />
+            </Checks>
             <Skill>{skillItem.skill}</Skill>
-            <Stars>
-              {Array(5)
-                .fill(0)
-                .map((_, i) => (
-                  <FaIcon
-                    key={i}
-                    icon={i < skillItem.stars ? 'faStar' : 'faStar'}
-                    type={i < skillItem.stars ? 'solid' : 'regular'}
-                  />
-                ))}
-            </Stars>
-          </div>
+          </SkillItem>
         ))}
       </SkillsGrid>
     </Page>
