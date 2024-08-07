@@ -4,10 +4,10 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   build: {
     chunkSizeWarningLimit: 2500,
-    outDir: 'dist', 
-    assetsDir: '.', 
-    sourcemap: false, 
-    minify: true, 
+    outDir: 'dist',
+    assetsDir: 'assets',
+    sourcemap: false,
+    minify: true,
   },
   base: '/',
   plugins: [react()],
@@ -19,6 +19,5 @@ export default defineConfig({
     port: 3000,
     strictPort: true,
     host: true,
-    origin: 'http://0.0.0.0:3000',
   },
 })
