@@ -4,6 +4,7 @@ import image3 from '../assets/cat_couture.jpg?url'
 import image4 from '../assets/ws-portfolio.jpg?url'
 import image5 from '../assets/raceday-api-img.jpg?url'
 import image6 from '../assets/tic-tac-toe.png?url'
+import image7 from '../assets/music-manager.jpg?url'
 
 const portfolioPoints = [
   'Personal Website',
@@ -31,17 +32,12 @@ const racedayApiPoints = [
   'Swagger UI Express Server',
   'OpenApi 3.0.1',
 ]
-const catcouturePoints = [
-  'Mock Web Store Front',
-  'React, Node, Express',
-  'PostgreSQL, Auth0',
-  'Jest, Supertest',
-]
 
-const ticTactoePoints = [
-  'Tic-Tac-Toe Game',
-  'AI (Gemini) Opponent',
-  'React, Vite, typescript',
+const musicManagerPoints = [
+  'Music Manager App',
+  'Nex.js 15.2, React 19, Node 22.14.0',
+  'Appwrite Auth, Database & Storage',
+  'Server Actions',
 ]
 
 const portfolioData = [
@@ -70,16 +66,10 @@ const portfolioData = [
     image: image5,
   },
   {
-    href: 'https://warricksmith.com/catcouture',
-    title: 'Cat Couture Project',
-    points: catcouturePoints,
-    image: image3,
-  },
-  {
-    href: 'https://warricksmith.com/tictactoe/',
-    title: 'AI tic-tac-toe Project',
-    points: ticTactoePoints,
-    image: image6,
+    href: 'https://mm.warricksmith.com',
+    title: 'Music Manager Project',
+    points: musicManagerPoints,
+    image: image7,
   },
 ]
 
