@@ -43,7 +43,7 @@ const ticTacToePoints = [
   'Tic Tac Toe App',
   'Next.js 15.2.4',
   'React 19, Node 22.14.0',
-  'Google gemini 2.0 pro API',
+  'Google Gemini 2.0 Pro API',
 ]
 
 const portfolioData = [
