@@ -14,6 +14,7 @@ export default defineConfig({
   preview: {
     port: 3000,
     strictPort: true,
+    allowedHosts: ['warricksmith.com'],
   },
   server: {
     port: 3000,
