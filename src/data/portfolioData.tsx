@@ -1,7 +1,5 @@
 import image1 from '../assets/reservationizr-img.jpg?url'
-import image2 from '../assets/raceday-img.jpg?url'
 import image4 from '../assets/ws-portfolio.jpg?url'
-import image5 from '../assets/raceday-api-img.jpg?url'
 import image6 from '../assets/tic-tac-toe.jpg?url'
 import image7 from '../assets/music-manager.jpg?url'
 
@@ -17,19 +15,6 @@ const reservationizrPoints = [
   'MERN Stack',
   'Jest, Supertest',
   'Auth0',
-]
-
-const racedayPoints = [
-  'Live Racing Data',
-  'MERN Stack',
-  'Jest, Supertest',
-  'MongoDB',
-]
-
-const racedayApiPoints = [
-  'RaceDay API Definition',
-  'Swagger UI Express Server',
-  'OpenApi 3.0.1',
 ]
 
 const musicManagerPoints = [
@@ -58,18 +43,6 @@ const portfolioData = [
     title: 'Reservations Project',
     points: reservationizrPoints,
     image: image1,
-  },
-  {
-    href: 'https://warricksmith.com/raceday',
-    title: 'RaceDay Project',
-    points: racedayPoints,
-    image: image2,
-  },
-  {
-    href: 'https://warricksmith.com/server/',
-    title: 'RaceDay API Spec',
-    points: racedayApiPoints,
-    image: image5,
   },
   {
     href: 'https://mm.warricksmith.com',
