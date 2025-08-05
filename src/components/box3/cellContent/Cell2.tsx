@@ -51,8 +51,6 @@ const Cell2 = () => (
       <InfoItem label="Last Name:" value="Smith" />
       <InfoItem label="Nationality:" value="New Zealand" />
       <InfoItem label="Employment Status:" value="Available" />
-      <InfoItem label="Phone:" value="+64 21 0248 8139" />
-      <InfoItem label="Address:" value="Auckland, New Zealand" />
       <InfoItem label="Spoken Languages:" value="English" />
     </div>
     <WsImage />
