@@ -16,11 +16,12 @@ const ContactMeContainer = styled.div`
     font-weight: 500;
   }
 
-  p, a {
+  p,
+  a {
     font-size: var(--fs-xsm);
     color: var(--color);
     font-weight: 400;
-    margin: 0 0 1rem 0 ;
+    margin: 0 0 1rem 0;
   }
 
   .fa-icon {
@@ -29,30 +30,18 @@ const ContactMeContainer = styled.div`
   }
 
   a {
-      text-decoration: none;
+    text-decoration: none;
   }
 `
 
 const ContactMe = () => {
   return (
     <ContactMeContainer>
-      <h3>PHONE</h3>
+      <h3>CONTACT</h3>
       <span>
-        <FaIcon icon={'faPhone'} className="fa-icon" />
-        <p>021 0248 8139</p>
+        <FaIcon icon={'faEnvelope'} className="fa-icon" />
+        <p>Use the contact form to get in touch</p>
       </span>
-      <h3>ADDRESS</h3>
-      <span>
-        <FaIcon icon={'faSuitcase'} className="fa-icon" />
-        <p>Auckland, New Zealand</p>
-      </span>
-      <h3>SOCIAL</h3>
-      <a href="https://www.linkedin.com/in/warrick-smith/" target="_blank">
-        <span>
-          <FaIcon icon={'faLinkedin'} className="fa-icon" />
-          <p>Linkedin</p>
-        </span>
-      </a>
     </ContactMeContainer>
   )
 }

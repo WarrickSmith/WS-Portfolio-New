@@ -1,9 +1,6 @@
 import emailjs from '@emailjs/browser'
 const sendEmail = (button: string) => {
-  const message =
-    button === 'download'
-      ? 'Your CV has been downloaded from warricksmith.com!'
-      : 'Someone has clicked through to your GITHUB Repos!'
+  const message = 'Someone has clicked through to your GITHUB Repos!'
 
   // Get user's IP address
   const ipAddress = window?.location?.hostname || 'Unknown IP Address'

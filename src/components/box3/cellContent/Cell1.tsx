@@ -1,7 +1,6 @@
 import sendEmail from '../../common/sendEmail'
 import styled from 'styled-components'
 import FaIcon from '../../common/FaIcon'
-import resume from '../../../assets/WSmith_Resume.pdf'
 
 const ActionContainer = styled.div`
   display: grid;
@@ -37,14 +36,6 @@ const ActionButton = styled.a`
 const Cell1 = () => {
   return (
     <ActionContainer>
-      <ActionButton
-        href={resume}
-        target="_blank"
-        onClick={() => sendEmail('download')}
-      >
-        {`DOWNLOAD RESUME ${'\u00A0'}`}
-        <FaIcon icon={'faDownload'} />
-      </ActionButton>
       <ActionButton
         href={'https://github.com/WarrickSmith?tab=repositories'}
         target="_blank"
