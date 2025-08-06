@@ -2,7 +2,6 @@ import styled from 'styled-components'
 import CardHeader from '../common/CardHeader'
 import BulletPoints from '../common/BulletPoints'
 import portfolioData from '../../data/portfolioData'
-import sendEmail from '../common/sendEmail'
 import FaIcon from '../common/FaIcon'
 
 const ImageContainer = styled.div`
@@ -55,7 +54,6 @@ const Box4Content = () => {
         <ActionButton
           href={'https://github.com/WarrickSmith?tab=repositories'}
           target="_blank"
-          onClick={() => sendEmail('github')}
         >
           {`VIEW MY REPOS ON GITHUB' ${'\u00A0'}`} <FaIcon icon={'faGithub'} />
         </ActionButton>

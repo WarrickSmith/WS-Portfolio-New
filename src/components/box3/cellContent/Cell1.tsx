@@ -1,4 +1,3 @@
-import sendEmail from '../../common/sendEmail'
 import styled from 'styled-components'
 import FaIcon from '../../common/FaIcon'
 
@@ -39,7 +38,6 @@ const Cell1 = () => {
       <ActionButton
         href={'https://github.com/WarrickSmith?tab=repositories'}
         target="_blank"
-        onClick={() => sendEmail('github')}
       >
         {`MY GITHUB REPOS' ${'\u00A0'}`} <FaIcon icon={'faGithub'} />
       </ActionButton>
