@@ -1,6 +1,7 @@
-import {useEffect, useState} from 'react'
+import { useEffect, useState } from 'react'
 import { MainContainer } from './components/common/GridComponents'
 import { MainPage } from './components/MainPage'
+import { VisitorTracker } from './components/VisitorTracker'
 
 const App = () => {
   const [containerHeight, setContainerHeight] = useState(window.innerHeight)
@@ -19,6 +20,7 @@ const App = () => {
 
   return (
     <MainContainer height={containerHeight}>
+      <VisitorTracker />
       <MainPage />
     </MainContainer>
   )
