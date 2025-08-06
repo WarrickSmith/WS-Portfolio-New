@@ -134,23 +134,23 @@ export const ContactMe = () => {
   const [captchaValid, setCaptchaValid] = useState(false)
   const recaptchaRef = useRef<ReCAPTCHA>(null)
 
- const onCaptchaChange = (value: string | null) => {
-   setCaptchaValid(true)
- }
+  const onCaptchaChange = (value: string | null) => {
+    setCaptchaValid(true)
+  }
 
   const sendEmail = (e: FormEvent<HTMLFormElement>) => {
-      if (!captchaValid) {
-        return
-      }
+    if (!captchaValid) {
+      return
+    }
     e.preventDefault()
     setSendStatus('SENDING EMAIL...')
 
     emailjs
       .sendForm(
-        'service_ee860nu',
-        'template_4o1vz8c',
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_CONTACT_TEMPLATE_ID,
         form.current!,
-        '3HyPrrduysCbj5IZK'
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       )
       .then(
         (result) => {
@@ -205,7 +205,7 @@ export const ContactMe = () => {
       </InputBox>
       <ReCAPTCHA
         ref={recaptchaRef}
-        sitekey={'6LdipJwUAAAAABDGvzYlHlnpzCl0YULOXeT6nJZL'}
+        sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
         onChange={onCaptchaChange}
       />
       <SubmitButton
