@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import CardHeader from '../common/CardHeader'
 import FaIcon from '../common/FaIcon'
 import Cell1 from './cellContent/Cell1'
@@ -8,45 +7,46 @@ import Cell3 from './cellContent/Cell3'
 import Cell4 from './cellContent/Cell4'
 import YearsExperience from './cellContent/YearsExperience'
 
-  const Box3Container = styled.div`
-    display: grid;
+const Box3Container = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 1.5rem;
+  grid-template-rows: auto;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 1.5rem;
+  width: 100%;
+
+  .years-exp {
+    display: none;
+  }
+
+  @media (max-width: 1300px) {
     grid-template-columns: 1fr 2fr;
-    gap: 1.5rem;
-    grid-template-rows: auto;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 1.5rem;
-    width: 100%;
+  }
 
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
     .years-exp {
-      display: none;
+      display: block;
     }
+  }
 
-    @media (max-width: 1300px) {
-      grid-template-columns: 1fr 2fr;
-    }
+  h3 {
+    font-size: var(--fs-sm);
+    color: var(--color-alt);
+    font-weight: 500;
+    margin-top: 0;
+  }
 
-    @media (max-width: 768px) {
-      grid-template-columns: 1fr;
-      .years-exp {
-        display: block;
-      }
-    }
+  p {
+    font-size: var(--fs-xsm);
+    color: var(--color);
+    font-weight: 400;
+    margin: 0 0 1rem 0;
+  }
+`
 
-    h3 {
-      font-size: var(--fs-sm);
-      color: var(--color-alt);
-      font-weight: 500;
-      margin-top: 0;
-    }
-
-    p {
-      font-size: var(--fs-xsm);
-      color: var(--color);
-      font-weight: 400;
-      margin: 0 0 1rem 0;
-    }
-  `
 const MainText = styled.div`
   grid-column: span 2;
   display: flex;
@@ -60,7 +60,7 @@ const MainText = styled.div`
   @media (max-width: 768px) {
     grid-column: span 1;
   }
-  `
+`
 
 const FlexContainer = styled.div`
   display: flex;
@@ -68,12 +68,9 @@ const FlexContainer = styled.div`
   .fa-icon {
     margin: 0 0.5rem 1rem 0;
   }
-  `
+`
 
 const Box3Content = () => {
-  
-  const [selectedOption, setSelectedOption] = useState('experience')
-  
   return (
     <>
       <CardHeader words={['About', 'Me']} icon={'faIdCard'} />
@@ -90,11 +87,8 @@ const Box3Content = () => {
         </MainText>
         <Cell1 />
         <Cell2 />
-        <Cell3
-          selectedOption={selectedOption}
-          setSelectedOption={setSelectedOption}
-        />
-        <Cell4 selectedOption={selectedOption} />
+        <Cell3 />
+        <Cell4 />
         <div className="years-exp">
           <YearsExperience />
         </div>

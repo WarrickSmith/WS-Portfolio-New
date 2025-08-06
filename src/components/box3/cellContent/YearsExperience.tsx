@@ -38,7 +38,7 @@ const YearsExperience = () => {
     <StyledContainer>
       <FaIcon icon={'faBriefcase'} className="fa-icon" />
       <p className="count">{yearsExperience}+</p>
-      <p>YEARS EXPERIENCE</p>
+      <p>YEARS DEVELOPER EXPERIENCE</p>
     </StyledContainer>
   )
 }
