@@ -5,13 +5,9 @@ services:
     container_name: ws-portfolio-app
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - '3000:3000'
     environment:
-      - NODE_ENV=production
-      - EMAILJS_SERVICE_ID=${EMAILJS_SERVICE_ID}
-      - EMAILJS_TEMPLATE_ID=${EMAILJS_TEMPLATE_ID}
-      - EMAILJS_CONTACT_TEMPLATE_ID=${EMAILJS_CONTACT_TEMPLATE_ID}
-      - EMAILJS_PUBLIC_KEY=${EMAILJS_PUBLIC_KEY}
-      - RECAPTCHA_SITE_KEY=${RECAPTCHA_SITE_KEY}
-      - API_URL=${API_URL}
-      - DEBUG_VISITOR_TRACKING=${DEBUG_VISITOR_TRACKING}
+      - NODE_ENV=${NODE_ENV:-production}
+    env_file:
+      - stack.env
+      - ${ENV_FILE:-.env.local}
