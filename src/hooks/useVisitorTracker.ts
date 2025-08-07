@@ -70,9 +70,9 @@ export const useVisitorTracker = () => {
   const sendVisitorNotification = useCallback(
     async (visitorData: VisitorData): Promise<boolean> => {
       try {
-        const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID
-        const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
-        const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+        const serviceId = process.env.EMAILJS_SERVICE_ID
+        const templateId = process.env.EMAILJS_TEMPLATE_ID
+        const publicKey = process.env.EMAILJS_PUBLIC_KEY
 
         if (!serviceId || !templateId || !publicKey) {
           throw new Error('EmailJS configuration missing')
