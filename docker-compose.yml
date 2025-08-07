@@ -10,4 +10,4 @@ services:
       - NODE_ENV=${NODE_ENV:-production}
     env_file:
       - stack.env
-      - ${ENV_FILE:-.env.local}
+      - ${ENV_FILE:-.env}
