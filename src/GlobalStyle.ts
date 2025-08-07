@@ -1,23 +1,6 @@
-import {
-  createGlobalStyle,
-  GlobalStyleComponent,
-  DefaultTheme,
-} from 'styled-components'
+import { createGlobalStyle } from 'styled-components'
 
-type ThemedGlobalStyledClassProps = {
-  theme: DefaultTheme
-}
-
-type OptionalProps = {
-  [key: string]: any
-}
-
-type GlobalStyleProps = ThemedGlobalStyledClassProps & OptionalProps
-
-const GlobalStyle: GlobalStyleComponent<
-  GlobalStyleProps,
-  DefaultTheme
-> = createGlobalStyle`
+const GlobalStyle = createGlobalStyle`
 
   :root {
     font-synthesis: none;
