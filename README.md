@@ -13,7 +13,7 @@ This project is built using a variety of modern web development technologies and
 
 - **React**: A JavaScript library for building user interfaces.
 - **TypeScript**: A statically typed superset of JavaScript that adds types to the language.
-- **Vite**: A build tool that provides a faster and leaner development experience for modern web projects.
+- **Webpack**: A module bundler that provides efficient build and development experience for modern web projects.
 - **Styled Components**: A library for styling React components using tagged template literals.
 - **Framer Motion**: A library for animations in React.
 

@@ -5,11 +5,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Development Commands
 
 ```bash
+# Install dependencies
+npm install
+
 # Start development server (runs on localhost:3000)
 npm run dev
 
 # Build for production
 npm run build
+
+# Start production server
+npm start
 
 # Preview production build
 npm run preview
@@ -17,7 +23,7 @@ npm run preview
 
 ## Project Architecture
 
-This is a React + TypeScript personal portfolio application built with Vite. The architecture centers around a **card-based grid layout system** where content is organized into interactive cards that expand into modal overlays.
+This is a React 19 + TypeScript personal portfolio application built with webpack and Node.js 22.x. The architecture centers around a **card-based grid layout system** where content is organized into interactive cards that expand into modal overlays.
 
 ### Core Architecture Patterns
 
@@ -57,15 +63,21 @@ This is a React + TypeScript personal portfolio application built with Vite. The
 
 ### Environment Configuration
 
-Vite-based build system with environment variables for EmailJS integration:
-- `VITE_EMAILJS_SERVICE_ID`
-- `VITE_EMAILJS_TEMPLATE_ID` 
-- `VITE_EMAILJS_PUBLIC_KEY`
+Webpack-based build system with standard environment variables for EmailJS integration:
+- `EMAILJS_SERVICE_ID`
+- `EMAILJS_TEMPLATE_ID` 
+- `EMAILJS_CONTACT_TEMPLATE_ID`
+- `EMAILJS_PUBLIC_KEY`
+- `RECAPTCHA_SITE_KEY`
+- `DEBUG_VISITOR_TRACKING`
+- `API_URL`
 
 ### Key Technical Considerations
 
 - Cards 1 and 2 are non-interactive (handleCardClick returns early)
 - Card expansion uses absolute positioning with z-index layering
 - Visitor tracking implements privacy-compliant data collection
-- Project uses TypeScript with strict mode enabled
-- Build configuration includes chunk size optimization (2500 limit)
+- Project uses TypeScript 5.9.2 with strict mode enabled
+- Uses React 19.1.0 with latest features (Actions, useOptimistic, server components)
+- Webpack 5.x with code splitting and chunk optimization
+- Docker deployment with Node.js 22.x for better Portainer compatibility
