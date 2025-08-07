@@ -13,11 +13,30 @@ cp .env.example .env
 ```
 
 ### 2. Deploy Container
-```bash
-# Option A: Docker Compose (Recommended)
-docker-compose up -d
 
-# Option B: Direct Docker Run
+**Option A: Local Docker Compose**
+```bash
+docker-compose up -d
+```
+
+**Option B: Portainer Stack**
+1. In Portainer, go to **Stacks** → **Add Stack**
+2. **Name:** `ws-portfolio-new`
+3. **Build method:** Repository or Upload
+4. **Environment Variables:** Import your environment file or add manually:
+   ```
+   EMAILJS_SERVICE_ID=your_service_id
+   EMAILJS_TEMPLATE_ID=your_template_id
+   EMAILJS_CONTACT_TEMPLATE_ID=your_contact_template_id
+   EMAILJS_PUBLIC_KEY=your_public_key
+   RECAPTCHA_SITE_KEY=your_recaptcha_key
+   API_URL=https://your-domain.com
+   DEBUG_VISITOR_TRACKING=false
+   ```
+5. **Deploy Stack**
+
+**Option C: Direct Docker Run**
+```bash
 docker run -d \
   --name ws-portfolio-app \
   --restart unless-stopped \
@@ -46,7 +65,7 @@ docker run -d \
 
 ## Simple Files Overview
 
-### docker-compose.yml
+### docker-compose.yml (Local Development)
 ```yaml
 version: '3.8'
 services:
@@ -58,8 +77,13 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=production
-    env_file:
-      - .env
+      - EMAILJS_SERVICE_ID=${EMAILJS_SERVICE_ID}
+      - EMAILJS_TEMPLATE_ID=${EMAILJS_TEMPLATE_ID}
+      - EMAILJS_CONTACT_TEMPLATE_ID=${EMAILJS_CONTACT_TEMPLATE_ID}
+      - EMAILJS_PUBLIC_KEY=${EMAILJS_PUBLIC_KEY}
+      - RECAPTCHA_SITE_KEY=${RECAPTCHA_SITE_KEY}
+      - API_URL=${API_URL:-http://localhost:3000}
+      - DEBUG_VISITOR_TRACKING=${DEBUG_VISITOR_TRACKING:-false}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/"]
       interval: 30s
@@ -67,6 +91,9 @@ services:
       retries: 3
       start_period: 30s
 ```
+
+### For Portainer
+Portainer reads environment variables from the stack interface, so use `docker-compose.portainer.yml` or the above format without `env_file`.
 
 ### .env (Required Variables)
 ```env
@@ -126,6 +153,17 @@ netstat -tlnp | grep :3000
 # Check environment variables
 docker exec ws-portfolio-app env | grep EMAILJS
 ```
+
+### Portainer Deployment Issues
+1. **Environment file not found**: 
+   - Error: `env file /data/compose/.../.env not found`
+   - Solution: Remove `env_file: - .env` from docker-compose.yml
+   - Use environment variables in Portainer stack interface instead
+   - Reference variables as `${VARIABLE_NAME}` in docker-compose.yml
+
+2. **Stack deployment fails**:
+   - Use `docker-compose.portainer.yml` for Portainer deployments
+   - Ensure all required environment variables are set in stack
 
 ### Nginx Proxy Issues
 1. **502 Bad Gateway**: Container not running or wrong port
