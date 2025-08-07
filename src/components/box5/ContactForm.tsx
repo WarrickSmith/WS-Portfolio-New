@@ -147,10 +147,10 @@ export const ContactMe = () => {
 
     emailjs
       .sendForm(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_CONTACT_TEMPLATE_ID,
+        process.env.EMAILJS_SERVICE_ID,
+        process.env.EMAILJS_CONTACT_TEMPLATE_ID,
         form.current!,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+        process.env.EMAILJS_PUBLIC_KEY
       )
       .then(
         (result) => {
@@ -205,7 +205,7 @@ export const ContactMe = () => {
       </InputBox>
       <ReCAPTCHA
         ref={recaptchaRef}
-        sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+        sitekey={process.env.RECAPTCHA_SITE_KEY}
         onChange={onCaptchaChange}
       />
       <SubmitButton

@@ -7,7 +7,7 @@ const portfolioPoints = [
   'Personal Website',
   'React, Typescript',
   'Styled Components, CSS, Framer-Motion',
-  'Javascript, Vite',
+  'Javascript, Webpack',
 ]
 
 const reservationizrPoints = [

@@ -18,7 +18,7 @@ export const VisitorTracker = () => {
   }, []) // Empty dependency array ensures this runs only once per session
 
   // Log tracking status for debugging (only in development)
-  if (import.meta.env.DEV) {
+  if (process.env.NODE_ENV === 'development') {
     console.log('VisitorTracker Status:', {
       isLoading,
       error,
