@@ -13,11 +13,5 @@ services:
       - EMAILJS_CONTACT_TEMPLATE_ID=${EMAILJS_CONTACT_TEMPLATE_ID}
       - EMAILJS_PUBLIC_KEY=${EMAILJS_PUBLIC_KEY}
       - RECAPTCHA_SITE_KEY=${RECAPTCHA_SITE_KEY}
-      - API_URL=${API_URL:-http://localhost:3000}
-      - DEBUG_VISITOR_TRACKING=${DEBUG_VISITOR_TRACKING:-false}
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 30s
+      - API_URL=${API_URL}
+      - DEBUG_VISITOR_TRACKING=${DEBUG_VISITOR_TRACKING}
