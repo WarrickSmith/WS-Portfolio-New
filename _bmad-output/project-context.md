@@ -1,4 +1,4 @@
----
+c---
 project_name: 'WS-Portfolio-New'
 user_name: 'Warrick'
 date: '2026-03-30'
@@ -6,6 +6,7 @@ sections_completed: ['technology_stack', 'language_rules', 'framework_rules', 't
 status: 'complete'
 rule_count: 42
 optimized_for_llm: true
+
 ---
 
 # Project Context for AI Agents
