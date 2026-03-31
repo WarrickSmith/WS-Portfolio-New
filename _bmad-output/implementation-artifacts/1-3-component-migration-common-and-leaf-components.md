@@ -1,6 +1,6 @@
 # Story 1.3: Component Migration — Common and Leaf Components
 
-Status: ready-for-dev
+Status: done
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -29,7 +29,7 @@ so that the lowest-level building blocks use the new styling system and can be v
 
 ### Task 1: Add `@keyframes gold-pulse` to `main.css` (AC: 4)
 
-- [ ] Add the following `@keyframes` and Tailwind animation token to `src/styles/main.css` (outside `@theme`, at global scope like the existing keyframes):
+- [x] Add the following `@keyframes` and Tailwind animation token to `src/styles/main.css` (outside `@theme`, at global scope like the existing keyframes):
 
 ```css
 @keyframes gold-pulse {
@@ -42,13 +42,13 @@ so that the lowest-level building blocks use the new styling system and can be v
 }
 ```
 
-- [ ] Add animation token inside the `@theme` block:
+- [x] Add animation token inside the `@theme` block:
 
 ```css
 --animate-gold-pulse: gold-pulse 1.5s ease-in-out infinite;
 ```
 
-- [ ] Add `@keyframes slide-in` and `@keyframes slide-out` for WordSlider (AC: 8):
+- [x] Add `@keyframes slide-in` and `@keyframes slide-out` for WordSlider (AC: 8):
 
 ```css
 @keyframes slide-in {
@@ -74,7 +74,7 @@ so that the lowest-level building blocks use the new styling system and can be v
 }
 ```
 
-- [ ] Add animation tokens inside `@theme`:
+- [x] Add animation tokens inside `@theme`:
 
 ```css
 --animate-slide-in: slide-in 1s forwards;
@@ -83,7 +83,7 @@ so that the lowest-level building blocks use the new styling system and can be v
 
 ### Task 2: Create `GoldPulseText.tsx` (AC: 4)
 
-- [ ] Create `src/components/common/GoldPulseText.tsx`:
+- [x] Create `src/components/common/GoldPulseText.tsx`:
 
 ```typescript
 import { cn } from '../../lib/cn'
@@ -100,7 +100,7 @@ const GoldPulseText = ({ children, className, pulse = false }: GoldPulseTextProp
       className={cn(
         'inline-flex items-center justify-center uppercase',
         pulse && 'motion-safe:animate-gold-pulse',
-        pulse && 'motion-reduce:text-shadow-[0_0_18px_oklch(from_#ffb400_l_c_h_/_35%)]',
+        pulse && 'motion-reduce:[text-shadow:0_0_18px_oklch(from_#ffb400_l_c_h_/_35%)]',
         className
       )}
     >
@@ -112,10 +112,10 @@ const GoldPulseText = ({ children, className, pulse = false }: GoldPulseTextProp
 export default GoldPulseText
 ```
 
-- [ ] **Note:** The `pulse` prop controls whether the animation is active (triggered by parent Card hover in Story 2.2). For now, it defaults to `false`. Story 2.2 will wire this up to card hover state.
-- [ ] `GoldPulseText` replaces both `HoverText` (text colouring) and `HoverTextWrapper` (animation container)
-- [ ] Uses `motion-safe:` / `motion-reduce:` for reduced-motion compliance (UX-DR30)
-- [ ] **Reduced motion caveat:** The `motion-reduce:` arbitrary text-shadow value may need Tailwind v4 arbitrary property syntax. If `motion-reduce:text-shadow-[...]` doesn't compile, use a small CSS class in `main.css` instead:
+- [x] **Note:** The `pulse` prop controls whether the animation is active (triggered by parent Card hover in Story 2.2). For now, it defaults to `false`. Story 2.2 will wire this up to card hover state.
+- [x] `GoldPulseText` replaces both `HoverText` (text colouring) and `HoverTextWrapper` (animation container)
+- [x] Uses `motion-safe:` / `motion-reduce:` for reduced-motion compliance (UX-DR30)
+- [x] **Reduced motion caveat:** Use Tailwind arbitrary property syntax for reduced-motion text shadow: `motion-reduce:[text-shadow:0_0_18px_oklch(from_#ffb400_l_c_h_/_35%)]`. This compiled successfully, so no CSS fallback class was needed.
 
 ```css
 @media (prefers-reduced-motion: reduce) {
@@ -129,7 +129,7 @@ And reference it as `cn('motion-reduce:gold-pulse-static', ...)` or just apply t
 
 ### Task 3: Create `SectionHeading.tsx` (AC: 5)
 
-- [ ] Create `src/components/common/SectionHeading.tsx`:
+- [x] Create `src/components/common/SectionHeading.tsx`:
 
 ```typescript
 import { cn } from '../../lib/cn'
@@ -155,13 +155,13 @@ const SectionHeading = ({ children, className }: SectionHeadingProps) => {
 export default SectionHeading
 ```
 
-- [ ] `text-h3` maps to `1.25rem` (20px), `font-semibold` is weight 600, `text-text-accent` is `#ffb400`, `mb-spacing-3` is 12px bottom margin
-- [ ] Verify these Tailwind utility names resolve correctly against the `@theme` tokens in `main.css`. Tailwind v4 auto-generates utilities from `@theme` tokens — e.g. `--color-text-accent` becomes `text-text-accent`, `--spacing-3` becomes `spacing-3` usable as `mb-spacing-3` or `mb-[--spacing-3]`
-- [ ] If `text-h3` doesn't resolve as a font-size utility (since it's defined as `--text-h3` in `@theme`), use `text-[1.25rem]` or `text-[var(--text-h3)]` instead
+- [x] `text-h3` maps to `1.25rem` (20px), `font-semibold` is weight 600, `text-text-accent` is `#ffb400`, `mb-spacing-3` is 12px bottom margin
+- [x] Verify these Tailwind utility names resolve correctly against the `@theme` tokens in `main.css`. Tailwind v4 auto-generates utilities from `@theme` tokens — e.g. `--color-text-accent` becomes `text-text-accent`, `--spacing-3` becomes `spacing-3` usable as `mb-spacing-3` or `mb-[--spacing-3]`
+- [x] `text-h3` resolved correctly; no fallback syntax was required
 
 ### Task 4: Migrate `CloseButton.tsx` (AC: 2)
 
-- [ ] Rewrite `src/components/common/CloseButton.tsx` — remove styled-components, remove SVG image import:
+- [x] Rewrite `src/components/common/CloseButton.tsx` — remove styled-components, remove SVG image import:
 
 ```typescript
 import { cn } from '../../lib/cn'
@@ -196,23 +196,23 @@ const CloseButton = ({ onClick, className }: CloseButtonProps) => {
 export default CloseButton
 ```
 
-- [ ] The current `CloseButton` uses a named export AND a default export. The parent (`MainPage.tsx`) imports the default. Keep a default export.
-- [ ] `z-30` matches the overlay z-index stack: close button at z-30 per UX-DR25
-- [ ] `top-6 right-6` = 24px inset (Tailwind's `6` = 1.5rem = 24px) per UX-DR18
-- [ ] `rounded-radius-sm` uses the `--radius-sm: 8px` theme token. If this doesn't resolve, use `rounded-[8px]` or `rounded-[var(--radius-sm)]`
-- [ ] Focus ring uses `shadow-focus-ring` from `@theme` (`--shadow-focus-ring`). If it doesn't resolve as a utility, use `shadow-[var(--shadow-focus-ring)]`
-- [ ] The SVG asset `src/assets/211651_close_round_icon.svg` is now unreferenced — **do NOT delete it in this story**. Story 1.5 handles dead asset cleanup.
+- [x] The current `CloseButton` uses a named export AND a default export. The parent (`MainPage.tsx`) imports the default. Keep a default export.
+- [x] `z-30` matches the overlay z-index stack: close button at z-30 per UX-DR25
+- [x] `top-6 right-6` = 24px inset (Tailwind's `6` = 1.5rem = 24px) per UX-DR18
+- [x] `rounded-radius-sm` uses the `--radius-sm: 8px` theme token and resolved correctly
+- [x] Focus ring uses `shadow-focus-ring` from `@theme` (`--shadow-focus-ring`) and resolved correctly
+- [x] The SVG asset `src/assets/211651_close_round_icon.svg` is now unreferenced — **do NOT delete it in this story**. Story 1.5 handles dead asset cleanup.
 
 ### Task 5: Migrate `FaIcon.tsx` (AC: 1)
 
-- [ ] `FaIcon.tsx` already uses plain JSX with no styled-components — **no migration needed**
-- [ ] Verify the `className` prop is passed through to `<FontAwesomeIcon>` correctly (it already is)
-- [ ] Confirm `FaIcon` renders correctly with Tailwind classes applied via `className` prop (e.g. `<FaIcon icon="faGithub" className="text-text-accent text-lg" />`)
-- [ ] No changes required unless verification reveals issues
+- [x] `FaIcon.tsx` already uses plain JSX with no styled-components — **no migration needed**
+- [x] Verify the `className` prop is passed through to `<FontAwesomeIcon>` correctly (it already is)
+- [x] Confirm `FaIcon` renders correctly with Tailwind classes applied via `className` prop (e.g. `<FaIcon icon="faGithub" className="text-text-accent text-lg" />`)
+- [x] No changes required unless verification reveals issues
 
 ### Task 6: Migrate `WordSlider.tsx` (AC: 8)
 
-- [ ] Rewrite `src/components/common/WordSlider.tsx` — remove all styled-components imports:
+- [x] Rewrite `src/components/common/WordSlider.tsx` — remove all styled-components imports:
 
 ```typescript
 import { useState, useEffect } from 'react'
@@ -270,33 +270,46 @@ const WordSlider = ({ words }: WordSliderProps) => {
 export default WordSlider
 ```
 
-- [ ] The `font-size: var(--fs-med)` uses the legacy GlobalStyle CSS variable — this is intentional. `WordSlider` is used in `Box2.tsx` which is still styled-components in this story. The legacy variable will be replaced when `Box2` migrates in Story 1.4.
-- [ ] Animation classes `animate-slide-in` and `animate-slide-out` use the keyframes defined in Task 1
-- [ ] The `React` import can be removed — React 19 doesn't require it for JSX
+- [x] The `font-size: var(--fs-med)` uses the legacy GlobalStyle CSS variable — this is intentional. `WordSlider` is used in `Box2.tsx` which is still styled-components in this story. The legacy variable will be replaced when `Box2` migrates in Story 1.4.
+- [x] Animation classes `animate-slide-in` and `animate-slide-out` use the keyframes defined in Task 1
+- [x] The `React` import can be removed — React 19 doesn't require it for JSX
 
 ### Task 7: Remove `HoverText.tsx` and update call sites (AC: 3)
 
-- [ ] Delete `src/components/common/HoverText.tsx`
-- [ ] **Call sites that import HoverText:**
-  - `src/components/box3/Box3.tsx` — uses `<HoverText words={['about', 'me']} />` inside `HoverTextWrapper`. Replace with `GoldPulseText`:
+- [x] Delete `src/components/common/HoverText.tsx`
+- [x] **Call sites that import HoverText** — HoverText colours index 0 as white (`text-text-primary`) and all subsequent words as accent (`text-text-accent`). Replicate this in the `GoldPulseText` replacement spans:
+  - `src/components/box3/Box3.tsx` — uses `<HoverText words={['About', 'Me']} />` inside `HoverTextWrapper`. Replace with:
     ```tsx
     <GoldPulseText>
-      <span className="text-text-primary">about</span>{'\u00A0'}
-      <span className="text-text-accent">me</span>
+      <span className="text-text-primary">About</span>{'\u00A0'}
+      <span className="text-text-accent">Me</span>
     </GoldPulseText>
     ```
-  - `src/components/box4/Box4.tsx` — uses `<HoverText words={['port', 'folio']} />` inside `HoverTextWrapper`. Same pattern.
-  - `src/components/box5/Box5.tsx` — uses `<HoverText words={['contact', 'me']} />` inside `HoverTextWrapper`. Same pattern.
+  - `src/components/box4/Box4.tsx` — uses `<HoverText words={['My', 'Portfolio']} />` inside `HoverTextWrapper`. Replace with:
+    ```tsx
+    <GoldPulseText>
+      <span className="text-text-primary">My</span>{'\u00A0'}
+      <span className="text-text-accent">Portfolio</span>
+    </GoldPulseText>
+    ```
+  - `src/components/box5/Box5.tsx` — uses `<HoverText words={['Get', 'In', 'Touch']} />` inside `HoverTextWrapper`. **Note: 3 words — first is white, rest are accent.** Replace with:
+    ```tsx
+    <GoldPulseText>
+      <span className="text-text-primary">Get</span>{'\u00A0'}
+      <span className="text-text-accent">In</span>{'\u00A0'}
+      <span className="text-text-accent">Touch</span>
+    </GoldPulseText>
+    ```
   - `src/components/common/CardHeader.tsx` — this file is being removed (Task 9), so no update needed.
 
 ### Task 8: Remove `HoverTextWrapper.tsx` and update call sites (AC: 4)
 
-- [ ] Delete `src/components/common/HoverTextWrapper.tsx`
-- [ ] **Call sites that import HoverTextWrapper:**
+- [x] Delete `src/components/common/HoverTextWrapper.tsx`
+- [x] **Call sites that import HoverTextWrapper:**
   - `src/components/box3/Box3.tsx` — replace `<HoverTextWrapper>` with `<GoldPulseText>` (already done in Task 7)
   - `src/components/box4/Box4.tsx` — same
   - `src/components/box5/Box5.tsx` — same
-- [ ] Each Box component must:
+- [x] Each Box component must:
   1. Remove `import HoverTextWrapper from '../common/HoverTextWrapper'`
   2. Remove `import HoverText from '../common/HoverText'`
   3. Add `import GoldPulseText from '../common/GoldPulseText'`
@@ -304,24 +317,24 @@ export default WordSlider
 
 ### Task 9: Remove `CardHeader.tsx` and update call sites (AC: 5)
 
-- [ ] Delete `src/components/common/CardHeader.tsx`
-- [ ] **Call sites that import CardHeader:**
-  - `src/components/box3/Box3Content.tsx` — replace `<CardHeader words={[...]} icon="..." />` with `<SectionHeading>` component. The decorative divider/icon below the header from `CardHeader` is dropped — the new `SectionHeading` is simpler by design.
-  - `src/components/box4/Box4Content.tsx` — same replacement
-  - `src/components/box5/Box5Content.tsx` — same replacement
-- [ ] At each call site:
+- [x] Delete `src/components/common/CardHeader.tsx`
+- [x] **Call sites that import CardHeader** — each site replaces `<CardHeader words={[...]} icon="..." />` with `<SectionHeading>`. The decorative divider/icon below the header from `CardHeader` is dropped — the new `SectionHeading` is simpler by design:
+  - `src/components/box3/Box3Content.tsx` — `<CardHeader words={['About', 'Me']} icon={'faIdCard'} />` → `<SectionHeading>About Me</SectionHeading>`
+  - `src/components/box4/Box4Content.tsx` — `<CardHeader words={['My', 'Portfolio']} icon={'faSuitcase'} />` → `<SectionHeading>My Portfolio</SectionHeading>`
+  - `src/components/box5/Box5Content.tsx` — `<CardHeader words={['Get', 'In', 'Touch']} icon={'faEnvelopeOpen'} />` → `<SectionHeading>Get In Touch</SectionHeading>`
+- [x] At each call site:
   1. Remove `import CardHeader from '../common/CardHeader'`
   2. Add `import SectionHeading from '../common/SectionHeading'`
-  3. Replace `<CardHeader words={['about', 'me']} icon="faSuitcase" />` with `<SectionHeading>About Me</SectionHeading>` (join the words array into a heading string)
+  3. Replace the `<CardHeader ... />` element with the `<SectionHeading>` shown above
 
 ### Task 10: Remove `Page.tsx` and update call sites (AC: 6)
 
-- [ ] Delete `src/components/common/Page.tsx`
-- [ ] **Only call site:** `src/components/box3/cellContent/ConsolidatedSummary.tsx` — replace `<Page>` wrapper with a `<div>` using equivalent Tailwind classes:
+- [x] Delete `src/components/common/Page.tsx`
+- [x] **Only call site:** `src/components/box3/cellContent/ConsolidatedSummary.tsx` — replace `<Page>` wrapper with a `<div>` using equivalent Tailwind classes:
   ```tsx
   <div className="grid w-full text-text-primary bg-bg-card-hover rounded-radius-sm text-body-sm font-light">
   ```
-- [ ] Verify the visual output matches the old `Page` styled component:
+- [x] Verify the visual output matches the old `Page` styled component:
   - `display: grid` → `grid`
   - `width: 100%` → `w-full`
   - `color: var(--color)` → `text-text-primary` (white equivalent)
@@ -332,27 +345,35 @@ export default WordSlider
 
 ### Task 11: Remove `ParagraphSeparator.tsx` and update call sites (AC: 7)
 
-- [ ] Delete `src/components/common/ParagraphSeparator.tsx`
-- [ ] **Only call site:** `src/components/box3/cellContent/ConsolidatedSummary.tsx` — replace `<ParagraphSeparator />` with:
+- [x] Delete `src/components/common/ParagraphSeparator.tsx`
+- [x] **Only call site:** `src/components/box3/cellContent/ConsolidatedSummary.tsx` — replace `<ParagraphSeparator />` with:
   ```tsx
   <hr className="w-1/2 h-px border-0 bg-accent-primary mx-auto" />
   ```
-- [ ] `bg-accent-primary` maps to `#ffb400` matching the old `background-color: var(--color-alt)`
+- [x] `bg-accent-primary` maps to `#ffb400` matching the old `background-color: var(--color-alt)`
 
 ### Task 12: Verify all changes (AC: 9, 10, 11)
 
-- [ ] Run `npm run dev` — confirm dev server starts on port 3000
-- [ ] Open browser, verify:
+- [x] Run `npm run dev` — confirm dev server starts on port 3000
+- [x] Open browser, verify:
   - Box3 (About), Box4 (Portfolio), Box5 (Contact) card previews still show correct text
   - WordSlider in Box2 still animates word cycling
   - CloseButton still appears and functions when a card is expanded
   - Expanded content for Box3Content, Box4Content, Box5Content renders heading correctly
   - ConsolidatedSummary in Box3 expanded content renders grid and separator correctly
-- [ ] Run `npm run build` — confirm production build succeeds with zero errors
-- [ ] Grep the migrated files for `styled-components` — ensure zero imports remain in changed files:
+- [x] Run `npm run build` — confirm production build succeeds with zero errors
+- [x] Grep the migrated files for `styled-components` — ensure zero imports remain in changed files:
   ```bash
   grep -r "styled-components" src/components/common/CloseButton.tsx src/components/common/WordSlider.tsx src/components/common/GoldPulseText.tsx src/components/common/SectionHeading.tsx
   ```
+
+### Review Findings
+
+- [x] [Review][Patch] `motion-reduce` text-shadow arbitrary value syntax may be invalid — `text-shadow-[...]` is not a standard Tailwind utility; may need arbitrary property syntax `[text-shadow:...]` instead. Fixed by switching `GoldPulseText` to `motion-reduce:[text-shadow:0_0_18px_oklch(from_#ffb400_l_c_h_/_35%)]` and updating the story artifact to match. [src/components/common/GoldPulseText.tsx:21]
+- [x] [Review][Defer] WordSlider setTimeout not cleaned up on unmount — inner setTimeout in useEffect not cleared, may cause React state-update-on-unmount warning. [src/components/common/WordSlider.tsx] — deferred, pre-existing
+- [x] [Review][Defer] CloseButton click event propagates to parent Card onClick — no stopPropagation, event may bubble to Card's handleCardClick and re-open the card. [src/components/common/CloseButton.tsx] — deferred, pre-existing
+- [x] [Review][Defer] GoldPulseText card preview titles have no semantic heading role — rendered as spans without ARIA roles. [src/components/common/GoldPulseText.tsx] — deferred, pre-existing (Epic 6 accessibility)
+- [x] [Review][Defer] Empty words array crashes WordSlider — modulo by zero when words.length is 0. [src/components/common/WordSlider.tsx] — deferred, pre-existing
 
 ## Dev Notes
 
@@ -499,8 +520,48 @@ Removed from `common/`: `HoverText.tsx`, `HoverTextWrapper.tsx`, `CardHeader.tsx
 
 ### Agent Model Used
 
+GPT-5 Codex
+
 ### Debug Log References
+
+- `npm run build`
+- `npm run dev`
+- `curl -I http://localhost:3000/`
+- `grep -R "styled-components" src/components/common/CloseButton.tsx src/components/common/WordSlider.tsx src/components/common/GoldPulseText.tsx src/components/common/SectionHeading.tsx`
+- `google-chrome --headless --disable-gpu --no-sandbox --dump-dom http://127.0.0.1:3000/`
+- `playwright screenshot --browser chromium --channel chrome --viewport-size "1440,1200" --full-page http://127.0.0.1:3000/ /tmp/story-1-3-home.png`
+- Temporary external Playwright verification script executed from `/tmp` against `http://127.0.0.1:3000/`
 
 ### Completion Notes List
 
+- Added Tailwind animation tokens and keyframes for `gold-pulse`, `slide-in`, and `slide-out` in `src/styles/main.css`.
+- Created `GoldPulseText.tsx` and `SectionHeading.tsx`; migrated `CloseButton.tsx` and `WordSlider.tsx` off `styled-components`.
+- Corrected `GoldPulseText` reduced-motion syntax to Tailwind arbitrary property form so Story 2.2 can enable `pulse` safely.
+- Replaced `HoverText`, `HoverTextWrapper`, `CardHeader`, `Page`, and `ParagraphSeparator` at all verified call sites, then deleted the obsolete component files.
+- Verified preview text, WordSlider cycling, Box3/Box4/Box5 expanded content, `CloseButton`, ConsolidatedSummary layout/separators, `npm run build`, `npm run dev`, and absence of `styled-components` imports in migrated common files.
+- Completed review follow-up: all review findings are now either patched or explicitly deferred with no open review actions remaining.
+
 ### File List
+
+- `src/styles/main.css`
+- `src/components/common/CloseButton.tsx`
+- `src/components/common/WordSlider.tsx`
+- `src/components/common/GoldPulseText.tsx`
+- `src/components/common/SectionHeading.tsx`
+- `src/components/box3/Box3.tsx`
+- `src/components/box4/Box4.tsx`
+- `src/components/box5/Box5.tsx`
+- `src/components/box3/Box3Content.tsx`
+- `src/components/box4/Box4Content.tsx`
+- `src/components/box5/Box5Content.tsx`
+- `src/components/box3/cellContent/ConsolidatedSummary.tsx`
+- `src/components/common/HoverText.tsx` (deleted)
+- `src/components/common/HoverTextWrapper.tsx` (deleted)
+- `src/components/common/CardHeader.tsx` (deleted)
+- `src/components/common/Page.tsx` (deleted)
+- `src/components/common/ParagraphSeparator.tsx` (deleted)
+
+### Change Log
+
+- 2026-04-01: Migrated common/leaf components in Story 1.3 from `styled-components` to Tailwind utilities and verified build/dev/browser behavior.
+- 2026-04-01: Completed review workflow for Story 1.3 and closed the story with the `GoldPulseText` reduced-motion patch applied.

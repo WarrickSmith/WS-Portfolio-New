@@ -21,3 +21,10 @@
 - ContactForm.tsx unsafe process.env access — typed as always-present `string` but may be undefined at runtime if .env key is missing. Pre-existing.
 - env.d.ts types ProcessEnv vars as non-optional `string` — hides potential undefined at runtime. Pre-existing pattern.
 - AC7 specifies "accessor functions" but implementation uses `export const` (per Task 7 pattern). Constants evaluate once at import time. Revisit in Story 1.6 when `window.__ENV` is wired up via Docker entrypoint — may need to refactor to lazy accessor functions if injection timing requires it.
+
+## Deferred from: code review of 1-3-component-migration-common-and-leaf-components (2026-04-01)
+
+- WordSlider setTimeout not cleaned up on unmount — inner setTimeout in useEffect not cleared on component unmount, may cause React state-update-on-unmount warning. Pre-existing.
+- CloseButton click event propagates to parent Card onClick — no stopPropagation on button click, event may bubble to Card's handleCardClick. Pre-existing.
+- GoldPulseText card preview titles have no semantic heading role — rendered as `<span>` without ARIA roles. Pre-existing, tracked for Epic 6 accessibility work.
+- Empty words array crashes WordSlider — `(prevIndex + 1) % words.length` produces NaN when words is empty. Pre-existing.
