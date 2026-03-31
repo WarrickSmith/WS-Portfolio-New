@@ -17,15 +17,15 @@ WS-Portfolio-New is a personal portfolio website for Warrick Smith, a full-stack
 
 | Category | Technology | Version |
 |----------|-----------|---------|
-| UI Framework | React + ReactDOM | 19.2.3 |
-| Language | TypeScript | 5.9.2 (strict mode) |
-| Build Tool | Webpack | 5.101.0 |
-| Styling | styled-components | 6.1.19 |
-| Animation | Framer Motion | 12.23.12 |
-| Icons | FontAwesome | 6.4.2 |
-| Email Service | @emailjs/browser | 3.11.0 |
+| UI Framework | React + ReactDOM | 19.2.4 |
+| Language | TypeScript | 6.0.2 (strict mode) |
+| Build Tool | Webpack | 5.105.4 |
+| Styling | styled-components | 6.3.12 |
+| Animation | Framer Motion | 12.38.0 |
+| Icons | FontAwesome | 7.2.0 |
+| Email Service | @emailjs/browser | 4.4.1 |
 | Spam Protection | react-google-recaptcha | 3.1.0 |
-| Runtime | Node.js Alpine | 22.x |
+| Runtime | Node.js Alpine | 24.x |
 | Static Server | serve | latest |
 
 ## Architecture Overview
@@ -34,7 +34,7 @@ WS-Portfolio-New is a personal portfolio website for Warrick Smith, a full-stack
 - **Pattern:** Card-based grid layout with modal expansion
 - **State Management:** Local component state only (`useState`)
 - **Styling:** styled-components with CSS variables and Framer Motion
-- **Deployment:** Docker container (Node.js 22 Alpine) serving static files on port 3000
+- **Deployment:** Docker container (Node.js 24 Alpine) serving static files on port 3000
 - **Hosting:** Behind Nginx Proxy Manager via Portainer
 
 ## Repository Structure

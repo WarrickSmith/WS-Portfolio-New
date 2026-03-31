@@ -2,7 +2,7 @@
 
 ## Infrastructure Overview
 
-- **Container:** Docker (Node.js 22 Alpine)
+- **Container:** Docker (Node.js 24 Alpine)
 - **Static Server:** `serve` package (port 3000)
 - **Reverse Proxy:** Nginx Proxy Manager
 - **Orchestration:** Portainer (Docker stack management)
@@ -13,7 +13,7 @@
 ### Dockerfile Summary
 
 ```dockerfile
-FROM node:22-alpine
+FROM node:24-alpine
 WORKDIR /app
 COPY package*.json ./
 RUN npm install

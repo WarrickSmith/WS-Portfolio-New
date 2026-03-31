@@ -123,7 +123,7 @@ Injected at build time via `dotenv-webpack`. NOT available at runtime. Type-safe
 ## Deployment Architecture
 
 ```
-Docker Build (Node.js 22 Alpine)
+Docker Build (Node.js 24 Alpine)
   ├── npm install
   ├── npm run build (webpack production)
   ├── serve -s dist -l 3000

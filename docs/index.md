@@ -11,11 +11,11 @@
 
 ## Quick Reference
 
-- **Tech Stack:** React 19.2.3 + TypeScript 5.9.2 + Webpack 5.101.0
-- **Styling:** styled-components 6.1.19 + Framer Motion 12.23.12
+- **Tech Stack:** React 19.2.4 + TypeScript 6.0.2 + Webpack 5.105.4
+- **Styling:** styled-components 6.3.12 + Framer Motion 12.38.0
 - **Entry Point:** `src/main.tsx`
 - **Architecture Pattern:** Card-based grid with modal overlays
-- **Deployment:** Docker (Node.js 22 Alpine) → Nginx Proxy Manager → Portainer
+- **Deployment:** Docker (Node.js 24 Alpine) → Nginx Proxy Manager → Portainer
 
 ## Generated Documentation
 

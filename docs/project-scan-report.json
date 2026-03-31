@@ -2,7 +2,7 @@
   "workflow_version": "1.2.0",
   "timestamps": {
     "started": "2026-03-30T11:50:00Z",
-    "last_updated": "2026-03-30T12:05:00Z",
+    "last_updated": "2026-03-31T05:05:00Z",
     "completed": "2026-03-30T12:05:00Z"
   },
   "mode": "initial_scan",
@@ -12,7 +12,7 @@
   "completed_steps": [
     {"step": "step_1", "status": "completed", "timestamp": "2026-03-30T11:52:00Z", "summary": "Classified as monolith with 1 part (web type)"},
     {"step": "step_2", "status": "completed", "timestamp": "2026-03-30T11:53:00Z", "summary": "Found 6 existing docs (README, CLAUDE.md, NGINX-DEPLOYMENT, PR template, .env.example, stack.env.example)"},
-    {"step": "step_3", "status": "completed", "timestamp": "2026-03-30T11:54:00Z", "summary": "Tech stack: React 19.2.3 + TypeScript 5.9.2 + Webpack 5.101.0"},
+    {"step": "step_3", "status": "completed", "timestamp": "2026-03-30T11:54:00Z", "summary": "Tech stack: React 19.2.4 + TypeScript 6.0.2 + Webpack 5.105.4"},
     {"step": "step_4", "status": "completed", "timestamp": "2026-03-30T11:58:00Z", "summary": "Exhaustive scan complete: 27 components, 3 data files, 1 hook, 1 service, 3 type files read"},
     {"step": "step_5", "status": "completed", "timestamp": "2026-03-30T11:59:00Z", "summary": "Source tree documented with 8 critical folders"},
     {"step": "step_6", "status": "completed", "timestamp": "2026-03-30T12:00:00Z", "summary": "Dev setup and deployment guides documented"},
@@ -25,11 +25,11 @@
   "current_step": "completed",
   "findings": {
     "project_classification": "Monolith, 1 part, React 19 + TypeScript + Webpack 5",
-    "technology_stack": "React 19.2.3, TypeScript 5.9.2, Webpack 5.101.0, styled-components 6.1.19, Framer Motion 12.23.12",
+    "technology_stack": "React 19.2.4, TypeScript 6.0.2, Webpack 5.105.4, styled-components 6.3.12, Framer Motion 12.38.0",
     "components": "27 components across 5 card sections + common + service",
     "state_management": "Local useState only, no global state",
     "ui_components": "27 components inventoried (5 layout, 4 preview, 3 content, 9 common, 7 cell)",
-    "deployment": "Docker Node.js 22 Alpine + serve + Nginx Proxy Manager + Portainer"
+    "deployment": "Docker Node.js 24 Alpine + serve + Nginx Proxy Manager + Portainer"
   },
   "project_types": [
     {"part_id": "main", "project_type_id": "web", "display_name": "Web (Frontend SPA)"}

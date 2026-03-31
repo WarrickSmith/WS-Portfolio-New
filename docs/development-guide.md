@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- **Node.js** 22.x (recommended: use nvm)
+- **Node.js** 24.x (recommended: use nvm)
 - **npm** (ships with Node.js)
 - **Docker** (optional, for containerized deployment)
 

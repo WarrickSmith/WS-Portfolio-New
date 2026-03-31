@@ -10,7 +10,7 @@ ws-portfolio-new/
 ├── webpack.common.cjs                  # Shared webpack config (loaders, plugins, output)
 ├── webpack.dev.cjs                     # Dev server (HMR, port 3000, source maps)
 ├── webpack.prod.cjs                    # Production (vendor splitting, tree shaking, 2.5MB limits)
-├── Dockerfile                          # Node.js 22 Alpine, build + serve
+├── Dockerfile                          # Node.js 24 Alpine, build + serve
 ├── docker-compose.yml                  # Container config, env vars as build args
 ├── .env.example                        # Environment variable template
 ├── stack.env.example                   # Portainer stack environment template

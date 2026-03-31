@@ -23,7 +23,7 @@ npm run preview
 
 ## Project Architecture
 
-This is a React 19 + TypeScript personal portfolio application built with webpack and Node.js 22.x. The architecture centers around a **card-based grid layout system** where content is organized into interactive cards that expand into modal overlays.
+This is a React 19.2.4 + TypeScript 6.0.2 personal portfolio application built with webpack and Node.js 24.x. The architecture centers around a **card-based grid layout system** where content is organized into interactive cards that expand into modal overlays.
 
 ### Core Architecture Patterns
 
@@ -77,7 +77,7 @@ Webpack-based build system with standard environment variables for EmailJS integ
 - Cards 1 and 2 are non-interactive (handleCardClick returns early)
 - Card expansion uses absolute positioning with z-index layering
 - Visitor tracking implements privacy-compliant data collection
-- Project uses TypeScript 5.9.2 with strict mode enabled
-- Uses React 19.1.0 with latest features (Actions, useOptimistic, server components)
+- Project uses TypeScript 6.0.2 with strict mode enabled
+- Uses React 19.2.4 with latest stable React 19 minor updates
 - Webpack 5.x with code splitting and chunk optimization
-- Docker deployment with Node.js 22.x for better Portainer compatibility
+- Docker deployment with Node.js 24.x
