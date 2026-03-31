@@ -17,15 +17,15 @@ _This file contains critical rules and patterns that AI agents must follow when 
 
 ## Technology Stack & Versions
 
-- **React** 19.2.3 + ReactDOM 19.2.3 (with TypeScript JSX transform via `react-jsx`)
-- **TypeScript** 5.9.2 — strict mode, ES2022 target, ESNext modules
-- **Webpack** 5.101.0 — ts-loader, dotenv-webpack, code splitting
-- **styled-components** 6.1.19 — primary styling approach
-- **framer-motion** 12.23.12 — animations and layout transitions
-- **@emailjs/browser** 3.11.0 — visitor tracking and contact form
+- **React** 19.2.4 + ReactDOM 19.2.4 (with TypeScript JSX transform via `react-jsx`)
+- **TypeScript** 6.0.2 — strict mode, ES2022 target, ESNext modules
+- **Webpack** 5.105.4 — ts-loader, dotenv-webpack, code splitting
+- **styled-components** 6.3.12 — primary styling approach
+- **framer-motion** 12.38.0 — animations and layout transitions
+- **@emailjs/browser** 4.4.1 — visitor tracking and contact form
 - **react-google-recaptcha** 3.1.0 — form spam protection
-- **FontAwesome** 6.4.2 — icon library (brands, regular, solid)
-- **Node.js** 22.x Alpine — Docker runtime
+- **FontAwesome** 7.2.0 — icon library (brands, regular, solid)
+- **Node.js** 24.x Alpine — Docker runtime
 - **serve** — static file server for production builds (port 3000)
 
 ## Critical Implementation Rules
@@ -83,7 +83,7 @@ _This file contains critical rules and patterns that AI agents must follow when 
 - Valid commit types: `feat`, `fix`, `chore`, `refactor`, `docs`
 - Semantic versioning via git tags (`vX.Y.Z`)
 - Production build: `npm run build` → static output in `/dist`
-- Docker deployment: Node.js 22 Alpine, env vars as build args, served on port 3000
+- Docker deployment: Node.js 24 Alpine, env vars as build args, served on port 3000
 - Dev server: `npm run dev` on port 3000 with HMR
 
 ### Critical Don't-Miss Rules
@@ -120,4 +120,4 @@ _This file contains critical rules and patterns that AI agents must follow when 
 - Review quarterly for outdated rules
 - Remove rules that become obvious over time
 
-Last Updated: 2026-03-30
+Last Updated: 2026-03-31

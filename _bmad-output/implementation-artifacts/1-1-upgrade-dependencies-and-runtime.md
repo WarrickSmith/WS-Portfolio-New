@@ -1,6 +1,6 @@
 # Story 1.1: Upgrade Dependencies and Runtime
 
-Status: ready-for-dev
+Status: done
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -21,28 +21,28 @@ so that the codebase is on a modern, supported stack before any migration or fea
 
 ## Tasks / Subtasks
 
-- [ ] Audit current dependency baseline and choose upgrade targets for this story only. (AC: 1)
-- [ ] Record the starting versions from `package.json` and confirm the runtime baseline from current local tooling.
-  - [ ] Upgrade runtime and package targets to the current stable line: Node 24 LTS, TypeScript 6.0.x, React 19.2.x, Framer Motion 12.38.x, latest Webpack 5.x, plus compatible supporting packages.
-  - [ ] Keep scope disciplined: do not introduce Tailwind/PostCSS/styled-components removal work here; that belongs to Story 1.2+.
-- [ ] Update package manifests and lockfile. (AC: 1, 5)
-  - [ ] Add or update `package.json` `engines.node` to `>=24`.
-  - [ ] Refresh any package versions whose compatibility is required by the upgraded core stack.
-  - [ ] Preserve existing script names and port `3000`.
-- [ ] Update TypeScript configuration for 6.0 compatibility. (AC: 1, 6)
-  - [ ] Review `tsconfig.json` against TypeScript 6.0 defaults and breaking changes.
-  - [ ] Keep explicit `"types": ["node"]` because TypeScript 6.0 no longer auto-enumerates all `@types` packages by default.
-  - [ ] Verify whether `rootDir` should be made explicit to avoid TS 6 output path drift; add it only if the build output shows a changed emit layout.
-- [ ] Run dependency install and resolve upgrade fallout. (AC: 1, 2, 3)
-  - [ ] Fix any compile-time, bundler, or type definition incompatibilities introduced by the upgrades.
-  - [ ] Prefer minimal code changes that preserve current behaviour; avoid opportunistic refactors.
-- [ ] Verify runtime behaviour manually. (AC: 2, 3, 4)
-  - [ ] Run `npm run dev` and confirm the dev server starts on port `3000`.
-  - [ ] Run `npm run build` and confirm production build success.
-  - [ ] Open the site in the browser and confirm no visual regressions in the existing card-grid experience.
-  - [ ] Check browser console for new warnings or runtime errors introduced by the upgrades.
-- [ ] Update project documentation only if the implemented versions differ from current project docs. (AC: 1)
-  - [ ] If actual stable versions exceed the versions named in planning docs, capture that in completion notes so later stories inherit the real baseline.
+- [x] Audit current dependency baseline and choose upgrade targets for this story only. (AC: 1)
+- [x] Record the starting versions from `package.json` and confirm the runtime baseline from current local tooling.
+  - [x] Upgrade runtime and package targets to the current stable line: Node 24 LTS, TypeScript 6.0.x, React 19.2.x, Framer Motion 12.38.x, latest Webpack 5.x, plus compatible supporting packages.
+  - [x] Keep scope disciplined: do not introduce Tailwind/PostCSS/styled-components removal work here; that belongs to Story 1.2+.
+- [x] Update package manifests and lockfile. (AC: 1, 5)
+  - [x] Add or update `package.json` `engines.node` to `>=24`.
+  - [x] Refresh any package versions whose compatibility is required by the upgraded core stack.
+  - [x] Preserve existing script names and port `3000`.
+- [x] Update TypeScript configuration for 6.0 compatibility. (AC: 1, 6)
+  - [x] Review `tsconfig.json` against TypeScript 6.0 defaults and breaking changes.
+  - [x] Keep explicit `"types": ["node"]` because TypeScript 6.0 no longer auto-enumerates all `@types` packages by default.
+  - [x] Verify whether `rootDir` should be made explicit to avoid TS 6 output path drift; add it only if the build output shows a changed emit layout.
+- [x] Run dependency install and resolve upgrade fallout. (AC: 1, 2, 3)
+  - [x] Fix any compile-time, bundler, or type definition incompatibilities introduced by the upgrades.
+  - [x] Prefer minimal code changes that preserve current behaviour; avoid opportunistic refactors.
+- [x] Verify runtime behaviour manually. (AC: 2, 3, 4)
+  - [x] Run `npm run dev` and confirm the dev server starts on port `3000`.
+  - [x] Run `npm run build` and confirm production build success.
+  - [x] Open the site in the browser and confirm no visual regressions in the existing card-grid experience.
+  - [x] Check browser console for new warnings or runtime errors introduced by the upgrades.
+- [x] Update project documentation only if the implemented versions differ from current project docs. (AC: 1)
+  - [x] If actual stable versions exceed the versions named in planning docs, capture that in completion notes so later stories inherit the real baseline.
 
 ## Dev Notes
 
@@ -134,12 +134,67 @@ gpt-5
 ### Debug Log References
 
 - Story prepared from planning artifacts, architecture, UX spec, project context, current repo manifests/config, npm registry checks, and Node dist index data.
+- 2026-03-31 18:01 NZDT: Confirmed local runtime baseline `node v24.12.0`, `npm 11.7.0`; verified npm registry targets for TypeScript `6.0.2`, React `19.2.4`, Framer Motion `12.38.0`, Webpack `5.105.4`, `webpack-cli` `7.0.2`, and `webpack-dev-server` `5.2.3`.
+- 2026-03-31 18:03 NZDT: `npm install` completed after manifest upgrades; refreshed `package-lock.json` and aligned Docker runtime to Node 24 Alpine.
+- 2026-03-31 18:04 NZDT: TS 6 build failures required explicit `rootDir: "./src"`, `moduleResolution: "bundler"`, and a relative alias path entry `./src/*`.
+- 2026-03-31 18:05 NZDT: Fixed dev-server upgrade fallout by removing redundant `devServer.static.directory` serving from `dist` and correcting the favicon path to `/favicon.ico`.
+- 2026-03-31 18:06 NZDT: Manual smoke verification completed with headless Chrome against `http://127.0.0.1:3000`; landing page card grid rendered without visible regressions.
+- 2026-03-31 18:09 NZDT: Review follow-up pass confirmed three valid stale version references and corrected them in `docs/deployment-guide.md`, `NGINX-DEPLOYMENT.md`, and `CLAUDE.md`.
+
+### Implementation Plan
+
+- Update top-level package versions and add `engines.node >=24` while preserving existing scripts and the dev server port.
+- Keep the TypeScript 6 guardrail of explicit `"types": ["node"]`, and only add `rootDir` if the upgraded compiler changes emit layout.
+- Run install, resolve any Webpack/TypeScript compatibility fallout with minimal code changes, then verify `npm run build` and `npm run dev`.
 
 ### Completion Notes List
 
 - Story scope intentionally excludes Tailwind integration and component migration.
 - Latest stable versions were captured on 2026-03-31 so the dev agent can implement against the real ecosystem baseline, not just the planning draft.
+- Upgraded the runtime baseline to Node 24 with `package.json` `engines.node >=24`, Docker `node:24-alpine`, TypeScript `6.0.2`, React `19.2.4`, Framer Motion `12.38.0`, Webpack `5.105.4`, `webpack-cli` `7.0.2`, and `webpack-dev-server` `5.2.3`.
+- Updated `tsconfig.json` for TypeScript 6 by keeping explicit `"types": ["node"]`, adding `rootDir`, switching `moduleResolution` to `bundler`, and making the alias path entry explicitly relative.
+- Preserved existing scripts and port `3000`; `npm run build` now succeeds and `npm run dev` serves the app cleanly on normal browser GET traffic.
+- Manual verification used headless Chrome screenshot and DOM capture against the live dev server; the existing card-grid landing page rendered correctly with no visible regression in the current experience.
+- Project docs and agent context were updated to reflect the real post-upgrade baseline so later stories inherit the actual versions rather than the planning snapshot.
+- Resolved review patch findings for stale version references in embedded Dockerfile snippets and the Claude guidance doc, then re-ran `npm run build` successfully.
+- Code review completed with all patch findings resolved; no decision-needed items remained open, so the story is complete.
 
 ### File List
 
-- /home/warrick/Dev/WS-Portfolio-New/_bmad-output/implementation-artifacts/1-1-upgrade-dependencies-and-runtime.md
+- CLAUDE.md
+- Dockerfile
+- NGINX-DEPLOYMENT.md
+- _bmad-output/implementation-artifacts/1-1-upgrade-dependencies-and-runtime.md
+- _bmad-output/project-context.md
+- docs/architecture.md
+- docs/deployment-guide.md
+- docs/development-guide.md
+- docs/index.md
+- docs/project-overview.md
+- docs/project-scan-report.json
+- docs/source-tree-analysis.md
+- index.html
+- package-lock.json
+- package.json
+- tsconfig.json
+- webpack.dev.cjs
+
+### Change Log
+
+- 2026-03-31: Upgraded the project runtime and dependency baseline to Node 24 / TypeScript 6, resolved TS 6 and webpack-dev-server compatibility issues, and updated versioned documentation to the new baseline.
+- 2026-03-31: Addressed code review patch findings for stale version references in deployment docs and `CLAUDE.md`.
+- 2026-03-31: Code review workflow completed; Story 1.1 advanced from `review` to `done`.
+
+### Review Findings
+
+- [x] [Review][Patch] Stale Node 22 in docs/deployment-guide.md embedded Dockerfile code block [docs/deployment-guide.md:16]
+- [x] [Review][Patch] Stale Node 22 in NGINX-DEPLOYMENT.md embedded Dockerfile code block [NGINX-DEPLOYMENT.md:56]
+- [x] [Review][Patch] Stale version references in CLAUDE.md — Node.js 22.x, TypeScript 5.9.2, React 19.1.0 [CLAUDE.md:26,80,81,83]
+- [x] [Review][Defer] Dead dependencies: react-server-dom-parcel and react-server-dom-webpack unused in client SPA [package.json:25-26] — deferred, pre-existing
+- [x] [Review][Defer] TypeScript in dependencies instead of devDependencies [package.json:28] — deferred, pre-existing
+- [x] [Review][Defer] Dev server static serving removal — correct change, CopyWebpackPlugin handles assets, old config served from ./dist redundantly [webpack.dev.cjs] — deferred, documented behavioral change
+- [x] [Review][Defer] declaration: true emits .d.ts files into dist alongside webpack output [tsconfig.json] — deferred, pre-existing
+- [x] [Review][Defer] Favicon MIME type should be image/x-icon not image/ico [index.html] — deferred, pre-existing
+- [x] [Review][Defer] serve installed globally in Docker production image [Dockerfile] — deferred, pre-existing
+- [x] [Review][Defer] @types/node ^24.12.0 — may lag behind TS 6.0 recommended major, but aligns with Node 24 runtime [package.json] — deferred, debatable
+- [x] [Review][Defer] tsconfig paths without baseUrl is dead config — no source files use @/ imports [tsconfig.json] — deferred, not harmful
