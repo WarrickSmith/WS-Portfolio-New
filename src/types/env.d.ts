@@ -8,5 +8,23 @@ declare namespace NodeJS {
     RECAPTCHA_SITE_KEY: string;
     DEBUG_VISITOR_TRACKING: string;
     API_URL: string;
+    ENABLE_VISITOR_TRACKING: string;
   }
 }
+
+interface RuntimeEnv {
+  EMAILJS_SERVICE_ID?: string;
+  EMAILJS_TEMPLATE_ID?: string;
+  EMAILJS_CONTACT_TEMPLATE_ID?: string;
+  EMAILJS_PUBLIC_KEY?: string;
+  RECAPTCHA_SITE_KEY?: string;
+  DEBUG_VISITOR_TRACKING?: string;
+  API_URL?: string;
+  ENABLE_VISITOR_TRACKING?: string;
+}
+
+interface Window {
+  __ENV?: RuntimeEnv;
+}
+
+declare module '*.css';

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { MainContainer } from './components/common/GridComponents'
 import { MainPage } from './components/MainPage'
 import { VisitorTracker } from './components/VisitorTracker'
+import './styles/main.css'
 
 const App = () => {
   const [containerHeight, setContainerHeight] = useState(window.innerHeight)
