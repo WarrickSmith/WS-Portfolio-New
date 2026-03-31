@@ -1,5 +1,0 @@
-[projects."/home/warrick/Dev/WS-Portfolio-New"]
-trust_level = "trusted"
-
-[plugins."github@openai-curated"]
-enabled = true
