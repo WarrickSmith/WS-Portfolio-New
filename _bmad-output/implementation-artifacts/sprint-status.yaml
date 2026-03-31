@@ -1,5 +1,5 @@
 # generated: 2026-03-31 14:15:44 NZDT
-# last_updated: 2026-03-31 14:15:44 NZDT
+# last_updated: 2026-03-31 17:27:48 NZDT
 # project: WS-Portfolio-New
 # project_key: NOKEY
 # tracking_system: file-system
@@ -35,15 +35,15 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-03-31 14:15:44 NZDT
-last_updated: 2026-03-31 14:15:44 NZDT
+last_updated: 2026-03-31 17:27:48 NZDT
 project: WS-Portfolio-New
 project_key: NOKEY
 tracking_system: file-system
 story_location: /home/warrick/Dev/WS-Portfolio-New/_bmad-output/implementation-artifacts
 
 development_status:
-  epic-1: backlog
-  1-1-upgrade-dependencies-and-runtime: backlog
+  epic-1: in-progress
+  1-1-upgrade-dependencies-and-runtime: ready-for-dev
   1-2-tailwind-css-integration-and-utility-helpers: backlog
   1-3-component-migration-common-and-leaf-components: backlog
   1-4-component-migration-feature-components-and-folder-renames: backlog
