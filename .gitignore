@@ -23,3 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 .env
+.codex/
+.agent/
+.agents/
+.claude/
