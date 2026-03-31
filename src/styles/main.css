@@ -80,6 +80,9 @@
   --animate-emphasis: emphasis 500ms var(--ease-standard);
   --animate-ambient: ambient 45s linear infinite;
   --animate-signature: signature 1.5s var(--ease-signature) infinite;
+  --animate-gold-pulse: gold-pulse 1.5s ease-in-out infinite;
+  --animate-slide-in: slide-in 1s forwards;
+  --animate-slide-out: slide-out 1s forwards;
 
   --breakpoint-tablet: 48rem;
   --breakpoint-desktop: 62.5rem;
@@ -133,5 +136,40 @@
 
   50% {
     text-shadow: 0 0 18px oklch(from #ffb400 l c h / 35%);
+  }
+}
+
+@keyframes gold-pulse {
+  0%,
+  100% {
+    text-shadow: 0 0 0 transparent;
+  }
+
+  50% {
+    text-shadow: 0 0 18px oklch(from #ffb400 l c h / 35%);
+  }
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-out {
+  from {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+
+  to {
+    transform: translateX(100%);
+    opacity: 0;
   }
 }

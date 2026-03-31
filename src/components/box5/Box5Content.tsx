@@ -1,7 +1,7 @@
 import styled from 'styled-components'
-import CardHeader from '../common/CardHeader'
 import ContactMe from './ContactMe'
 import ContactForm from './ContactForm'
+import SectionHeading from '../common/SectionHeading'
 
 const ContactContainer = styled.div`
   display: grid;
@@ -20,7 +20,7 @@ const ContactContainer = styled.div`
 const Box5Content = () => {
   return (
     <>
-      <CardHeader words={['Get', 'In', 'Touch']} icon={'faEnvelopeOpen'} />
+      <SectionHeading>Get In Touch</SectionHeading>
       <ContactContainer>
         <ContactMe />
         <ContactForm />

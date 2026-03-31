@@ -1,8 +1,8 @@
 import styled from 'styled-components'
-import CardHeader from '../common/CardHeader'
 import BulletPoints from '../common/BulletPoints'
 import portfolioData from '../../data/portfolioData'
 import FaIcon from '../common/FaIcon'
+import SectionHeading from '../common/SectionHeading'
 
 const ImageContainer = styled.div`
   display: grid;
@@ -49,7 +49,7 @@ const ProjectTitle = styled.h3`
 const Box4Content = () => {
   return (
     <>
-      <CardHeader words={['My', 'Portfolio']} icon={'faSuitcase'} />
+      <SectionHeading>My Portfolio</SectionHeading>
       <ActionContainer>
         <ActionButton
           href={'https://github.com/WarrickSmith?tab=repositories'}

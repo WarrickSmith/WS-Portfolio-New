@@ -1,14 +1,11 @@
-import HoverText from '../common/HoverText'
-import HoverTextWrapper from '../common/HoverTextWrapper'
-
-const words = ['About', 'Me']
+import GoldPulseText from '../common/GoldPulseText'
 
 const Box3: React.FC = () => {
-
   return (
-        <HoverTextWrapper>
-          <HoverText words={words} />
-        </HoverTextWrapper>
+    <GoldPulseText>
+      <span className="text-text-primary">About</span>{'\u00A0'}
+      <span className="text-text-accent">Me</span>
+    </GoldPulseText>
   )
 }
 

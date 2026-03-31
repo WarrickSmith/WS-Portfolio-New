@@ -1,7 +1,5 @@
 import styled from 'styled-components'
-import Page from '../../common/Page'
 import FaIcon from '../../common/FaIcon'
-import ParagraphSeparator from '../../common/ParagraphSeparator'
 import consolidatedProfile from '../../../data/consolidatedProfile'
 
 const {
@@ -157,7 +155,10 @@ const ConsolidatedSummary = () => {
   }
 
   return (
-    <Page>
+    <div
+      className="grid w-full rounded-radius-sm bg-bg-card-hover text-body-sm font-light text-text-primary"
+      style={{ fontSize: 'var(--fs-xsm)' }}
+    >
       <SummaryStats>
         <StatItem>
           <StatValue>{totalYearsExperience}</StatValue>
@@ -185,7 +186,9 @@ const ConsolidatedSummary = () => {
               </Period>
               <Description>{item.description}</Description>
             </ContentContainer>
-            {index < experience.length - 1 && <ParagraphSeparator />}
+            {index < experience.length - 1 && (
+              <hr className="mx-auto h-px w-1/2 border-0 bg-accent-primary" />
+            )}
           </div>
         ))}
       </Section>
@@ -203,7 +206,9 @@ const ConsolidatedSummary = () => {
               </Period>
               <Description>{item.description}</Description>
             </ContentContainer>
-            {index < education.length - 1 && <ParagraphSeparator />}
+            {index < education.length - 1 && (
+              <hr className="mx-auto h-px w-1/2 border-0 bg-accent-primary" />
+            )}
           </div>
         ))}
       </Section>
@@ -233,7 +238,7 @@ const ConsolidatedSummary = () => {
           ))}
         </AdaptabilitySection>
       </Section>
-    </Page>
+    </div>
   )
 }
 

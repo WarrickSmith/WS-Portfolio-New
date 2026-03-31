@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import CardHeader from '../common/CardHeader'
 import FaIcon from '../common/FaIcon'
+import SectionHeading from '../common/SectionHeading'
 import Cell1 from './cellContent/Cell1'
 import Cell2 from './cellContent/Cell2'
 import Cell3 from './cellContent/Cell3'
@@ -73,7 +73,7 @@ const FlexContainer = styled.div`
 const Box3Content = () => {
   return (
     <>
-      <CardHeader words={['About', 'Me']} icon={'faIdCard'} />
+      <SectionHeading>About Me</SectionHeading>
       <Box3Container>
         <MainText>
           <FlexContainer>
