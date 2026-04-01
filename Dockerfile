@@ -1,44 +1,27 @@
-# Use Node.js 24
-FROM node:24-alpine
+FROM node:24-alpine AS build
 
-# Set working directory
 WORKDIR /app
 
-# Copy package files
 COPY package*.json ./
+RUN npm ci
 
-# Install dependencies
-RUN npm install
-
-# Copy source code
 COPY . .
-
-# Accept build arguments for environment variables
-ARG API_URL
-ARG EMAILJS_SERVICE_ID
-ARG EMAILJS_TEMPLATE_ID
-ARG EMAILJS_CONTACT_TEMPLATE_ID
-ARG EMAILJS_PUBLIC_KEY
-ARG RECAPTCHA_SITE_KEY
-ARG DEBUG_VISITOR_TRACKING
-
-# Set environment variables for build
-ENV API_URL=$API_URL
-ENV EMAILJS_SERVICE_ID=$EMAILJS_SERVICE_ID
-ENV EMAILJS_TEMPLATE_ID=$EMAILJS_TEMPLATE_ID
-ENV EMAILJS_CONTACT_TEMPLATE_ID=$EMAILJS_CONTACT_TEMPLATE_ID
-ENV EMAILJS_PUBLIC_KEY=$EMAILJS_PUBLIC_KEY
-ENV RECAPTCHA_SITE_KEY=$RECAPTCHA_SITE_KEY
-ENV DEBUG_VISITOR_TRACKING=$DEBUG_VISITOR_TRACKING
-
-# Build the application
 RUN npm run build
 
-# Install serve globally
-RUN npm install -g serve
+FROM node:24-alpine AS runtime
 
-# Expose port
+WORKDIR /app
+
+ENV NODE_ENV=production
+
+RUN npm install -g serve@14.2.5 --no-audit --no-fund \
+  && npm cache clean --force
+
+COPY --from=build /app/dist ./dist
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
 EXPOSE 3000
 
-# Start the application
-CMD ["serve", "-s", "dist", "-l", "3000"]
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
