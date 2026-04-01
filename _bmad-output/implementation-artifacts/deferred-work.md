@@ -71,14 +71,14 @@ Maps every deferred item to its natural resolution point. Items without a clear 
 | Dual CSS reset (Tailwind preflight + GlobalStyle) | 1.2 review | **Resolved** — GlobalStyle.ts deleted |
 | oklch relative color syntax — no CSS fallbacks | 1.2 review | **Resolved** — reviewed during 1.5, no action needed |
 
-### Target: Story 1.6 (Docker Build & Runtime Environment)
+### ~~Target: Story 1.6 (Docker Build & Runtime Environment)~~ — RESOLVED
 
-| Item | Origin | Notes |
-|------|--------|-------|
-| `serve` installed globally in Docker (attack surface) | 1.1 review | Consider copying from node_modules |
-| AC7 constants vs accessor functions for env | 1.2 review | Revisit when `window.__ENV` is wired up |
-| ContactForm unsafe `process.env` access (may be undefined) | 1.2 review | Fix when env pattern is finalized |
-| `env.d.ts` types ProcessEnv vars as non-optional string | 1.2 review | Fix alongside process.env cleanup |
+| Item | Origin | Status |
+|------|--------|--------|
+| `serve` installed globally in Docker (attack surface) | 1.1 review | **Partially resolved** — pinned to `serve@14.2.5` |
+| AC7 constants vs accessor functions for env | 1.2 review | **Resolved** — `readEnv()` works with runtime injection |
+| ContactForm unsafe `process.env` access (may be undefined) | 1.2 review | **Resolved** — imports from `env.ts` gateway |
+| `env.d.ts` types ProcessEnv vars as non-optional string | 1.2 review | **Resolved** — all fields now optional |
 
 ### Target: Epic 6 (Accessibility)
 
@@ -94,3 +94,18 @@ Maps every deferred item to its natural resolution point. Items without a clear 
 | WordSlider setTimeout not cleaned up on unmount | 1.3 review | May cause state-update-on-unmount warning |
 | CloseButton click event propagates to parent Card | 1.3 review | **Resolved** — stopPropagation added in Story 1.5 |
 | Empty words array crashes WordSlider (modulo by zero) | 1.3 review | Produces NaN index |
+
+## Deferred from: code review of 1-6-docker-build-and-runtime-environment (2026-04-01)
+
+- Debug logging effect fires multiple times per tracking cycle — VisitorTracker.tsx second useEffect fires on every isLoading/error/isRateLimited state change. Gated behind DEBUG_VISITOR_TRACKING. Dev-only, low impact.
+- `serve@14.2.5` pinned without justification comment — Dockerfile pins serve version. Good practice but no comment explaining why.
+- No build-output validation in Dockerfile — If webpack build silently fails to produce dist/ content, Docker image serves empty directory. Pre-existing pattern.
+- `npm start` without `.env` silently produces non-functional features — Pre-existing. dotenv-webpack allows missing .env. Documented in .env.example.
+- `.env` has EMAILJS_PUBLIC_KEY commented out — Pre-existing local config issue. Silent failure when tracking enabled without debug flag.
+
+### Resolved by Story 1.6
+
+- `env.d.ts` types ProcessEnv vars as non-optional string — **resolved**: all fields now optional.
+- AC7 constants vs accessor functions for env — **resolved**: `readEnv()` reads `window.__ENV` at call time; module-level constants work correctly with runtime injection.
+- ContactForm unsafe `process.env` access — **resolved**: ContactForm imports from `env.ts` gateway with empty-string guards.
+- `serve` installed globally in Docker — **partially resolved**: still global install but pinned to `serve@14.2.5`.

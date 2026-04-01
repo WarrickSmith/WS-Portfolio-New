@@ -1,6 +1,6 @@
 # Story 1.6: Docker Build and Runtime Environment
 
-Status: review
+Status: done
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -257,6 +257,6 @@ GPT-5 Codex
 
 ### Change Log
 
-- 2026-04-01: Reviewed post-CR findings — dismissed the `trackVisitor` dependency-array note as non-actionable and added `public/config.js` to git tracking.
+- 2026-04-01: Completed the review workflow — dismissed the `trackVisitor` dependency-array note, resolved the `public/config.js` tracking patch, and advanced Story 1.6 to `done`.
 - 2026-04-01: Code review completed — 1 decision-needed, 1 patch, 5 deferred, 8 dismissed.
 - 2026-04-01: Implemented Story 1.6 runtime Docker environment delivery, env-gateway hardening, visitor-tracking flag gating, and full manual Docker/dev verification.
