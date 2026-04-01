@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import styled from 'styled-components'
 import { motion } from 'framer-motion'
 
 interface Props {
@@ -10,74 +9,40 @@ interface Props {
   target: string
 }
 
-const Container = styled(motion.a)`
-  position: relative;
-  cursor: pointer;
-  text-decoration: none;
-  border-radius: 0.5rem;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  height: 100%;
-  overflow: hidden;
-`
-
-const TextContainer = styled(motion.div)`
-  font-size: 1.5rem;
-  position: relative;
-  background-color: var(--color-alt);
-  height: 100%;
-`
-
-const Title = styled(motion.div)`
-  font-size: var(--fs-sm);
-  color: white;
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
-
-const Bullets = styled(motion.ul)`
-  color: white;
-  font-size: var(--fs-xsm);
-`
-
-const BulletPoint = styled(motion.li)`
-  font-size: var(--fs-xsm);
-`
-
 const BulletPoints: React.FC<Props> = ({ href, title, points, image, target }) => {
   const [isHovered, setIsHovered] = useState(false)
 
   return (
-    <Container
+    <motion.a
       href={href}
-      initial={{ backgroundImage: `url(${image})` }}
-      whileHover={{
-        backgroundImage: 'none',
-        transition: { duration: 0.5 },
-      }}
+      target={target}
+      rel={target === '_blank' ? 'noreferrer' : undefined}
+      className="relative block h-full overflow-hidden rounded-radius-sm bg-center bg-no-repeat text-text-primary no-underline"
+      style={{ backgroundImage: `url(${image})`, backgroundSize: 'contain' }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      target={target}
+      onFocus={() => setIsHovered(true)}
+      onBlur={() => setIsHovered(false)}
     >
-      <TextContainer
-        initial={{ opacity: 0, translateY: '100%' }}
+      <motion.div
+        className="flex h-full flex-col bg-accent-primary"
+        initial={false}
         animate={{
           opacity: isHovered ? 1 : 0,
-          translateY: isHovered ? '0%' : '100%',
+          y: isHovered ? '0%' : '100%',
         }}
         transition={{ duration: 0.5 }}
       >
-        <Title>{title}</Title>
-        <Bullets>
+        <div className="flex min-h-20 items-center justify-center px-4 pt-4 text-center text-callout font-semibold">
+          {title}
+        </div>
+        <ul className="m-0 flex-1 list-disc px-8 pb-6 text-supporting leading-relaxed">
           {points.map((point, index) => (
-            <BulletPoint key={index}>{point}</BulletPoint>
+            <li key={`${title}_${index}`}>{point}</li>
           ))}
-        </Bullets>
-      </TextContainer>
-    </Container>
+        </ul>
+      </motion.div>
+    </motion.a>
   )
 }
 
