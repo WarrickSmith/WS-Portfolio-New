@@ -65,16 +65,10 @@ const ContactForm = () => {
       onSubmit={sendEmail}
       className="flex flex-col items-center"
     >
-      <h3
-        className="mt-0 mb-spacing-3 font-medium text-text-accent"
-        style={{ fontSize: 'var(--fs-sm)' }}
-      >
+      <h3 className="mt-0 mb-spacing-3 text-callout font-medium text-text-accent">
         FEEL FREE TO DROP ME A NOTE
       </h3>
-      <p
-        className="mb-spacing-3 font-normal text-text-primary"
-        style={{ fontSize: 'var(--fs-xsm)' }}
-      >
+      <p className="mb-spacing-3 text-supporting font-normal text-text-primary">
         If you have any suggestions, job opportunities, project or even you
         want to say Hello.. please fill out the form below and I will reply you
         shortly.
@@ -87,8 +81,7 @@ const ContactForm = () => {
           placeholder="Your Name"
           required
           onFocus={handleInputFocus}
-          className="m-4 w-full border-0 border-b border-border-subtle bg-bg-card px-4 py-4 font-normal text-text-primary outline-none focus:border-border-accent"
-          style={{ fontSize: 'var(--fs-xsm)' }}
+          className="m-4 w-full border-0 border-b border-border-subtle bg-bg-card px-4 py-4 text-supporting font-normal text-text-primary outline-none focus:border-border-accent"
         />
       </span>
       <span className="flex w-full items-center">
@@ -99,8 +92,7 @@ const ContactForm = () => {
           placeholder="Your Email"
           required
           onFocus={handleInputFocus}
-          className="m-4 w-full border-0 border-b border-border-subtle bg-bg-card px-4 py-4 font-normal text-text-primary outline-none focus:border-border-accent"
-          style={{ fontSize: 'var(--fs-xsm)' }}
+          className="m-4 w-full border-0 border-b border-border-subtle bg-bg-card px-4 py-4 text-supporting font-normal text-text-primary outline-none focus:border-border-accent"
         />
       </span>
       <span className="flex w-full items-center">
@@ -111,8 +103,7 @@ const ContactForm = () => {
           rows={1}
           required
           onFocus={handleInputFocus}
-          className="m-4 w-full border-0 border-b border-border-subtle bg-bg-card px-4 py-4 font-normal text-text-primary outline-none focus:border-border-accent"
-          style={{ fontSize: 'var(--fs-xsm)' }}
+          className="m-4 w-full border-0 border-b border-border-subtle bg-bg-card px-4 py-4 text-supporting font-normal text-text-primary outline-none focus:border-border-accent"
         />
       </span>
       <ReCAPTCHA
@@ -125,7 +116,7 @@ const ContactForm = () => {
         type="submit"
         value={sendStatus ? sendStatus.toUpperCase() : 'SEND MESSAGE'}
         className={cn(
-          'm-4 w-full rounded-radius-sm bg-accent-primary px-4 py-4 font-bold text-text-primary',
+          'm-4 w-full rounded-radius-sm bg-accent-primary px-4 py-4 text-supporting font-bold text-text-primary',
           'hover:cursor-pointer',
           sendStatus === 'SENDING EMAIL...' &&
             'pointer-events-none border-2 border-info bg-bg-card text-text-accent opacity-50',
@@ -135,7 +126,6 @@ const ContactForm = () => {
             'border-2 border-red-400 bg-bg-card text-red-400',
           !captchaValid && 'pointer-events-none opacity-50'
         )}
-        style={{ fontSize: 'var(--fs-xsm)' }}
       />
     </form>
   )

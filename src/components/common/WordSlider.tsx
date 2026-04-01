@@ -38,11 +38,10 @@ const WordSlider = ({ words }: WordSliderProps) => {
     <div className="flex w-full items-center justify-center">
       <span
         className={cn(
-          'text-text-accent',
+          'text-emphasis text-text-accent',
           animateIn && 'animate-slide-in',
           animateOut && 'animate-slide-out'
         )}
-        style={{ fontSize: 'var(--fs-med)' }}
       >
         {words[currentWordIndex]}
       </span>

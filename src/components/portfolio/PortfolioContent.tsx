@@ -12,8 +12,7 @@ const PortfolioContent = () => {
           href="https://github.com/WarrickSmith?tab=repositories"
           target="_blank"
           rel="noreferrer"
-          className="mt-4 inline-block rounded-radius-sm bg-accent-primary px-4 py-2 text-center text-text-primary no-underline"
-          style={{ fontSize: 'var(--fs-xsm)' }}
+          className="mt-4 inline-block rounded-radius-sm bg-accent-primary px-4 py-2 text-center text-supporting text-text-primary no-underline"
         >
           {`VIEW MY REPOS ON GITHUB' ${'\u00A0'}`}
           <FaIcon icon="faGithub" />

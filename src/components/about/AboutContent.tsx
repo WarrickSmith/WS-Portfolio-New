@@ -29,50 +29,33 @@ const AboutContent = () => {
               icon="faUser"
               className="mr-2 mb-spacing-3 text-text-primary"
             />
-            <h3
-              className="text-body-sm font-medium text-text-accent"
-              style={{ fontSize: 'var(--fs-sm)' }}
-            >
+            <h3 className="text-callout font-medium text-text-accent">
               PERSONAL INFORMATION
             </h3>
           </div>
-          <p
-            className="mb-spacing-6 text-center font-normal text-text-primary"
-            style={{ fontSize: 'var(--fs-xsm)' }}
-          >
+          <p className="mb-spacing-6 text-center text-supporting font-normal text-text-primary">
             I am a Full Stack Web Developer based in Auckland, New Zealand. My
             passion is for all things technology and I am a continous learner.
           </p>
         </div>
 
-        <div className="grid gap-6 max-md:grid-cols-2 max-[550px]:grid-cols-1">
+        <div className="grid grid-cols-1 gap-6 min-[551px]:grid-cols-2">
           <a
             href="https://github.com/WarrickSmith?tab=repositories"
             target="_blank"
             rel="noreferrer"
-            className="bg-accent-primary p-4 text-left font-medium text-text-primary no-underline max-md:text-center"
-            style={{ fontSize: 'var(--fs-xsm)' }}
+            className="self-start bg-accent-primary p-4 text-left text-supporting font-medium text-text-primary no-underline max-md:text-center"
           >
             {`MY GITHUB REPOS' ${'\u00A0'}`}
             <FaIcon icon="faGithub" />
           </a>
 
-          <div className="grid w-full gap-4 sm:grid-cols-2 max-[550px]:grid-cols-1">
+          <div className="grid w-full grid-cols-1 gap-4 min-[551px]:grid-cols-2">
             <div>
               {personalInfo.map(([label, value]) => (
-                <div key={label} className="mb-spacing-3">
-                  <span
-                    className="font-medium text-text-accent"
-                    style={{ fontSize: 'var(--fs-xsm)' }}
-                  >
-                    {label}
-                  </span>
-                  <span
-                    className="ml-4 font-normal text-text-primary"
-                    style={{ fontSize: 'var(--fs-xsm)' }}
-                  >
-                    {value}
-                  </span>
+                <div key={label} className="mb-spacing-3 text-supporting">
+                  <span className="font-medium text-text-accent">{label}</span>
+                  <span className="ml-4 font-normal text-text-primary">{value}</span>
                 </div>
               ))}
             </div>
@@ -85,38 +68,23 @@ const AboutContent = () => {
 
         <div className="flex w-full flex-col gap-4 py-4 max-md:hidden">
           <div className="grid w-4/5 justify-items-center gap-2 self-center text-center">
-            <span
-              className="text-text-primary"
-              style={{ fontSize: 'var(--fs-lge)' }}
-            >
+            <span className="text-metric text-text-primary">
               <FaIcon icon="faBriefcase" />
             </span>
-            <p
-              className="m-0 font-extrabold text-text-accent"
-              style={{ fontSize: 'var(--fs-lge)' }}
-            >
+            <p className="m-0 text-metric font-extrabold text-text-accent">
               {yearsExperience}+
             </p>
-            <p
-              className="font-bold text-text-primary"
-              style={{ fontSize: 'var(--fs-xsm)' }}
-            >
+            <p className="text-supporting font-bold text-text-primary">
               YEARS DEVELOPER EXPERIENCE
             </p>
           </div>
         </div>
 
         <div className="w-full">
-          <div
-            className="grid w-full rounded-radius-sm bg-bg-card-hover font-light text-text-primary"
-            style={{ fontSize: 'var(--fs-xsm)' }}
-          >
+          <div className="grid w-full rounded-radius-sm bg-bg-card-hover text-supporting font-light text-text-primary">
             <div className="mb-8 flex items-center justify-center gap-8 rounded-radius-sm bg-bg-card p-4 text-center max-md:grid max-md:grid-cols-1">
               <div>
-                <div
-                  className="font-semibold text-text-accent"
-                  style={{ fontSize: 'var(--fs-lge)' }}
-                >
+                <div className="text-metric font-semibold text-text-accent">
                   {consolidatedProfile.totalYearsExperience}
                 </div>
                 <div className="text-caption uppercase text-text-tertiary">
@@ -124,10 +92,7 @@ const AboutContent = () => {
                 </div>
               </div>
               <div>
-                <div
-                  className="font-semibold text-text-accent"
-                  style={{ fontSize: 'var(--fs-lge)' }}
-                >
+                <div className="text-metric font-semibold text-text-accent">
                   {consolidatedProfile.skills.length}
                 </div>
                 <div className="text-caption uppercase text-text-tertiary">
@@ -135,10 +100,7 @@ const AboutContent = () => {
                 </div>
               </div>
               <div>
-                <div
-                  className="font-semibold text-text-accent"
-                  style={{ fontSize: 'var(--fs-lge)' }}
-                >
+                <div className="text-metric font-semibold text-text-accent">
                   {consolidatedProfile.education.length}
                 </div>
                 <div className="text-caption uppercase text-text-tertiary">
@@ -231,22 +193,13 @@ const AboutContent = () => {
 
         <div className="max-md:block md:hidden">
           <div className="grid w-4/5 justify-items-center gap-2 text-center">
-            <span
-              className="text-text-primary"
-              style={{ fontSize: 'var(--fs-lge)' }}
-            >
+            <span className="text-metric text-text-primary">
               <FaIcon icon="faBriefcase" />
             </span>
-            <p
-              className="m-0 font-extrabold text-text-accent"
-              style={{ fontSize: 'var(--fs-lge)' }}
-            >
+            <p className="m-0 text-metric font-extrabold text-text-accent">
               {yearsExperience}+
             </p>
-            <p
-              className="font-bold text-text-primary"
-              style={{ fontSize: 'var(--fs-xsm)' }}
-            >
+            <p className="text-supporting font-bold text-text-primary">
               YEARS DEVELOPER EXPERIENCE
             </p>
           </div>
