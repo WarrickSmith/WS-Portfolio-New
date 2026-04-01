@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from 'react'
 import emailjs from '@emailjs/browser'
+import { EMAILJS_PUBLIC_KEY, EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID } from '../config/env'
 import { VisitorData, RateLimitConfig } from '../types/visitor.types'
 import { IpGeolocationService } from '../services/ipGeolocationService'
 
@@ -70,9 +71,9 @@ export const useVisitorTracker = () => {
   const sendVisitorNotification = useCallback(
     async (visitorData: VisitorData): Promise<boolean> => {
       try {
-        const serviceId = process.env.EMAILJS_SERVICE_ID
-        const templateId = process.env.EMAILJS_TEMPLATE_ID
-        const publicKey = process.env.EMAILJS_PUBLIC_KEY
+        const serviceId = EMAILJS_SERVICE_ID
+        const templateId = EMAILJS_TEMPLATE_ID
+        const publicKey = EMAILJS_PUBLIC_KEY
 
         if (!serviceId || !templateId || !publicKey) {
           throw new Error('EmailJS configuration missing')
