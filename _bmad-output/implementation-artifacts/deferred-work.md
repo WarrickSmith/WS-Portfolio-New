@@ -36,6 +36,19 @@
 - closeCard state churn — setIsClosed(true) + setSelectedId(null) then useEffect resets isClosed, causing extra render cycle. Pre-existing pattern.
 - EmailJS empty string silent failure — ContactForm passes env values to emailjs.sendForm() with no empty-string check, unlike useVisitorTracker which guards. Pre-existing.
 
+## Deferred from: code review of 1-5-styled-components-removal-and-dead-code-cleanup (2026-04-01)
+
+- Token naming convention inconsistency — semantic names (`text-supporting`, `text-callout`, `text-emphasis`, `text-metric`) don't follow the existing size-based pattern (`text-caption`, `text-body-sm`, `text-body-lg`). Design decision, not a regression.
+- `body { font-weight: 700 }` global bold default — all descendants inherit bold unless explicitly overridden. Carried over from GlobalStyle.ts per Task 1 instructions.
+- BulletPoints `<ul>` with `flex-1` has no overflow clamp — long bullet lists could push beyond card bounds when many items are present.
+- WordSlider empty `words` array modulo-by-zero — already tracked from 1.3 review (duplicate entry, confirms still open).
+- `document.getElementById('root')` null assertion — `as HTMLElement` cast hides potential null. Pre-existing.
+
+### Resolved by Story 1.5
+
+- Dual CSS reset (Tailwind preflight + GlobalStyle.ts) — **resolved**: GlobalStyle.ts deleted, global rules migrated to main.css.
+- CloseButton click event propagates to parent Card — **resolved**: stopPropagation added in CloseButton.tsx.
+
 ## Deferred Item Target Matrix
 
 Maps every deferred item to its natural resolution point. Items without a clear target need a housekeeping story.
@@ -51,12 +64,12 @@ Maps every deferred item to its natural resolution point. Items without a clear 
 | `@types/node` may lag behind TS 6.0 dist-tag | 1.1 review | Low priority |
 | Dead `tsconfig.json` paths config (`@/*` unused) | 1.1 review | Not harmful but misleading |
 
-### Target: Story 1.5 (Styled-Components Removal)
+### ~~Target: Story 1.5 (Styled-Components Removal)~~ — RESOLVED
 
-| Item | Origin | Notes |
-|------|--------|-------|
-| Dual CSS reset (Tailwind preflight + GlobalStyle) | 1.2 review | Resolves when GlobalStyle.ts is deleted |
-| oklch relative color syntax — no CSS fallbacks | 1.2 review | Review browser support after GlobalStyle removal |
+| Item | Origin | Status |
+|------|--------|--------|
+| Dual CSS reset (Tailwind preflight + GlobalStyle) | 1.2 review | **Resolved** — GlobalStyle.ts deleted |
+| oklch relative color syntax — no CSS fallbacks | 1.2 review | **Resolved** — reviewed during 1.5, no action needed |
 
 ### Target: Story 1.6 (Docker Build & Runtime Environment)
 
@@ -79,5 +92,5 @@ Maps every deferred item to its natural resolution point. Items without a clear 
 |------|--------|-------|
 | ContactForm `e.preventDefault()` after early return on captcha | 1.2 review | Page reloads when captcha incomplete |
 | WordSlider setTimeout not cleaned up on unmount | 1.3 review | May cause state-update-on-unmount warning |
-| CloseButton click event propagates to parent Card | 1.3 review | No stopPropagation on button click |
+| CloseButton click event propagates to parent Card | 1.3 review | **Resolved** — stopPropagation added in Story 1.5 |
 | Empty words array crashes WordSlider (modulo by zero) | 1.3 review | Produces NaN index |
