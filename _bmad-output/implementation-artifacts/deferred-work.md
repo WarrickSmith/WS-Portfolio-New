@@ -26,5 +26,58 @@
 
 - WordSlider setTimeout not cleaned up on unmount — inner setTimeout in useEffect not cleared on component unmount, may cause React state-update-on-unmount warning. Pre-existing.
 - CloseButton click event propagates to parent Card onClick — no stopPropagation on button click, event may bubble to Card's handleCardClick. Pre-existing.
-- GoldPulseText card preview titles have no semantic heading role — rendered as `<span>` without ARIA roles. Pre-existing, tracked for Epic 6 accessibility work.
-- Empty words array crashes WordSlider — `(prevIndex + 1) % words.length` produces NaN when words is empty. Pre-existing.
+- GoldPulseText card preview titles have no semantic heading role — rendered as `<span>` without ARIA roles. Pre-existing, tracked for Epic 6 accessibility work. **→ Target: Epic 6 (Story 6.3)**
+- Empty words array crashes WordSlider — `(prevIndex + 1) % words.length` produces NaN when words is empty. Pre-existing. **→ Target: bug fix or housekeeping story**
+
+## Deferred from: code review of 1-4-component-migration-feature-components-and-folder-renames (2026-04-01)
+
+- onCaptchaChange always sets true on null — captcha expiration doesn't disable submit button. Pre-existing.
+- Non-null assertion on form.current! without null guard — runtime error if form ref is somehow null. Pre-existing.
+- closeCard state churn — setIsClosed(true) + setSelectedId(null) then useEffect resets isClosed, causing extra render cycle. Pre-existing pattern.
+- EmailJS empty string silent failure — ContactForm passes env values to emailjs.sendForm() with no empty-string check, unlike useVisitorTracker which guards. Pre-existing.
+
+## Deferred Item Target Matrix
+
+Maps every deferred item to its natural resolution point. Items without a clear target need a housekeeping story.
+
+### Infrastructure / Housekeeping (no natural story — need dedicated cleanup)
+
+| Item | Origin | Notes |
+|------|--------|-------|
+| Dead dependencies `react-server-dom-parcel`, `react-server-dom-webpack` | 1.1 review | Zero imports, safe to remove |
+| TypeScript in `dependencies` instead of `devDependencies` | 1.1 review | Semantically wrong, functionally harmless |
+| `declaration: true` + `noEmit: false` emits `.d.ts` into dist | 1.1 review | Unnecessary for client SPA |
+| Favicon MIME type `image/ico` → should be `image/x-icon` | 1.1 review | Pre-existing |
+| `@types/node` may lag behind TS 6.0 dist-tag | 1.1 review | Low priority |
+| Dead `tsconfig.json` paths config (`@/*` unused) | 1.1 review | Not harmful but misleading |
+
+### Target: Story 1.5 (Styled-Components Removal)
+
+| Item | Origin | Notes |
+|------|--------|-------|
+| Dual CSS reset (Tailwind preflight + GlobalStyle) | 1.2 review | Resolves when GlobalStyle.ts is deleted |
+| oklch relative color syntax — no CSS fallbacks | 1.2 review | Review browser support after GlobalStyle removal |
+
+### Target: Story 1.6 (Docker Build & Runtime Environment)
+
+| Item | Origin | Notes |
+|------|--------|-------|
+| `serve` installed globally in Docker (attack surface) | 1.1 review | Consider copying from node_modules |
+| AC7 constants vs accessor functions for env | 1.2 review | Revisit when `window.__ENV` is wired up |
+| ContactForm unsafe `process.env` access (may be undefined) | 1.2 review | Fix when env pattern is finalized |
+| `env.d.ts` types ProcessEnv vars as non-optional string | 1.2 review | Fix alongside process.env cleanup |
+
+### Target: Epic 6 (Accessibility)
+
+| Item | Origin | Notes |
+|------|--------|-------|
+| GoldPulseText card titles have no semantic heading role | 1.3 review | Needs ARIA roles or semantic elements |
+
+### Bugs (fix opportunistically or in next touching story)
+
+| Item | Origin | Notes |
+|------|--------|-------|
+| ContactForm `e.preventDefault()` after early return on captcha | 1.2 review | Page reloads when captcha incomplete |
+| WordSlider setTimeout not cleaned up on unmount | 1.3 review | May cause state-update-on-unmount warning |
+| CloseButton click event propagates to parent Card | 1.3 review | No stopPropagation on button click |
+| Empty words array crashes WordSlider (modulo by zero) | 1.3 review | Produces NaN index |
