@@ -1,6 +1,6 @@
 import GoldPulseText from '../common/GoldPulseText'
 
-const Box3: React.FC = () => {
+const AboutCard = () => {
   return (
     <GoldPulseText>
       <span className="text-text-primary">About</span>{'\u00A0'}
@@ -9,4 +9,4 @@ const Box3: React.FC = () => {
   )
 }
 
-export default Box3
+export default AboutCard
