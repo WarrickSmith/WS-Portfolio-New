@@ -1,6 +1,6 @@
 import GoldPulseText from '../common/GoldPulseText'
 
-const Box4: React.FC = () => {
+const PortfolioCard = () => {
   return (
     <GoldPulseText>
       <span className="text-text-primary">My</span>{'\u00A0'}
@@ -9,4 +9,4 @@ const Box4: React.FC = () => {
   )
 }
 
-export default Box4
+export default PortfolioCard
