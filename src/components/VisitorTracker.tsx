@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { DEBUG_VISITOR_TRACKING, ENABLE_VISITOR_TRACKING } from '../config/env'
 import { useVisitorTracker } from '../hooks/useVisitorTracker'
 
 /**
@@ -13,18 +14,25 @@ export const VisitorTracker = () => {
   const { trackVisitor, isLoading, error, isRateLimited } = useVisitorTracker()
 
   useEffect(() => {
-    // Track visitor on component mount
-    trackVisitor()
-  }, []) // Empty dependency array ensures this runs only once per session
+    if (!ENABLE_VISITOR_TRACKING) {
+      return
+    }
 
-  // Log tracking status for debugging (only in development)
-  if (process.env.NODE_ENV === 'development') {
+    void trackVisitor()
+  }, [trackVisitor])
+
+  useEffect(() => {
+    if (process.env.NODE_ENV !== 'development' || !DEBUG_VISITOR_TRACKING) {
+      return
+    }
+
     console.log('VisitorTracker Status:', {
       isLoading,
       error,
       isRateLimited,
+      isEnabled: ENABLE_VISITOR_TRACKING,
     })
-  }
+  }, [error, isLoading, isRateLimited])
 
   // This component doesn't render anything visible
   return null
