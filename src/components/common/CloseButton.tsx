@@ -1,3 +1,4 @@
+import type { MouseEvent } from 'react'
 import { cn } from '../../lib/cn'
 
 type CloseButtonProps = {
@@ -8,7 +9,10 @@ type CloseButtonProps = {
 const CloseButton = ({ onClick, className }: CloseButtonProps) => (
   <button
     type="button"
-    onClick={onClick}
+    onClick={(event: MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation()
+      onClick()
+    }}
     aria-label="Close"
     className={cn(
       'fixed top-6 right-6 z-30 flex h-8 w-8 items-center justify-center rounded-radius-sm',
