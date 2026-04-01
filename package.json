@@ -25,7 +25,6 @@
     "react-google-recaptcha": "^3.1.0",
     "react-server-dom-parcel": "^19.2.4",
     "react-server-dom-webpack": "^19.2.4",
-    "styled-components": "^6.3.12",
     "tailwind-merge": "^3.5.0",
     "typescript": "^6.0.2"
   },
@@ -35,7 +34,6 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@types/react-google-recaptcha": "^2.1.9",
-    "@types/styled-components": "^5.1.36",
     "autoprefixer": "^10.4.27",
     "copy-webpack-plugin": "^14.0.0",
     "css-loader": "^7.1.4",

@@ -21,7 +21,7 @@
   --color-error: #f87171;
   --color-info: #60a5fa;
 
-  --font-sans: Inter, sans-serif;
+  --font-sans: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   --font-mono: "JetBrains Mono", "Fira Code", monospace;
 
   --text-display: 3rem;
@@ -52,6 +52,22 @@
   --text-caption--line-height: 1.5;
   --text-caption--letter-spacing: 0.02em;
   --text-caption--font-weight: 500;
+  --text-supporting: min(calc(0.25vw + 2vh), 1.1rem);
+  --text-supporting--line-height: 1.6;
+  --text-supporting--letter-spacing: 0;
+  --text-supporting--font-weight: 400;
+  --text-callout: min(calc(0.5vw + 2.25vh), 1.5rem);
+  --text-callout--line-height: 1.4;
+  --text-callout--letter-spacing: -0.01em;
+  --text-callout--font-weight: 600;
+  --text-emphasis: min(calc(0.75vw + 2.5vh), 2rem);
+  --text-emphasis--line-height: 1.2;
+  --text-emphasis--letter-spacing: -0.02em;
+  --text-emphasis--font-weight: 700;
+  --text-metric: min(calc(1vw + 2.75vh), 2.5rem);
+  --text-metric--line-height: 1.1;
+  --text-metric--letter-spacing: -0.03em;
+  --text-metric--font-weight: 700;
 
   --spacing-1: 4px;
   --spacing-2: 8px;
@@ -86,6 +102,35 @@
 
   --breakpoint-tablet: 48rem;
   --breakpoint-desktop: 62.5rem;
+}
+
+:root {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+html,
+body,
+input,
+textarea {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 33vw;
+  min-height: 100vh;
+  overflow: hidden;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-surface);
+  font-weight: 700;
 }
 
 @keyframes micro {
