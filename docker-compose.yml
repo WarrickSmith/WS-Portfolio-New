@@ -2,17 +2,19 @@ version: '3.8'
 
 services:
   ws-portfolio:
+    image: ws-portfolio:local
     build:
       context: .
-      args:
-        - API_URL=${API_URL:-http://localhost:3000}
-        - EMAILJS_SERVICE_ID=${EMAILJS_SERVICE_ID}
-        - EMAILJS_TEMPLATE_ID=${EMAILJS_TEMPLATE_ID}
-        - EMAILJS_CONTACT_TEMPLATE_ID=${EMAILJS_CONTACT_TEMPLATE_ID}
-        - EMAILJS_PUBLIC_KEY=${EMAILJS_PUBLIC_KEY}
-        - RECAPTCHA_SITE_KEY=${RECAPTCHA_SITE_KEY}
-        - DEBUG_VISITOR_TRACKING=${DEBUG_VISITOR_TRACKING:-false}
     container_name: ws-portfolio-app
     restart: unless-stopped
     ports:
       - '3000:3000'
+    environment:
+      EMAILJS_SERVICE_ID: ${EMAILJS_SERVICE_ID:-}
+      EMAILJS_TEMPLATE_ID: ${EMAILJS_TEMPLATE_ID:-}
+      EMAILJS_CONTACT_TEMPLATE_ID: ${EMAILJS_CONTACT_TEMPLATE_ID:-}
+      EMAILJS_PUBLIC_KEY: ${EMAILJS_PUBLIC_KEY:-}
+      RECAPTCHA_SITE_KEY: ${RECAPTCHA_SITE_KEY:-}
+      DEBUG_VISITOR_TRACKING: ${DEBUG_VISITOR_TRACKING:-false}
+      API_URL: ${API_URL:-http://localhost:3000}
+      ENABLE_VISITOR_TRACKING: ${ENABLE_VISITOR_TRACKING:-false}

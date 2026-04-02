@@ -1,5 +1,12 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import emailjs from '@emailjs/browser'
+import {
+  DEBUG_VISITOR_TRACKING,
+  EMAILJS_PUBLIC_KEY,
+  EMAILJS_SERVICE_ID,
+  EMAILJS_TEMPLATE_ID,
+  ENABLE_VISITOR_TRACKING,
+} from '../config/env'
 import { VisitorData, RateLimitConfig } from '../types/visitor.types'
 import { IpGeolocationService } from '../services/ipGeolocationService'
 
@@ -14,6 +21,8 @@ export const useVisitorTracker = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [isRateLimited, setIsRateLimited] = useState(false)
+  const shouldLogDebug =
+    process.env.NODE_ENV === 'development' && DEBUG_VISITOR_TRACKING
 
   /**
    * Checks if the visitor has been notified within the rate limit window
@@ -59,10 +68,13 @@ export const useVisitorTracker = () => {
           pageUrl: window.location.href,
         }
       } catch (error) {
-        console.error('Failed to collect visitor data:', error)
+        if (shouldLogDebug) {
+          console.error('Failed to collect visitor data:', error)
+        }
+
         return null
       }
-    }, [])
+    }, [shouldLogDebug])
 
   /**
    * Sends visitor notification email via EmailJS
@@ -70,9 +82,9 @@ export const useVisitorTracker = () => {
   const sendVisitorNotification = useCallback(
     async (visitorData: VisitorData): Promise<boolean> => {
       try {
-        const serviceId = process.env.EMAILJS_SERVICE_ID
-        const templateId = process.env.EMAILJS_TEMPLATE_ID
-        const publicKey = process.env.EMAILJS_PUBLIC_KEY
+        const serviceId = EMAILJS_SERVICE_ID
+        const templateId = EMAILJS_TEMPLATE_ID
+        const publicKey = EMAILJS_PUBLIC_KEY
 
         if (!serviceId || !templateId || !publicKey) {
           throw new Error('EmailJS configuration missing')
@@ -93,17 +105,24 @@ export const useVisitorTracker = () => {
         await emailjs.send(serviceId, templateId, templateParams, publicKey)
         return true
       } catch (error) {
-        console.error('Failed to send visitor notification:', error)
+        if (shouldLogDebug) {
+          console.error('Failed to send visitor notification:', error)
+        }
+
         return false
       }
     },
-    []
+    [shouldLogDebug]
   )
 
   /**
    * Main function to track visitor and send notification
    */
   const trackVisitor = useCallback(async (): Promise<void> => {
+    if (!ENABLE_VISITOR_TRACKING) {
+      return
+    }
+
     // Skip if already rate limited
     if (checkRateLimit()) {
       setIsRateLimited(true)
@@ -134,6 +153,7 @@ export const useVisitorTracker = () => {
       setIsLoading(false)
     }
   }, [
+    ENABLE_VISITOR_TRACKING,
     checkRateLimit,
     collectVisitorData,
     sendVisitorNotification,

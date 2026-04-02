@@ -1,65 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import styled, { css, keyframes } from 'styled-components'
-
-const slideIn = keyframes`
-  0% {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0%);
-    opacity: 1;
-  }
-`
-
-const slideOut = keyframes`
-  0% {
-    transform: translateX(0%);
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-`
-
-const TextContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-`
-
-interface TextProps {
-  animateIn: boolean
-  animateOut: boolean
-}
-
-const Text = styled.span<TextProps>`
-  font-size: var(--fs-med);
-  color: var(--color-alt);
-  animation-duration: 1s;
-  animation-fill-mode: forwards;
-
-  ${({ animateIn, animateOut }) =>
-    css`
-      ${animateIn &&
-      css`
-        animation-name: ${slideIn};
-      `}
-
-      ${animateOut &&
-      css`
-        animation-name: ${slideOut};
-      `}
-    `}
-`
+import { useEffect, useState } from 'react'
+import { cn } from '../../lib/cn'
 
 interface WordSliderProps {
   words: string[]
 }
 
-const WordSlider: React.FC<WordSliderProps> = ({ words }) => {
+const WordSlider = ({ words }: WordSliderProps) => {
   const [currentWordIndex, setCurrentWordIndex] = useState(0)
   const [animateIn, setAnimateIn] = useState(false)
   const [animateOut, setAnimateOut] = useState(false)
@@ -89,13 +35,18 @@ const WordSlider: React.FC<WordSliderProps> = ({ words }) => {
   }, [animateIn])
 
   return (
-    <TextContainer>
-      <Text animateIn={animateIn} animateOut={animateOut}>
+    <div className="flex w-full items-center justify-center">
+      <span
+        className={cn(
+          'text-emphasis text-text-accent',
+          animateIn && 'animate-slide-in',
+          animateOut && 'animate-slide-out'
+        )}
+      >
         {words[currentWordIndex]}
-      </Text>
-    </TextContainer>
+      </span>
+    </div>
   )
 }
 
 export default WordSlider
-

@@ -1,83 +1,87 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file gives AI coding agents a fast, current view of the repository.
 
 ## Development Commands
 
 ```bash
-# Install dependencies
 npm install
-
-# Start development server (runs on localhost:3000)
 npm run dev
-
-# Build for production
 npm run build
-
-# Start production server
 npm start
-
-# Preview production build
-npm run preview
+docker compose build
+docker compose up -d
 ```
 
-## Project Architecture
+## Current Stack
 
-This is a React 19 + TypeScript personal portfolio application built with webpack and Node.js 22.x. The architecture centers around a **card-based grid layout system** where content is organized into interactive cards that expand into modal overlays.
+- React 19.2.x + ReactDOM 19.2.x
+- TypeScript 6.0.x in strict mode
+- Webpack 5 for dev/build
+- Tailwind CSS 4 via `src/styles/main.css`
+- Framer Motion 12 for card expansion and overlays
+- EmailJS + reCAPTCHA for contact and visitor workflows
+- Docker multi-stage build on `node:24-alpine`
 
-### Core Architecture Patterns
+## Application Structure
 
-**Grid-Based Layout System**: 
-- Main layout uses CSS Grid (3x2 on desktop, responsive breakpoints)
-- Card 1: Background image (hidden on mobile)
-- Cards 2-5: Interactive content sections
+- `src/main.tsx` mounts `App`.
+- `src/App.tsx` imports `src/styles/main.css` and renders `VisitorTracker` plus `MainPage`.
+- `src/components/MainPage.tsx` owns `selectedId` and the card expansion flow.
+- `src/components/common/` holds shared UI primitives such as `Card`, `CardGrid`, `DimmedBackdrop`, `GoldPulseText`, `SectionHeading`, and `renderChildDiv`.
+- Feature folders are semantic now:
+  - `src/components/namecard/`
+  - `src/components/about/`
+  - `src/components/portfolio/`
+  - `src/components/contact/`
 
-**Card Expansion Pattern**:
-- Cards expand into full-screen modal overlays when clicked
-- Uses Framer Motion for smooth animations
-- Each card has both a preview component and expanded content component
+## UI Rules
 
-**Component Structure**:
-- `src/components/MainPage.tsx` - Root component managing card state and interactions
-- `src/components/common/GridComponents.tsx` - Styled components for grid layout system
-- `src/components/common/renderChildDiv.tsx` - Maps card IDs to expanded content components
-- `src/components/box[2-5]/` - Card-specific components (Box2.tsx for preview, Box[X]Content.tsx for expanded)
+- Card 1 is visual only.
+- Card 2 is non-interactive.
+- Cards 3-5 open expanded content through `renderChildDiv`.
+- Tailwind utility classes are the styling system. Do not reintroduce styled-components.
+- Use `src/lib/cn.ts` when class composition needs `clsx` + `tailwind-merge`.
 
-**Data Architecture**:
-- `src/data/consolidatedProfile.tsx` - Centralized profile data with calculated experience years
-- `src/data/personalData.tsx` - Raw personal/professional data
-- `src/data/portfolioData.tsx` - Project portfolio information
+## Environment Model
 
-**Visitor Tracking System**:
-- `src/components/VisitorTracker.tsx` - Non-visual component for visitor tracking
-- `src/hooks/useVisitorTracker.ts` - Custom hook with rate limiting and geolocation
-- Integrates with EmailJS for notification emails
-- Uses localStorage for 5-minute rate limiting per visitor
+Read environment values from `src/config/env.ts`, not directly from `process.env` or `window.__ENV`.
 
-### Styling Architecture
+Runtime flow in production:
 
-- **Styled Components**: Primary styling approach using styled-components library
-- **CSS Variables**: Used in styled components for theming (--bg-color, --bg-color-alt)
-- **Responsive Design**: Mobile-first breakpoints at 768px and 1000px
-- **Framer Motion**: Handles card animations and layout transitions
+```text
+container env
+  -> docker-entrypoint.sh
+  -> /app/dist/config.js
+  -> window.__ENV
+  -> src/config/env.ts
+```
 
-### Environment Configuration
+Development fallback:
 
-Webpack-based build system with standard environment variables for EmailJS integration:
+- `dotenv-webpack` exposes `.env` values at build/dev-server time.
+- `src/config/env.ts` falls back to `process.env` when `window.__ENV` is absent.
+
+Client-safe variables:
+
 - `EMAILJS_SERVICE_ID`
-- `EMAILJS_TEMPLATE_ID` 
+- `EMAILJS_TEMPLATE_ID`
 - `EMAILJS_CONTACT_TEMPLATE_ID`
 - `EMAILJS_PUBLIC_KEY`
 - `RECAPTCHA_SITE_KEY`
 - `DEBUG_VISITOR_TRACKING`
 - `API_URL`
+- `ENABLE_VISITOR_TRACKING`
 
-### Key Technical Considerations
+## Deployment Model
 
-- Cards 1 and 2 are non-interactive (handleCardClick returns early)
-- Card expansion uses absolute positioning with z-index layering
-- Visitor tracking implements privacy-compliant data collection
-- Project uses TypeScript 5.9.2 with strict mode enabled
-- Uses React 19.1.0 with latest features (Actions, useOptimistic, server components)
-- Webpack 5.x with code splitting and chunk optimization
-- Docker deployment with Node.js 22.x for better Portainer compatibility
+- Local Docker validation uses `docker-compose.yml` with explicit image tag `ws-portfolio:local`.
+- CI publish uses `.github/workflows/ci.yml`.
+- Pushes to `main` build and push `registry.wsapz.com/ws-portfolio-new:latest`.
+- Portainer is the runtime deployment surface. It pulls the image and injects env vars at container start.
+
+## Verification Rules
+
+- There is no automated unit/integration test framework in this repo.
+- Validate changes with `npm run build`, `docker compose build`, and manual browser/runtime checks.
+- Do not add Jest, Vitest, or `.test`/`.spec` files.

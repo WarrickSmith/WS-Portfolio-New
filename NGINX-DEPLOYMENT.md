@@ -1,91 +1,65 @@
-# Simple Nginx Proxy Manager Deployment
+# Nginx Proxy Manager Deployment
 
-## Quick Deploy to Portainer
+## Portainer Stack
 
-### 1. Create Stack in Portainer
-- **Stacks** → **Add Stack** 
-- **Name:** `ws-portfolio`
+Create a stack named `ws-portfolio` that pulls the published registry image.
 
-### 2. Set Environment Variables
-Add these in the Portainer stack environment variables section:
-
-```
-EMAILJS_SERVICE_ID=your_service_id
-EMAILJS_TEMPLATE_ID=your_template_id
-EMAILJS_CONTACT_TEMPLATE_ID=your_contact_template_id
-EMAILJS_PUBLIC_KEY=your_public_key
-RECAPTCHA_SITE_KEY=your_recaptcha_key
-API_URL=https://your-domain.com
-DEBUG_VISITOR_TRACKING=false
-```
-
-### 3. Deploy Stack
-Use the docker-compose.yml from the repository.
-
-### 4. Configure Nginx Proxy Manager
-- **Domain:** your-domain.com
-- **Forward Host:** `ws-portfolio-app`
-- **Forward Port:** 3000
-- **SSL:** Enable with Let's Encrypt
-
-## Files
-
-### docker-compose.yml
 ```yaml
-version: '3.8'
 services:
   ws-portfolio:
-    build: .
+    image: registry.wsapz.com/ws-portfolio-new:latest
     container_name: ws-portfolio-app
     restart: unless-stopped
     ports:
       - "3000:3000"
     environment:
-      - NODE_ENV=production
-      - EMAILJS_SERVICE_ID=${EMAILJS_SERVICE_ID}
-      - EMAILJS_TEMPLATE_ID=${EMAILJS_TEMPLATE_ID}
-      - EMAILJS_CONTACT_TEMPLATE_ID=${EMAILJS_CONTACT_TEMPLATE_ID}
-      - EMAILJS_PUBLIC_KEY=${EMAILJS_PUBLIC_KEY}
-      - RECAPTCHA_SITE_KEY=${RECAPTCHA_SITE_KEY}
-      - API_URL=${API_URL}
-      - DEBUG_VISITOR_TRACKING=${DEBUG_VISITOR_TRACKING}
+      EMAILJS_SERVICE_ID: ${EMAILJS_SERVICE_ID}
+      EMAILJS_TEMPLATE_ID: ${EMAILJS_TEMPLATE_ID}
+      EMAILJS_CONTACT_TEMPLATE_ID: ${EMAILJS_CONTACT_TEMPLATE_ID}
+      EMAILJS_PUBLIC_KEY: ${EMAILJS_PUBLIC_KEY}
+      RECAPTCHA_SITE_KEY: ${RECAPTCHA_SITE_KEY}
+      DEBUG_VISITOR_TRACKING: ${DEBUG_VISITOR_TRACKING:-false}
+      API_URL: ${API_URL:-https://ws.wsapz.com}
+      ENABLE_VISITOR_TRACKING: ${ENABLE_VISITOR_TRACKING:-false}
 ```
 
-### Dockerfile
-```dockerfile
-FROM node:22-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-RUN npm run build
-RUN npm install -g serve
-EXPOSE 3000
-CMD ["serve", "-s", "dist", "-l", "3000"]
+## Runtime Env Model
+
+The image does not need build args for public application settings.
+
+At container start:
+
+```text
+Portainer env vars -> docker-entrypoint.sh -> /app/dist/config.js -> window.__ENV
 ```
 
-## Local Development
+This lets you change runtime configuration without rebuilding the image.
 
-```bash
-# Clone and setup
-git clone <repo>
-cd ws-portfolio-new
-cp .env.example .env
-# Edit .env with your values
+## Portainer Variables
 
-# Run locally
-npm install
-npm run dev
+Set these in the stack environment UI or via `stack.env`:
 
-# Or with Docker
-docker-compose up -d
+```text
+EMAILJS_SERVICE_ID=your_service_id
+EMAILJS_TEMPLATE_ID=your_template_id
+EMAILJS_CONTACT_TEMPLATE_ID=your_contact_template_id
+EMAILJS_PUBLIC_KEY=your_public_key
+RECAPTCHA_SITE_KEY=your_recaptcha_key
+API_URL=https://ws.wsapz.com
+DEBUG_VISITOR_TRACKING=false
+ENABLE_VISITOR_TRACKING=false
 ```
 
-## Troubleshooting
+## Nginx Proxy Manager
 
-- **Container won't start:** Check logs with `docker logs ws-portfolio-app`
-- **Environment variables missing:** Ensure they're set in Portainer stack interface
-- **502 errors:** Verify container is running and nginx proxy points to `ws-portfolio-app:3001`
-- **Port conflict:** If you get networking errors, change external port to different number (e.g., 3002:3000)
+- Domain: `ws.wsapz.com`
+- Forward Hostname / IP: `ws-portfolio-app`
+- Forward Port: `3000`
+- Websocket Support: enabled
+- SSL: Let's Encrypt
 
-That's it! Simple and clean.
+## Notes
+
+- GitHub Actions publishes `registry.wsapz.com/ws-portfolio-new:latest` on pushes to `main`.
+- Local validation still uses the repo `docker-compose.yml` and image tag `ws-portfolio:local`.
+- If you pull a new image in Portainer, redeploy the stack so the updated container starts and regenerates `config.js`.
