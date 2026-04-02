@@ -103,6 +103,15 @@ Maps every deferred item to its natural resolution point. Items without a clear 
 - `npm start` without `.env` silently produces non-functional features — Pre-existing. dotenv-webpack allows missing .env. Documented in .env.example.
 - `.env` has EMAILJS_PUBLIC_KEY commented out — Pre-existing local config issue. Silent failure when tracking enabled without debug flag.
 
+## Deferred from: code review of 1-7-ci-cd-pipeline-and-deployment-configuration (2026-04-02)
+
+- `image:` + `build:` ordering surprise in docker-compose — `docker compose up` without prior build may attempt to pull `ws-portfolio:local` from a registry. Docs say `docker compose build` first. Pre-existing.
+- `cancel-in-progress: true` can kill a working build — two rapid pushes to main could cancel a good build mid-push. Intentional tradeoff.
+- Stale `styled-components` in `docs/project-scan-report.json` — generated file; story explicitly excludes hand-editing it.
+- `.env` not in `.dockerignore` — local `.env` would be included in Docker build context (but never reaches runtime image). Pre-existing.
+- Deprecated `version: '3.8'` in docker-compose.yml — Docker Compose V2 ignores it. Pre-existing.
+- No health check in Dockerfile or docker-compose.yml — Portainer/Docker cannot detect a hung `serve` process. Pre-existing, out of story scope.
+
 ### Resolved by Story 1.6
 
 - `env.d.ts` types ProcessEnv vars as non-optional string — **resolved**: all fields now optional.
