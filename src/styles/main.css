@@ -4,6 +4,7 @@
   --color-bg-base: #0a0a0a;
   --color-bg-surface: #111111;
   --color-bg-card: #161616;
+  --color-bg-card-deep: #131313;
   --color-bg-card-hover: #1a1a1a;
   --color-bg-expanded: #141414;
   --color-bg-elevated: #1e1e1e;
@@ -127,10 +128,15 @@ textarea {
 body {
   min-width: 33vw;
   min-height: 100vh;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   color: var(--color-text-primary);
-  background-color: var(--color-bg-surface);
+  background-color: var(--color-bg-base);
   font-weight: 700;
+}
+
+#root {
+  min-height: 100vh;
 }
 
 @keyframes micro {

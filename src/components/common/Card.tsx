@@ -20,11 +20,11 @@ const Card = ({
   return (
     <motion.div
       className={cn(
-        'relative flex h-full w-full overflow-hidden rounded-radius-lg border border-border-subtle bg-bg-card',
+        'relative flex h-full w-full overflow-hidden rounded-lg border border-border-subtle bg-gradient-to-br from-bg-card to-bg-card-deep shadow-[var(--shadow-ambient)]',
         interactive && !opened && 'cursor-pointer',
         className,
         opened &&
-          'fixed inset-0 z-20 mt-4 mr-4 ml-auto w-[calc(65.8vw-1rem)] h-[calc(100vh-2rem)] justify-start items-start overflow-y-auto max-[1000.98px]:m-auto max-[1000.98px]:w-[calc(100vw-1.5rem)] max-[1000.98px]:h-[calc(100vh-1.5rem)]'
+          'fixed inset-x-3 inset-y-3 z-20 justify-start items-start overflow-y-auto bg-bg-expanded bg-none shadow-[var(--shadow-elevated)] tablet:inset-x-4 tablet:inset-y-4 desktop:left-auto desktop:w-[calc(65.8vw-1rem)]'
       )}
       style={style}
       {...props}

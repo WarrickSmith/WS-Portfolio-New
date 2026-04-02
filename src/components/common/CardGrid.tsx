@@ -8,18 +8,21 @@ type CardGridProps = {
 
 const CardGrid = ({ children, className }: CardGridProps) => {
   return (
-    <div className="flex min-h-screen items-center justify-center">
+    <main
+      aria-label="Portfolio"
+      className="min-h-screen bg-bg-base px-6 py-6 tablet:px-8 tablet:py-8 desktop:px-12 desktop:py-12"
+    >
       <div
         className={cn(
-          'grid h-[70vh] w-[85vw] grid-cols-3 grid-rows-2 gap-spacing-12',
-          'max-[1000.98px]:w-[90vw] max-[1000.98px]:grid-cols-2 max-[1000.98px]:gap-spacing-8',
-          'max-[768.98px]:h-auto max-[768.98px]:grid-cols-1 max-[768.98px]:gap-spacing-6',
+          'mx-auto grid min-h-[calc(100vh-3rem)] w-full max-w-[96rem] grid-cols-1 gap-6',
+          'tablet:min-h-[calc(100vh-4rem)] tablet:grid-cols-2 tablet:gap-8',
+          'desktop:min-h-[calc(100vh-6rem)] desktop:grid-cols-3 desktop:grid-rows-2 desktop:gap-12',
           className
         )}
       >
         {children}
       </div>
-    </div>
+    </main>
   )
 }
 

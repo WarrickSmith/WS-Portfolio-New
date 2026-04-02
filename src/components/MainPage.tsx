@@ -30,9 +30,26 @@ export const MainPage = () => {
     }
   }, [selectedId])
 
+  useEffect(() => {
+    if (selectedId === null) return
+
+    const previousOverflow = document.body.style.overflow
+    const previousOverflowX = document.body.style.overflowX
+    const previousOverflowY = document.body.style.overflowY
+
+    document.body.style.overflow = 'hidden'
+
+    return () => {
+      document.body.style.overflow = previousOverflow
+      document.body.style.overflowX = previousOverflowX
+      document.body.style.overflowY = previousOverflowY
+    }
+  }, [selectedId])
+
   return (
     <CardGrid>
       {cards.map((card) => {
+        const isHeroCard = card.id === 1
         const isStaticCard = card.id === 1 || card.id === 2
 
         return (
@@ -43,13 +60,14 @@ export const MainPage = () => {
             layout
             onClick={() => handleCardClick(card.id)}
             className={cn(
-              card.id === 1
-                ? 'hidden row-span-2 bg-cover bg-center min-[1001px]:flex'
-                : 'items-center justify-center bg-bg-card max-[768.98px]:min-h-32',
+              isHeroCard &&
+                'hidden min-h-[22rem] bg-cover bg-center bg-no-repeat tablet:flex tablet:col-span-full desktop:col-span-1 desktop:row-span-2 desktop:min-h-0',
+              !isHeroCard &&
+                'min-h-32 items-stretch tablet:min-h-[14rem] desktop:min-h-0',
               isStaticCard && 'cursor-default'
             )}
             style={
-              card.id === 1
+              isHeroCard
                 ? { backgroundImage: `url(${backgroundImage})` }
                 : undefined
             }
