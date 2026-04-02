@@ -1,55 +1,43 @@
 # WS-Portfolio-New — Project Overview
 
-## Executive Summary
+## Summary
 
-WS-Portfolio-New is a personal portfolio website for Warrick Smith, a full-stack developer based in Auckland, New Zealand. The site showcases professional experience, education, skills, and portfolio projects through an interactive card-based grid layout. It is a React/TypeScript rewrite of a former PHP portfolio site.
+WS-Portfolio-New is Warrick Smith's portfolio site. It presents profile information, selected work, and a contact path inside a card-based single-page interface. The codebase is the modernized React/TypeScript successor to an older PHP portfolio.
 
-**Live URL:** [warricksmith.com](https://warricksmith.com)
+Planned production URL: `https://ws.wsapz.com`
 
-## Purpose
+## What The Site Does
 
-- Present professional profile, experience, and skills
-- Showcase portfolio projects with links to live demos and GitHub repos
-- Provide a contact form for prospective employers and collaborators
-- Track visitor activity via email notifications (privacy-compliant)
+- Introduces Warrick through a fixed name card and expandable profile content
+- Shows portfolio projects with outbound links and hover-detail cards
+- Provides a contact form backed by EmailJS and reCAPTCHA
+- Optionally sends visitor notifications when visitor tracking is enabled
 
 ## Technology Stack
 
-| Category | Technology | Version |
-|----------|-----------|---------|
-| UI Framework | React + ReactDOM | 19.2.4 |
-| Language | TypeScript | 6.0.2 (strict mode) |
-| Build Tool | Webpack | 5.105.4 |
-| Styling | styled-components | 6.3.12 |
-| Animation | Framer Motion | 12.38.0 |
-| Icons | FontAwesome | 7.2.0 |
-| Email Service | @emailjs/browser | 4.4.1 |
-| Spam Protection | react-google-recaptcha | 3.1.0 |
-| Runtime | Node.js Alpine | 24.x |
-| Static Server | serve | latest |
+| Category | Technology |
+|----------|------------|
+| UI framework | React 19.2.x |
+| Language | TypeScript 6.0.x |
+| Styling | Tailwind CSS 4 |
+| Animation | Framer Motion 12 |
+| Build tooling | Webpack 5 |
+| Utilities | `clsx`, `tailwind-merge` |
+| Email integration | `@emailjs/browser` |
+| Spam protection | `react-google-recaptcha` |
+| Container runtime | Docker on Node 24 Alpine |
 
-## Architecture Overview
+## Architecture Snapshot
 
-- **Type:** Single-page application (SPA) — monolith
-- **Pattern:** Card-based grid layout with modal expansion
-- **State Management:** Local component state only (`useState`)
-- **Styling:** styled-components with CSS variables and Framer Motion
-- **Deployment:** Docker container (Node.js 24 Alpine) serving static files on port 3000
-- **Hosting:** Behind Nginx Proxy Manager via Portainer
+- Single-page application with local state only
+- `MainPage` controls which card is expanded
+- Card 1 is decorative, Card 2 is static, Cards 3-5 are expandable
+- Shared UI lives in `src/components/common/`
+- Feature code is split by intent: `about`, `portfolio`, `contact`, `namecard`
+- Styling tokens and utilities live in `src/styles/main.css`
 
-## Repository Structure
+## Deployment Snapshot
 
-- **Repository Type:** Monolith
-- **Primary Language:** TypeScript
-- **License:** MIT
-- **GitHub:** [github.com/WarrickSmith/ws-portfolio-new](https://github.com/WarrickSmith/ws-portfolio-new)
-
-## Key Features
-
-1. **Interactive Card Grid** — 3x2 grid (desktop) with hover effects and neon glow animations
-2. **Modal Card Expansion** — Cards 3-5 expand into full-screen overlays with smooth Framer Motion transitions
-3. **About Me Section** (Card 3) — Personal info, experience timeline, education, skills, and learning adaptability
-4. **Portfolio Section** (Card 4) — Project showcase with image hover-to-details animation
-5. **Contact Form** (Card 5) — EmailJS-powered contact form with reCAPTCHA protection
-6. **Visitor Tracking** — Automatic IP geolocation and email notifications with 5-minute rate limiting
-7. **Responsive Design** — Breakpoints at 768px and 1000px; Card 1 (background image) hidden on mobile
+- Local validation: `docker compose build` using explicit image tag `ws-portfolio:local`
+- CI/CD: GitHub Actions builds and pushes `registry.wsapz.com/ws-portfolio-new:latest` on pushes to `main`
+- Runtime config: Portainer injects env vars, `docker-entrypoint.sh` writes `config.js`, and `src/config/env.ts` reads them in the browser

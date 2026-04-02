@@ -2,137 +2,163 @@
 
 ## Executive Summary
 
-A React 19 single-page application using a card-based grid layout pattern. Content is organized into interactive cards that expand into modal overlays. The application is entirely client-side with no backend — external services (EmailJS, ipapi.co, reCAPTCHA) handle server-side concerns.
+This is a client-rendered React portfolio application with a five-card landing layout. Cards 3-5 expand into fullscreen overlays. Styling is Tailwind-first, animation is Framer Motion where layout choreography is needed, and deployment is Docker-based with runtime environment injection.
 
-## Architecture Pattern
+## Entry Flow
 
-**Card-Based Grid Layout with Modal Expansion**
-
-The application presents content in a CSS Grid of 5 cards (3x2 on desktop). Cards 3-5 are interactive — clicking expands them into full-screen modal overlays using absolute positioning and Framer Motion layout animations.
-
-## Application Entry Flow
-
-```
+```text
 index.html
-  └── src/main.tsx (ReactDOM.createRoot, StrictMode)
-        ├── GlobalStyle (CSS variables, reset, base styles)
-        └── App.tsx
-              ├── VisitorTracker (non-visual, tracks visitors on mount)
-              └── MainPage (card grid + expansion state)
-                    ├── Card 1: Background image (non-interactive, hidden on mobile)
-                    ├── Card 2: Box2 — Name + WordSlider (non-interactive)
-                    ├── Card 3: Box3 → Box3Content — About Me
-                    ├── Card 4: Box4 → Box4Content — Portfolio
-                    └── Card 5: Box5 → Box5Content — Contact Form
+  -> src/main.tsx
+    -> src/App.tsx
+      -> src/styles/main.css
+      -> VisitorTracker
+      -> MainPage
 ```
 
-## Component Architecture
+## Main UI Architecture
 
-### Layout Layer
+`src/components/MainPage.tsx` is the interaction hub.
 
-- **`MainContainer`** — Full viewport wrapper, tracks window resize for dynamic height
-- **`GridContainer`** — CSS Grid (3-col desktop → 2-col tablet → 1-col mobile)
-- **`Card`** — Framer Motion animated card with conditional absolute positioning when `opened`
-- **`DimmedLayer`** — Overlay that dims background (opacity 0.3) when a card is expanded
+- `selectedId` controls which card is open
+- card IDs `1` and `2` are intentionally non-interactive
+- card IDs `3`, `4`, and `5` render expanded content through `renderChildDiv`
+- `AnimatePresence` + `DimmedBackdrop` manage the overlay transition
 
-### Card Components (Preview → Expanded)
+### Card Map
 
-| Card | Preview Component | Expanded Component | Purpose |
-|------|------------------|--------------------|---------|
-| 1 | (background image) | N/A | Visual only |
-| 2 | `Box2` | N/A | Name + animated word slider |
-| 3 | `Box3` | `Box3Content` | About me, experience, education, skills |
-| 4 | `Box4` | `Box4Content` | Portfolio projects grid |
-| 5 | `Box5` | `Box5Content` | Contact form |
+| Card | Preview | Expanded content |
+|------|---------|------------------|
+| 1 | background image only | none |
+| 2 | `NameCard` | none |
+| 3 | `AboutCard` | `AboutContent` |
+| 4 | `PortfolioCard` | `PortfolioContent` |
+| 5 | `ContactCard` | `ContactContent` |
 
-### Common/Reusable Components
+## Feature Folder Layout
 
-| Component | Purpose |
-|-----------|---------|
-| `CardHeader` | Section header with title, divider lines, and icon |
-| `HoverText` | Multi-word text with first word white, rest gold |
-| `HoverTextWrapper` | Neon glow + explode/implode animation on hover |
-| `WordSlider` | Animated rotating word display (slide in/out) |
-| `BulletPoints` | Portfolio card with image → hover details transition |
-| `FaIcon` | Dynamic FontAwesome icon resolver (solid/regular/brands) |
-| `CloseButton` | Fixed-position close button for expanded cards |
-| `Page` | Base styled container for content pages |
-| `ParagraphSeparator` | Horizontal gold rule divider |
+### `src/components/common/`
 
-### Data Layer
+Shared building blocks:
 
-| File | Purpose |
-|------|---------|
-| `personalData.tsx` | Raw experience, education, and skills data |
-| `consolidatedProfile.tsx` | Typed profile with calculated years of experience |
-| `portfolioData.tsx` | Portfolio projects (title, URL, image, bullet points) |
+- `Card`
+- `CardGrid`
+- `DimmedBackdrop`
+- `CloseButton`
+- `GoldPulseText`
+- `SectionHeading`
+- `WordSlider`
+- `BulletPoints`
+- `FaIcon`
+- `renderChildDiv`
 
-### Services Layer
+### `src/components/namecard/`
 
-| Service | Purpose |
-|---------|---------|
-| `IpGeolocationService` | Fetches visitor IP geolocation from ipapi.co/json/ |
-| `useVisitorTracker` (hook) | Orchestrates visitor tracking with rate limiting |
+- Static introductory card with the rotating word slider
 
-## State Management
+### `src/components/about/`
 
-All state is local to components via `useState`. No global state manager.
+- Preview card plus expanded profile, experience, education, and skills view
 
-| State | Location | Purpose |
-|-------|----------|---------|
-| `selectedId` | `MainPage` | Currently expanded card (null = none) |
-| `isClosed` | `MainPage` | Tracks close animation state |
-| `containerHeight` | `App` | Dynamic viewport height |
-| `isHovered` | `BulletPoints` | Portfolio card hover state |
-| `sendStatus` | `ContactForm` | Email send state (sending/sent/error) |
-| `captchaValid` | `ContactForm` | reCAPTCHA validation state |
-| `currentWordIndex` | `WordSlider` | Current word in rotation |
-| `isLoading/error/isRateLimited` | `useVisitorTracker` | Visitor tracking state |
+### `src/components/portfolio/`
 
-## External Service Integrations
+- Preview card plus project grid rendered from `src/data/portfolioData.tsx`
 
-| Service | Purpose | Configuration |
-|---------|---------|--------------|
-| **EmailJS** | Send visitor notifications + contact form emails | `EMAILJS_SERVICE_ID`, `EMAILJS_TEMPLATE_ID`, `EMAILJS_CONTACT_TEMPLATE_ID`, `EMAILJS_PUBLIC_KEY` |
-| **ipapi.co** | IP geolocation lookup | No API key needed (free tier) |
-| **Google reCAPTCHA** | Contact form spam protection | `RECAPTCHA_SITE_KEY` |
+### `src/components/contact/`
 
-## Styling Architecture
+- Preview card plus contact panel and EmailJS/reCAPTCHA form
 
-- **styled-components** — All styling via tagged template literals
-- **CSS Variables** — Defined in `GlobalStyle.ts`:
-  - Colors: `--color` (white), `--color-alt` (#ffb400 gold), `--bg-color` (#111), `--bg-color-alt` (#222)
-  - Font sizes: `--fs-xxsm` through `--fs-lge` (viewport-responsive with max clamps)
-  - Borders: `--border-style`, `--border-style-alt`
-- **Framer Motion** — Layout animations for card expansion, hover animations for portfolio cards
-- **Keyframe Animations** — Word slider (slideIn/slideOut), hover wrapper (explode/implode/neonGlow)
-- **Responsive Breakpoints** — 768px (mobile), 1000px (tablet), 1300px (content adjustment)
+## Styling System
 
-## Build Architecture
+The project no longer uses styled-components.
 
-### Webpack Configuration (3-file split)
+- Tailwind CSS 4 is imported in `src/styles/main.css`
+- Design tokens are declared in the `@theme` block
+- Shared class composition uses `src/lib/cn.ts`
+- Framer Motion handles expanded-card layout transitions and overlay animation
+- CSS/Tailwind handle static styling, typography, spacing, and keyframe utilities
 
-- **`webpack.common.cjs`** — Shared config: entry point, TypeScript loader, CSS loader, asset handling, plugins (HtmlWebpackPlugin, Dotenv, CopyWebpackPlugin), path alias (`@` → `src/`)
-- **`webpack.dev.cjs`** — Dev server (port 3000, HMR, inline source maps, historyApiFallback)
-- **`webpack.prod.cjs`** — Production optimizations (source maps, vendor chunk splitting, tree shaking, 2.5MB asset limits)
+## Data And Services
 
-### Environment Variables
+### Data
 
-Injected at build time via `dotenv-webpack`. NOT available at runtime. Type-safe via `src/types/env.d.ts`.
+- `src/data/personalData.tsx`
+- `src/data/consolidatedProfile.tsx`
+- `src/data/portfolioData.tsx`
 
-## Deployment Architecture
+### Runtime services
 
+- `src/hooks/useVisitorTracker.ts`
+- `src/services/ipGeolocationService.ts`
+- `src/components/VisitorTracker.tsx`
+
+`VisitorTracker` is non-visual and returns `null`. It only runs tracking when `ENABLE_VISITOR_TRACKING` resolves to `true`.
+
+## Environment Architecture
+
+Use `src/config/env.ts` as the only environment access layer.
+
+### Development
+
+- `.env` values are supplied through `dotenv-webpack`
+- `env.ts` falls back to `process.env`
+
+### Production
+
+```text
+container env
+  -> docker-entrypoint.sh
+  -> /app/dist/config.js
+  -> window.__ENV
+  -> src/config/env.ts
 ```
-Docker Build (Node.js 24 Alpine)
-  ├── npm install
-  ├── npm run build (webpack production)
-  ├── serve -s dist -l 3000
-  └── Exposed on port 3000
 
-Nginx Proxy Manager
-  ├── Domain → ws-portfolio-app:3000
-  └── SSL via Let's Encrypt
+Whitelisted client-safe keys:
 
-Managed via Portainer Stack
-  └── Environment variables in Portainer UI
+- `EMAILJS_SERVICE_ID`
+- `EMAILJS_TEMPLATE_ID`
+- `EMAILJS_CONTACT_TEMPLATE_ID`
+- `EMAILJS_PUBLIC_KEY`
+- `RECAPTCHA_SITE_KEY`
+- `DEBUG_VISITOR_TRACKING`
+- `API_URL`
+- `ENABLE_VISITOR_TRACKING`
+
+## Build And Delivery
+
+### Webpack
+
+- `webpack.common.cjs`: shared loaders/plugins
+- `webpack.dev.cjs`: dev server on port `3000`
+- `webpack.prod.cjs`: production build and bundle constraints
+
+### Docker
+
+- `Dockerfile` uses a multi-stage build on `node:24-alpine`
+- runtime image serves `dist/` through `serve`
+- `docker-compose.yml` uses explicit local image tag `ws-portfolio:local`
+
+### CI/CD
+
+`.github/workflows/ci.yml` is single-purpose:
+
+1. Trigger on pushes to `main`
+2. Check out the repository
+3. Set up Buildx
+4. Log in to `registry.wsapz.com`
+5. Build and push `registry.wsapz.com/ws-portfolio-new:latest`
+
+No application env vars are passed as Docker build args.
+
+## Deployment Topology
+
+```text
+GitHub push to main
+  -> GitHub Actions workflow
+  -> registry.wsapz.com/ws-portfolio-new:latest
+  -> Portainer pulls image
+  -> Portainer injects runtime env vars
+  -> docker-entrypoint.sh writes config.js
+  -> browser reads window.__ENV through src/config/env.ts
 ```
+
+Nginx Proxy Manager fronts the running container on the planned `ws.wsapz.com` domain.

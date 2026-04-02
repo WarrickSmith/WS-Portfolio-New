@@ -2,112 +2,93 @@
 
 ## Prerequisites
 
-- **Node.js** 24.x (recommended: use nvm)
-- **npm** (ships with Node.js)
-- **Docker** (optional, for containerized deployment)
+- Node.js 24.x
+- npm
+- Docker if you want container validation
 
 ## Getting Started
 
 ```bash
-# Clone the repository
 git clone https://github.com/WarrickSmith/ws-portfolio-new.git
 cd ws-portfolio-new
-
-# Install dependencies
 npm install
-
-# Copy environment file and configure
 cp .env.example .env
-# Edit .env with your EmailJS and reCAPTCHA keys
-
-# Start development server
 npm run dev
 ```
 
-The application will start on **http://localhost:3000** with hot module replacement.
+The dev server runs on `http://localhost:3000`.
 
 ## Available Scripts
 
 | Command | Description |
 |---------|-------------|
-| `npm run dev` | Start webpack dev server (port 3000, HMR, auto-open browser) |
-| `npm run build` | Production build to `dist/` |
-| `npm start` | Serve production build via `serve -s dist -l 3000` |
+| `npm run dev` | Start webpack dev server |
+| `npm run build` | Create a production bundle in `dist/` |
+| `npm start` | Serve `dist/` on port `3000` |
 
 ## Environment Variables
 
-Create a `.env` file in the project root (see `.env.example`):
+Development values come from `.env`. Production values are injected at container start and exposed through `config.js`.
 
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `API_URL` | No | Application URL (default: http://localhost:3000) |
-| `EMAILJS_SERVICE_ID` | Yes | EmailJS service identifier |
-| `EMAILJS_TEMPLATE_ID` | Yes | EmailJS visitor notification template |
-| `EMAILJS_CONTACT_TEMPLATE_ID` | Yes | EmailJS contact form template |
-| `EMAILJS_PUBLIC_KEY` | Yes | EmailJS public API key |
-| `RECAPTCHA_SITE_KEY` | Yes | Google reCAPTCHA v2 site key |
-| `DEBUG_VISITOR_TRACKING` | No | Enable visitor tracking debug logs (default: false) |
+| Variable | Description |
+|----------|-------------|
+| `EMAILJS_SERVICE_ID` | EmailJS service ID |
+| `EMAILJS_TEMPLATE_ID` | Visitor notification template |
+| `EMAILJS_CONTACT_TEMPLATE_ID` | Contact form template |
+| `EMAILJS_PUBLIC_KEY` | EmailJS browser key |
+| `RECAPTCHA_SITE_KEY` | Public reCAPTCHA key |
+| `DEBUG_VISITOR_TRACKING` | Enables extra visitor-tracking logging |
+| `API_URL` | Public API/site base URL |
+| `ENABLE_VISITOR_TRACKING` | Enables visitor tracking when `true` |
 
-**Important:** Environment variables are injected at **build time** via dotenv-webpack, not at runtime. Changing `.env` requires a rebuild.
+Use:
 
-## Build System
+- `.env.example` for local development
+- `stack.env.example` for Portainer/runtime deployment
 
-### Webpack Configuration
+## Runtime Env Contract
 
-Three-file webpack setup using `webpack-merge`:
+Always access env values through `src/config/env.ts`.
 
-- **`webpack.common.cjs`** — Entry point (`src/main.tsx`), TypeScript loader, CSS loader, asset handling, plugins, path alias (`@` → `src/`)
-- **`webpack.dev.cjs`** — Dev server config: HMR, inline source maps, port 3000, historyApiFallback
-- **`webpack.prod.cjs`** — Production: source maps, vendor chunk splitting, tree shaking, 2.5MB asset/entrypoint limits
+Production runtime flow:
 
-### TypeScript Configuration
-
-- **Target:** ES2022
-- **Module:** ESNext
-- **Strict mode:** Enabled
-- **JSX:** react-jsx (automatic runtime)
-- **Path alias:** `@/*` → `src/*`
-- **Isolated modules:** true
-
-## Docker Deployment
-
-### Local Docker
-
-```bash
-docker-compose up -d
+```text
+Portainer/container env -> docker-entrypoint.sh -> /dist/config.js -> window.__ENV -> src/config/env.ts
 ```
 
-### Portainer Stack Deployment
+This means production env changes do not require rebuilding the bundle as long as the image already contains the latest app code.
 
-1. Create stack in Portainer named `ws-portfolio`
-2. Set environment variables in Portainer UI (see `stack.env.example`)
-3. Deploy using `docker-compose.yml`
-4. Configure Nginx Proxy Manager:
-   - Forward host: `ws-portfolio-app`
-   - Forward port: 3000
-   - Enable SSL with Let's Encrypt
+## Frontend Structure
 
-See `NGINX-DEPLOYMENT.md` for detailed deployment instructions.
+- `src/styles/main.css`: Tailwind import and design tokens
+- `src/lib/cn.ts`: class name merge helper
+- `src/components/common/`: shared layout and UI primitives
+- `src/components/namecard/`, `about/`, `portfolio/`, `contact/`: semantic feature folders
+- `src/config/env.ts`: central env access layer
+
+## Local Docker Validation
+
+```bash
+docker compose build
+docker compose up -d
+```
+
+`docker-compose.yml` tags the local image as `ws-portfolio:local`.
 
 ## Project Conventions
 
-### File Naming
-- Components: **PascalCase** (`Box2.tsx`, `ContactForm.tsx`)
-- Hooks: **camelCase** with `use` prefix (`useVisitorTracker.ts`)
-- Services: **camelCase** (`ipGeolocationService.ts`)
-- Data: **camelCase** (`portfolioData.tsx`)
+- Components use default exports
+- Utilities and helpers use named exports
+- Tailwind is the styling system
+- Framer Motion handles card expansion and overlay animation
+- Local state only; no global state manager
 
-### Component Patterns
-- All components are functional (no class components)
-- Default exports for components
-- Named exports for data/utilities
-- styled-components for all styling (no CSS modules or inline styles)
+## Verification
 
-### Git Workflow
-- Branch naming: `feat/`, `fix/`, `refactor/`, `chore/` prefixes
-- Commit messages: Conventional Commits (`feat: description`, `fix: description`)
-- Semantic versioning via git tags (`vX.Y.Z`)
+This repository intentionally has no automated unit/integration test framework.
 
-### Testing
-- No automated test framework — manual browser verification only
-- Run `npm run dev` and confirm changes visually in the browser
+Validate work with:
+
+- `npm run build`
+- `docker compose build`
+- manual browser verification

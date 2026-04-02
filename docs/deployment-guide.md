@@ -1,96 +1,113 @@
 # WS-Portfolio-New — Deployment Guide
 
-## Infrastructure Overview
+## Overview
 
-- **Container:** Docker (Node.js 24 Alpine)
-- **Static Server:** `serve` package (port 3000)
-- **Reverse Proxy:** Nginx Proxy Manager
-- **Orchestration:** Portainer (Docker stack management)
-- **SSL:** Let's Encrypt (via Nginx Proxy Manager)
+- Container runtime: Docker on `node:24-alpine`
+- Static server: `serve`
+- Reverse proxy: Nginx Proxy Manager
+- Deployment surface: Portainer
+- CI publisher: GitHub Actions
 
-## Docker Build
+## CI/CD Flow
 
-### Dockerfile Summary
+`.github/workflows/ci.yml` runs on pushes to `main`.
 
-```dockerfile
-FROM node:24-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-# Build args for environment variables (injected at build time)
-ARG EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, etc.
-ENV EMAILJS_SERVICE_ID=$EMAILJS_SERVICE_ID, etc.
-RUN npm run build
-RUN npm install -g serve
-EXPOSE 3000
-CMD ["serve", "-s", "dist", "-l", "3000"]
+Workflow steps:
+
+1. `actions/checkout@v6`
+2. `docker/setup-buildx-action@v4`
+3. `docker/login-action@v4`
+4. `docker/build-push-action@v7`
+
+Publish target:
+
+- registry: `registry.wsapz.com`
+- image: `registry.wsapz.com/ws-portfolio-new:latest`
+- GitHub secret: `REGISTRY_PASSWORD`
+
+The workflow does not pass EmailJS, reCAPTCHA, API, or visitor-tracking settings as Docker build args.
+
+## Docker Image Behavior
+
+The `Dockerfile` is multi-stage:
+
+1. install dependencies
+2. run `npm run build`
+3. copy `dist/` into a small runtime image
+4. run `docker-entrypoint.sh`
+5. start `serve -s /app/dist -l 3000`
+
+## Runtime Environment Injection
+
+Production configuration is injected at container start, not baked into the bundle.
+
+```text
+Portainer/container env
+  -> docker-entrypoint.sh
+  -> /app/dist/config.js
+  -> window.__ENV
+  -> src/config/env.ts
 ```
 
-**Key detail:** Environment variables are build-time only. They are baked into the webpack bundle during `npm run build`. Changing environment variables requires a full rebuild.
+Supported client-safe keys:
 
-### docker-compose.yml
+- `EMAILJS_SERVICE_ID`
+- `EMAILJS_TEMPLATE_ID`
+- `EMAILJS_CONTACT_TEMPLATE_ID`
+- `EMAILJS_PUBLIC_KEY`
+- `RECAPTCHA_SITE_KEY`
+- `DEBUG_VISITOR_TRACKING`
+- `API_URL`
+- `ENABLE_VISITOR_TRACKING`
+
+## Local Validation Path
+
+Use the repo compose file for local builds:
+
+```bash
+docker compose build
+docker compose up -d
+```
+
+`docker-compose.yml` uses explicit image tag `ws-portfolio:local`.
+
+## Portainer Deployment Path
+
+For production, Portainer should pull the registry image rather than rebuilding locally.
+
+Example stack service:
 
 ```yaml
-version: '3.8'
 services:
   ws-portfolio:
-    build:
-      context: .
-      args:
-        - API_URL=${API_URL:-http://localhost:3000}
-        - EMAILJS_SERVICE_ID=${EMAILJS_SERVICE_ID}
-        - EMAILJS_TEMPLATE_ID=${EMAILJS_TEMPLATE_ID}
-        - EMAILJS_CONTACT_TEMPLATE_ID=${EMAILJS_CONTACT_TEMPLATE_ID}
-        - EMAILJS_PUBLIC_KEY=${EMAILJS_PUBLIC_KEY}
-        - RECAPTCHA_SITE_KEY=${RECAPTCHA_SITE_KEY}
-        - DEBUG_VISITOR_TRACKING=${DEBUG_VISITOR_TRACKING:-false}
+    image: registry.wsapz.com/ws-portfolio-new:latest
     container_name: ws-portfolio-app
     restart: unless-stopped
     ports:
-      - '3000:3000'
+      - "3000:3000"
+    environment:
+      EMAILJS_SERVICE_ID: ${EMAILJS_SERVICE_ID}
+      EMAILJS_TEMPLATE_ID: ${EMAILJS_TEMPLATE_ID}
+      EMAILJS_CONTACT_TEMPLATE_ID: ${EMAILJS_CONTACT_TEMPLATE_ID}
+      EMAILJS_PUBLIC_KEY: ${EMAILJS_PUBLIC_KEY}
+      RECAPTCHA_SITE_KEY: ${RECAPTCHA_SITE_KEY}
+      DEBUG_VISITOR_TRACKING: ${DEBUG_VISITOR_TRACKING:-false}
+      API_URL: ${API_URL:-https://ws.wsapz.com}
+      ENABLE_VISITOR_TRACKING: ${ENABLE_VISITOR_TRACKING:-false}
 ```
 
-## Portainer Deployment
+## Nginx Proxy Manager
 
-1. **Create Stack** → Name: `ws-portfolio`
-2. **Set Environment Variables** in Portainer stack interface:
-   - `EMAILJS_SERVICE_ID`
-   - `EMAILJS_TEMPLATE_ID`
-   - `EMAILJS_CONTACT_TEMPLATE_ID`
-   - `EMAILJS_PUBLIC_KEY`
-   - `RECAPTCHA_SITE_KEY`
-   - `API_URL` (production domain URL)
-   - `DEBUG_VISITOR_TRACKING=false`
-3. **Deploy** using docker-compose.yml from repository
-
-## Nginx Proxy Manager Configuration
-
-- **Domain:** your-domain.com
-- **Forward Host:** `ws-portfolio-app`
-- **Forward Port:** 3000
-- **SSL:** Enable with Let's Encrypt
-
-## Production Build Output
-
-`npm run build` generates optimized static files in `dist/`:
-- Content-hashed JS bundles (main + vendors chunk)
-- Source maps
-- Asset files (images with content hashes)
-- Copied public files (favicon.ico)
-
-### Performance Limits (webpack.prod.cjs)
-- Max asset size: 2.5MB
-- Max entrypoint size: 2.5MB
-- Vendor chunk splitting enabled
-- Tree shaking via `usedExports: true` and `sideEffects: false`
+- domain: `ws.wsapz.com`
+- forward host: `ws-portfolio-app`
+- forward port: `3000`
+- SSL: Let's Encrypt
 
 ## Troubleshooting
 
-| Issue | Solution |
-|-------|----------|
-| Container won't start | Check logs: `docker logs ws-portfolio-app` |
-| Missing env vars | Verify in Portainer stack environment section |
-| 502 errors | Confirm container is running and proxy points to `ws-portfolio-app:3000` |
-| Port conflict | Change external port (e.g., `3002:3000`) |
-| Env var changes not reflecting | Rebuild container (env vars are build-time) |
+| Issue | Resolution |
+|-------|------------|
+| Container fails to start | `docker logs ws-portfolio-app` |
+| Runtime config missing in browser | verify env vars are present in Portainer and inspect `/config.js` |
+| Portainer is still running an old image | pull `registry.wsapz.com/ws-portfolio-new:latest` again before redeploy |
+| Proxy returns 502 | confirm Nginx Proxy Manager targets `ws-portfolio-app:3000` |
