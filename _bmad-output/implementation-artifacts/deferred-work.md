@@ -118,3 +118,8 @@ Maps every deferred item to its natural resolution point. Items without a clear 
 - AC7 constants vs accessor functions for env — **resolved**: `readEnv()` reads `window.__ENV` at call time; module-level constants work correctly with runtime injection.
 - ContactForm unsafe `process.env` access — **resolved**: ContactForm imports from `env.ts` gateway with empty-string guards.
 - `serve` installed globally in Docker — **partially resolved**: still global install but pinned to `serve@14.2.5`.
+
+## Deferred from: code review of 2-1-card-grid-layout-and-dark-theme-foundation (2026-04-02)
+
+- CloseButton uses legacy `rounded-radius-sm` class — pre-dates Story 2.1. Should be `rounded-sm` for Tailwind v4 utility resolution. `src/components/common/CloseButton.tsx:18`
+- Static cards (1 & 2) receive click events with no focus indication — keyboard users tabbing to non-interactive cards get no visual indication they are inert. Pre-exists Story 2.1.

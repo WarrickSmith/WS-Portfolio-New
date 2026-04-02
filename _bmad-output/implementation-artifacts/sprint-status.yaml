@@ -1,5 +1,5 @@
 # generated: 2026-03-31 14:15:44 NZDT
-# last_updated: 2026-04-02 17:40:00 NZDT
+# last_updated: 2026-04-02 22:33:34 NZDT
 # project: WS-Portfolio-New
 # project_key: NOKEY
 # tracking_system: file-system
@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-03-31 14:15:44 NZDT
-last_updated: 2026-04-02 17:40:00 NZDT (epic 1 retrospective completed; retrospective status done)
+last_updated: 2026-04-02 22:33:34 NZDT (story 2.1 review workflow completed; marked done)
 project: WS-Portfolio-New
 project_key: NOKEY
 tracking_system: file-system
@@ -51,8 +51,8 @@ development_status:
   1-6-docker-build-and-runtime-environment: done
   1-7-ci-cd-pipeline-and-deployment-configuration: done
   epic-1-retrospective: done
-  epic-2: backlog
-  2-1-card-grid-layout-and-dark-theme-foundation: backlog
+  epic-2: in-progress
+  2-1-card-grid-layout-and-dark-theme-foundation: done
   2-2-card-hover-effects-and-goldpulsetext: backlog
   2-3-card-expansion-and-overlay-system: backlog
   2-4-per-card-expansion-animations-and-spring-physics: backlog
