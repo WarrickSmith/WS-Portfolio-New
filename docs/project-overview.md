@@ -38,6 +38,6 @@ Planned production URL: `https://ws.wsapz.com`
 
 ## Deployment Snapshot
 
-- Local validation: `docker compose build` using explicit image tag `ws-portfolio:local`
+- Docker deployment: `docker-compose.yml` pulls `registry.wsapz.com/ws-portfolio-new:latest`
 - CI/CD: GitHub Actions builds and pushes `registry.wsapz.com/ws-portfolio-new:latest` on pushes to `main`
 - Runtime config: Portainer injects env vars, `docker-entrypoint.sh` writes `config.js`, and `src/config/env.ts` reads them in the browser

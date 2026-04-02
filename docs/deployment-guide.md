@@ -60,22 +60,23 @@ Supported client-safe keys:
 - `API_URL`
 - `ENABLE_VISITOR_TRACKING`
 
-## Local Validation Path
+## Docker Compose Path
 
-Use the repo compose file for local builds:
+Use the repo compose file for local Docker and Portainer deployments:
 
 ```bash
-docker compose build
 docker compose up -d
 ```
 
-`docker-compose.yml` uses explicit image tag `ws-portfolio:local`.
+`docker-compose.yml` is image-only and pulls `registry.wsapz.com/ws-portfolio-new:latest`.
+Log in to `registry.wsapz.com` on the host before running Compose.
 
 ## Portainer Deployment Path
 
 For production, Portainer should pull the registry image rather than rebuilding locally.
+Use the repo root [`docker-compose.yml`](../docker-compose.yml) file with `stack.env`.
 
-Example stack service:
+The compose file is image-only by design:
 
 ```yaml
 services:
@@ -92,7 +93,7 @@ services:
       EMAILJS_PUBLIC_KEY: ${EMAILJS_PUBLIC_KEY}
       RECAPTCHA_SITE_KEY: ${RECAPTCHA_SITE_KEY}
       DEBUG_VISITOR_TRACKING: ${DEBUG_VISITOR_TRACKING:-false}
-      API_URL: ${API_URL:-https://ws.wsapz.com}
+      API_URL: ${API_URL:-http://localhost:3000}
       ENABLE_VISITOR_TRACKING: ${ENABLE_VISITOR_TRACKING:-false}
 ```
 
@@ -110,4 +111,5 @@ services:
 | Container fails to start | `docker logs ws-portfolio-app` |
 | Runtime config missing in browser | verify env vars are present in Portainer and inspect `/config.js` |
 | Portainer is still running an old image | pull `registry.wsapz.com/ws-portfolio-new:latest` again before redeploy |
+| Local `docker compose up -d` cannot pull the image | run `docker login registry.wsapz.com` on that Docker host and confirm the `ws-portfolio-new:latest` tag exists |
 | Proxy returns 502 | confirm Nginx Proxy Manager targets `ws-portfolio-app:3000` |

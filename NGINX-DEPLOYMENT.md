@@ -2,7 +2,7 @@
 
 ## Portainer Stack
 
-Create a stack named `ws-portfolio` that pulls the published registry image.
+Create a stack named `ws-portfolio` from [`docker-compose.yml`](./docker-compose.yml).
 
 ```yaml
 services:
@@ -19,7 +19,7 @@ services:
       EMAILJS_PUBLIC_KEY: ${EMAILJS_PUBLIC_KEY}
       RECAPTCHA_SITE_KEY: ${RECAPTCHA_SITE_KEY}
       DEBUG_VISITOR_TRACKING: ${DEBUG_VISITOR_TRACKING:-false}
-      API_URL: ${API_URL:-https://ws.wsapz.com}
+      API_URL: ${API_URL:-http://localhost:3000}
       ENABLE_VISITOR_TRACKING: ${ENABLE_VISITOR_TRACKING:-false}
 ```
 
@@ -61,5 +61,5 @@ ENABLE_VISITOR_TRACKING=false
 ## Notes
 
 - GitHub Actions publishes `registry.wsapz.com/ws-portfolio-new:latest` on pushes to `main`.
-- Local validation still uses the repo `docker-compose.yml` and image tag `ws-portfolio:local`.
+- `docker-compose.yml` is image-only and can be used for both local Docker and Portainer.
 - If you pull a new image in Portainer, redeploy the stack so the updated container starts and regenerates `config.js`.

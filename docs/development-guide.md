@@ -44,7 +44,7 @@ Development values come from `.env`. Production values are injected at container
 Use:
 
 - `.env.example` for local development
-- `stack.env.example` for Portainer/runtime deployment
+- `stack.env.example` for Docker/Portainer runtime deployment
 
 ## Runtime Env Contract
 
@@ -66,14 +66,14 @@ This means production env changes do not require rebuilding the bundle as long a
 - `src/components/namecard/`, `about/`, `portfolio/`, `contact/`: semantic feature folders
 - `src/config/env.ts`: central env access layer
 
-## Local Docker Validation
+## Docker Deployment
 
 ```bash
-docker compose build
 docker compose up -d
 ```
 
-`docker-compose.yml` tags the local image as `ws-portfolio:local`.
+`docker-compose.yml` pulls `registry.wsapz.com/ws-portfolio-new:latest`.
+Log in to `registry.wsapz.com` on the Docker host before using it.
 
 ## Project Conventions
 
@@ -90,5 +90,5 @@ This repository intentionally has no automated unit/integration test framework.
 Validate work with:
 
 - `npm run build`
-- `docker compose build`
+- `docker compose config`
 - manual browser verification

@@ -9,7 +9,6 @@ npm install
 npm run dev
 npm run build
 npm start
-docker compose build
 docker compose up -d
 ```
 
@@ -75,7 +74,8 @@ Client-safe variables:
 
 ## Deployment Model
 
-- Local Docker validation uses `docker-compose.yml` with explicit image tag `ws-portfolio:local`.
+- `docker-compose.yml` is image-only and pulls `registry.wsapz.com/ws-portfolio-new:latest`.
+- The same `docker-compose.yml` can be used for local Docker or Portainer stack deployment.
 - CI publish uses `.github/workflows/ci.yml`.
 - Pushes to `main` build and push `registry.wsapz.com/ws-portfolio-new:latest`.
 - Portainer is the runtime deployment surface. It pulls the image and injects env vars at container start.
@@ -83,5 +83,5 @@ Client-safe variables:
 ## Verification Rules
 
 - There is no automated unit/integration test framework in this repo.
-- Validate changes with `npm run build`, `docker compose build`, and manual browser/runtime checks.
+- Validate changes with `npm run build`, `docker compose config`, and manual browser/runtime checks.
 - Do not add Jest, Vitest, or `.test`/`.spec` files.

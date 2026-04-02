@@ -135,7 +135,7 @@ Whitelisted client-safe keys:
 
 - `Dockerfile` uses a multi-stage build on `node:24-alpine`
 - runtime image serves `dist/` through `serve`
-- `docker-compose.yml` uses explicit local image tag `ws-portfolio:local`
+- `docker-compose.yml` pulls `registry.wsapz.com/ws-portfolio-new:latest`
 
 ### CI/CD
 
