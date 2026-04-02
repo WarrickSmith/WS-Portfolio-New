@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-03-31 14:15:44 NZDT
-last_updated: 2026-04-02 22:33:34 NZDT (story 2.1 review workflow completed; marked done)
+last_updated: 2026-04-02 23:51:42 NZDT (story 2.2 review completed; marked done)
 project: WS-Portfolio-New
 project_key: NOKEY
 tracking_system: file-system
@@ -53,7 +53,7 @@ development_status:
   epic-1-retrospective: done
   epic-2: in-progress
   2-1-card-grid-layout-and-dark-theme-foundation: done
-  2-2-card-hover-effects-and-goldpulsetext: backlog
+  2-2-card-hover-effects-and-goldpulsetext: done
   2-3-card-expansion-and-overlay-system: backlog
   2-4-per-card-expansion-animations-and-spring-physics: backlog
   2-5-ambient-background-motion: backlog

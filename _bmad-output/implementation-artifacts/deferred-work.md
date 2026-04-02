@@ -123,3 +123,9 @@ Maps every deferred item to its natural resolution point. Items without a clear 
 
 - CloseButton uses legacy `rounded-radius-sm` class — pre-dates Story 2.1. Should be `rounded-sm` for Tailwind v4 utility resolution. `src/components/common/CloseButton.tsx:18`
 - Static cards (1 & 2) receive click events with no focus indication — keyboard users tabbing to non-interactive cards get no visual indication they are inert. Pre-exists Story 2.1.
+
+## Deferred from: code review of 2-2-card-hover-effects-and-goldpulsetext (2026-04-02)
+
+- `supportsFineHoverPointer()` called per-render — `window.matchMedia()` invoked on every Card render. Cheap but unnecessary. Module-level lazy init or `useMemo` would avoid repeated calls. Not a correctness issue.
+- Inner `<div>` wrapper blocks Framer Motion `layout` propagation to children (Card.tsx:94-102) — The plain div between `motion.div` and children breaks the layout animation tree. No child currently uses `layoutId`, so no visible bug. Architectural consideration for future stories.
+- `group/card` naming collision risk — Generic group name could conflict if nested elements also use `group/card`. Safe today but fragile for future extensions.
