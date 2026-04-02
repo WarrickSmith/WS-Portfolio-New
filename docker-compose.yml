@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   ws-portfolio:
+    image: ws-portfolio:local
     build:
       context: .
     container_name: ws-portfolio-app
