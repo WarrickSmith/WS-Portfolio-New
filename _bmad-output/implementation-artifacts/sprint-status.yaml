@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-03-31 14:15:44 NZDT
-last_updated: 2026-04-02 17:40:00 NZDT (story 1.7 review workflow completed; status done)
+last_updated: 2026-04-02 17:40:00 NZDT (epic 1 retrospective completed; retrospective status done)
 project: WS-Portfolio-New
 project_key: NOKEY
 tracking_system: file-system
@@ -50,7 +50,7 @@ development_status:
   1-5-styled-components-removal-and-dead-code-cleanup: done
   1-6-docker-build-and-runtime-environment: done
   1-7-ci-cd-pipeline-and-deployment-configuration: done
-  epic-1-retrospective: optional
+  epic-1-retrospective: done
   epic-2: backlog
   2-1-card-grid-layout-and-dark-theme-foundation: backlog
   2-2-card-hover-effects-and-goldpulsetext: backlog
