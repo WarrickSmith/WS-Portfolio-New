@@ -9,6 +9,8 @@
   --color-bg-expanded: #141414;
   --color-bg-elevated: #1e1e1e;
   --color-accent-primary: #ffb400;
+  --color-accent-primary-muted: oklch(from #ffb400 l c h / 12%);
+  --color-accent-primary-veil: oklch(from #ffb400 l c h / 6%);
   --color-accent-primary-soft: oklch(from #ffb400 l c h / 15%);
   --color-accent-primary-glow: oklch(from #ffb400 l c h / 25%);
   --color-text-primary: #f0f0f0;
@@ -85,9 +87,13 @@
   --radius-xl: 24px;
 
   --shadow-ambient: 0 18px 48px rgba(0, 0, 0, 0.32);
+  --shadow-card-hover: 0 26px 64px rgba(0, 0, 0, 0.46), 0 0 0 1px oklch(from #ffb400 l c h / 12%);
   --shadow-elevated: 0 24px 64px rgba(0, 0, 0, 0.42);
   --shadow-glow: 0 0 0 1px oklch(from #ffb400 l c h / 16%), 0 18px 42px oklch(from #ffb400 l c h / 12%);
   --shadow-focus-ring: 0 0 0 1px oklch(from #ffb400 l c h / 30%), 0 0 0 4px oklch(from #ffb400 l c h / 16%);
+  --shadow-touch-feedback: 0 0 0 1px oklch(from #ffb400 l c h / 24%), 0 14px 32px oklch(from #ffb400 l c h / 10%);
+  --text-shadow-gold-rest: 0 0 0 transparent;
+  --text-shadow-gold-hover: 0 0 18px oklch(from #ffb400 l c h / 35%), 0 0 32px oklch(from #ffb400 l c h / 10%);
 
   --ease-micro: ease-out;
   --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
@@ -97,7 +103,7 @@
   --animate-emphasis: emphasis 500ms var(--ease-standard);
   --animate-ambient: ambient 45s linear infinite;
   --animate-signature: signature 1.5s var(--ease-signature) infinite;
-  --animate-gold-pulse: gold-pulse 1.5s ease-in-out infinite;
+  --animate-gold-pulse: gold-pulse 1.5s ease-in-out 1 both;
   --animate-slide-in: slide-in 1s forwards;
   --animate-slide-out: slide-out 1s forwards;
 
@@ -137,6 +143,39 @@ body {
 
 #root {
   min-height: 100vh;
+}
+
+.card-hover-radial {
+  background:
+    radial-gradient(
+      circle at var(--mx, 50%) var(--my, 50%),
+      var(--color-accent-primary-veil) 0%,
+      transparent 60%
+    );
+}
+
+.card-hover-corner-bleed {
+  background:
+    radial-gradient(
+      85% 100% at 100% 0%,
+      var(--color-accent-primary-glow) 0%,
+      transparent 58%
+    ),
+    radial-gradient(
+      70% 90% at 0% 100%,
+      var(--color-accent-primary-muted) 0%,
+      transparent 54%
+    );
+}
+
+.card-hover-sheen {
+  background:
+    linear-gradient(
+      135deg,
+      transparent 18%,
+      oklch(from #ffffff l c h / 4%) 50%,
+      transparent 82%
+    );
 }
 
 @keyframes micro {
@@ -191,13 +230,16 @@ body {
 }
 
 @keyframes gold-pulse {
-  0%,
-  100% {
-    text-shadow: 0 0 0 transparent;
+  0% {
+    text-shadow: var(--text-shadow-gold-rest);
   }
 
   50% {
-    text-shadow: 0 0 18px oklch(from #ffb400 l c h / 35%);
+    text-shadow: 0 0 22px oklch(from #ffb400 l c h / 42%), 0 0 40px oklch(from #ffb400 l c h / 14%);
+  }
+
+  100% {
+    text-shadow: var(--text-shadow-gold-hover);
   }
 }
 
