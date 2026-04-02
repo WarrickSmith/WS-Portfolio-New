@@ -242,7 +242,7 @@ GPT-5 Codex
 - `sed -n '1,260p' NGINX-DEPLOYMENT.md`
 - `sed -n '1,260p' stack.env.example`
 - `npm run build`
-- `docker compose build`
+- `docker compose --env-file stack.env.example config`
 - `rg -n "styled-components|build-time only|build time|box2|box3|box4|box5|GlobalStyle" README.md CLAUDE.md docs NGINX-DEPLOYMENT.md`
 - `rg -n "build-args|EMAILJS_|RECAPTCHA_SITE_KEY|ENABLE_VISITOR_TRACKING|REGISTRY_PASSWORD" .github/workflows/ci.yml`
 
@@ -263,11 +263,15 @@ GPT-5 Codex
 - 2026-04-02: Remote GitHub Actions execution and registry push were not run from this local environment; workflow correctness was validated by file inspection and targeted grep checks only.
 - 2026-04-02: Reviewed post-implementation findings against official Docker/GitHub sources. `docker/login-action@v4` and `docker/setup-buildx-action@v4` are valid current majors; added `timeout-minutes: 5` to the CI job to align more directly with NFR11.
 - 2026-04-02: Review workflow completed. All patch findings were resolved or dismissed, deferred items remain tracked in `deferred-work.md`, and Story 1.7 was advanced to `done`.
+- 2026-04-02: Follow-up alignment changed `docker-compose.yml` itself to an image-only deployment file that pulls `registry.wsapz.com/ws-portfolio-new:latest` by default, matching the desired `raceday-sql` pattern for both local Docker and Portainer.
+- 2026-04-02: Removed the redundant Portainer-only compose file and updated docs so `npm run dev` is the only local code-build flow while Docker remains pull-and-run.
+- 2026-04-02: Follow-up validation passed with `npm run build`, `docker compose --env-file stack.env.example config`, and active-doc grep checks confirming no stale `ws-portfolio:local`, `portainer-stack.yml`, or `docker compose build` guidance remains outside the story record.
 
 ### File List
 
 - `.github/workflows/ci.yml`
 - `docker-compose.yml`
+- `portainer-stack.yml` (deleted)
 - `stack.env.example`
 - `CLAUDE.md`
 - `README.md`
@@ -279,7 +283,6 @@ GPT-5 Codex
 - `docs/component-inventory.md`
 - `docs/source-tree-analysis.md`
 - `NGINX-DEPLOYMENT.md`
-- `stack.env.example`
 
 ### Review Findings
 
@@ -299,3 +302,4 @@ GPT-5 Codex
 - `2026-04-02`: Implemented CI publish workflow, explicit local Docker image naming, runtime-env deployment documentation refresh, and local validation for Story 1.7.
 - `2026-04-02`: Reviewed follow-up findings for Story 1.7, dismissed two invalid Docker action-version claims against official upstream releases, and added CI job timeout enforcement.
 - `2026-04-02`: Completed code review closure for Story 1.7 and marked the story `done`.
+- `2026-04-02`: Changed `docker-compose.yml` to pull `registry.wsapz.com/ws-portfolio-new:latest` directly, removed the redundant `portainer-stack.yml`, and aligned docs with the single image-only Docker deployment path.

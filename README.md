@@ -40,14 +40,14 @@ Supported client-safe variables are documented in [.env.example](./.env.example)
 
 ## Docker
 
-Local Docker validation uses the repo compose file and an explicit short image tag:
+Docker Compose pulls the published image from the private registry:
 
 ```bash
-docker compose build
 docker compose up -d
 ```
 
-`docker-compose.yml` builds or reuses `ws-portfolio:local` instead of Docker Compose's default generated image name.
+`docker-compose.yml` uses `registry.wsapz.com/ws-portfolio-new:latest` with `pull_policy: always`.
+Log in to `registry.wsapz.com` on the Docker host before running Compose.
 
 ## CI/CD
 
@@ -64,10 +64,10 @@ The workflow uses the GitHub secret `REGISTRY_PASSWORD` and intentionally passes
 
 Portainer remains the runtime deployment surface:
 
-1. Pull `registry.wsapz.com/ws-portfolio-new:latest`
-2. Supply runtime env vars in the stack/container configuration
-3. Start the container
-4. Let `docker-entrypoint.sh` generate `config.js` from those env vars at startup
+1. Use [`docker-compose.yml`](./docker-compose.yml) as the stack file.
+2. Import runtime env vars from `stack.env`.
+3. Deploy `registry.wsapz.com/ws-portfolio-new:latest`.
+4. Let `docker-entrypoint.sh` generate `config.js` from those env vars at startup.
 
 ## Verification
 
@@ -76,7 +76,7 @@ This repo intentionally has no automated unit/integration test framework.
 Use:
 
 - `npm run build`
-- `docker compose build`
+- `docker compose config`
 - manual browser verification
 
 ## Documentation
@@ -85,4 +85,3 @@ Use:
 - [docs/development-guide.md](./docs/development-guide.md)
 - [docs/deployment-guide.md](./docs/deployment-guide.md)
 - [NGINX-DEPLOYMENT.md](./NGINX-DEPLOYMENT.md)
-

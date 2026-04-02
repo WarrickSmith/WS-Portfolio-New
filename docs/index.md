@@ -32,7 +32,7 @@
 - Tailwind tokens live in `src/styles/main.css`
 - Shared class merging uses `src/lib/cn.ts`
 - Runtime env access is centralized in `src/config/env.ts`
-- Local Docker builds use explicit image tag `ws-portfolio:local`
+- `docker-compose.yml` pulls `registry.wsapz.com/ws-portfolio-new:latest`
 - CI publishes `registry.wsapz.com/ws-portfolio-new:latest`
 
 ## Common Commands
@@ -42,6 +42,5 @@ npm install
 cp .env.example .env
 npm run dev
 npm run build
-docker compose build
 docker compose up -d
 ```

@@ -8,7 +8,7 @@ ws-portfolio-new/
 │   └── workflows/
 │       └── ci.yml                     # GitHub Actions build and publish workflow
 ├── Dockerfile                         # Multi-stage build and runtime image
-├── docker-compose.yml                 # Local Docker build/run with explicit image tag
+├── docker-compose.yml                 # Image-only compose file for local Docker and Portainer
 ├── docker-entrypoint.sh               # Writes /dist/config.js from runtime env vars
 ├── .env.example                       # Local development env template
 ├── stack.env.example                  # Portainer/runtime env template
@@ -63,5 +63,5 @@ ws-portfolio-new/
 
 - The old `box2`-`box5` folder structure is gone.
 - `GlobalStyle.ts` is gone; Tailwind token definitions live in `src/styles/main.css`.
-- Local Docker builds use `ws-portfolio:local`.
+- `docker-compose.yml` pulls `registry.wsapz.com/ws-portfolio-new:latest` for both local Docker and Portainer.
 - Production publishing targets `registry.wsapz.com/ws-portfolio-new:latest`.
