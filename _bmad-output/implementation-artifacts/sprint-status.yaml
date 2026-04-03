@@ -1,5 +1,5 @@
 # generated: 2026-03-31 14:15:44 NZDT
-# last_updated: 2026-04-03 12:38:11 NZDT
+# last_updated: 2026-04-03 18:39:53 NZDT
 # project: WS-Portfolio-New
 # project_key: NOKEY
 # tracking_system: file-system
@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-03-31 14:15:44 NZDT
-last_updated: 2026-04-03 16:47:49 NZDT (story 2.4 review workflow completed; marked done)
+last_updated: 2026-04-03 18:39:53 NZDT (story 2.5 review completed; marked done)
 project: WS-Portfolio-New
 project_key: NOKEY
 tracking_system: file-system
@@ -56,7 +56,7 @@ development_status:
   2-2-card-hover-effects-and-goldpulsetext: done
   2-3-card-expansion-and-overlay-system: done
   2-4-per-card-expansion-animations-and-spring-physics: done
-  2-5-ambient-background-motion: backlog
+  2-5-ambient-background-motion: done
   epic-2-retrospective: optional
   epic-3: backlog
   3-1-about-me-content-layout-and-profile-information: backlog

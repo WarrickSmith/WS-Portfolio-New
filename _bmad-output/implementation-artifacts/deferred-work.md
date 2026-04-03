@@ -141,3 +141,8 @@ Maps every deferred item to its natural resolution point. Items without a clear 
 - useReducedMotion() only reads on mount — Framer Motion limitation; runtime preference changes not reflected. `src/components/common/ExpandableItem.tsx:80`
 - Cards 1/2 run ExpandableItem overlay tracking unnecessarily — overlayVisible state, refs, and effects fire for non-interactive cards. Minor overhead, not a bug. `src/components/MainPage.tsx:208`
 - CSS mix-blend-mode: screen on overlay highlight — may render as solid band on some mobile GPUs or hardware-acceleration-disabled browsers. `src/styles/main.css:213`
+
+## Deferred from: code review of 2-5-ambient-background-motion (2026-04-03)
+
+- `blur(24px)` filter on continuously animated `::before` pseudo-element adds GPU compositing cost on low-end devices. Runtime-verified acceptable (8.2ms script, 0 long tasks in 3s capture). Flagged by all three review layers. Revisit if mobile performance complaints arise.
+- `oklch(from ...)` relative color syntax browser support — pre-existing pattern (28+ occurrences in codebase). Not introduced by this change. Tracked from Story 1.2 review.
