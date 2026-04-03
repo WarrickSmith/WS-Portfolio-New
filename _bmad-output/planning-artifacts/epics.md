@@ -445,11 +445,11 @@ So that I can explore detailed content while the grid stays accessible behind a 
 
 **Given** interactive cards are rendered in the grid from Story 2.1
 **When** a visitor clicks an interactive card
-**Then** a CardExpansionOverlay renders as a full-viewport container with `bg-expanded` (#141414) surface and subtle diagonal gradient
+**Then** a CardExpansionOverlay renders with `bg-expanded` (#141414) surface and subtle diagonal gradient; on mobile it fills the viewport, while on tablet and desktop it expands into the shared hero-adjacent region so the hero image remains visible behind the dimmed backdrop
 **And** a DimmedBackdrop fades in to opacity 0.3 with `backdrop-filter: blur()` over 300ms, synchronised with card expansion
 **And** expanded card content area has max-width 800px centred, with padding: 64px (space-16) on desktop, 48px (space-12) on tablet, 24px (space-6) on mobile
 **And** the overlay content is scrollable with body scroll locked (`overflow: hidden` on `<body>`)
-**And** a CloseButton renders fixed top-right (24px inset) with × icon, states: default (bg-elevated, border-subtle, text-secondary), hover (text-primary, border-hover), focused (border-accent glow), `aria-label="Close"`
+**And** a CloseButton renders at the overlay shell's top-right (24px inset) with × icon, states: default (bg-elevated, border-subtle, text-secondary), hover (text-primary, border-hover), focused (border-accent glow), `aria-label="Close"`
 **And** three close triggers work: CloseButton click, DimmedBackdrop click, Escape key — all close the expanded card
 **And** z-index stack is maintained: base(0), content(1), dimmed(10), overlay(20), close(30)
 **And** expanded card content is loaded via `React.lazy()` with a minimal Suspense fallback (fade-in, not a full skeleton) per AR9
