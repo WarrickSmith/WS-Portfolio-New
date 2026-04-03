@@ -145,6 +145,72 @@ body {
   min-height: 100vh;
 }
 
+.ambient-background {
+  overflow: hidden;
+  background:
+    radial-gradient(
+      120% 120% at 12% 0%,
+      oklch(from #ffffff l c h / 4%) 0%,
+      transparent 56%
+    ),
+    radial-gradient(
+      100% 100% at 88% 12%,
+      oklch(from #ffb400 l c h / 3%) 0%,
+      transparent 50%
+    ),
+    linear-gradient(
+      180deg,
+      oklch(from #ffffff l c h / 2%) 0%,
+      transparent 42%
+    ),
+    var(--color-bg-base);
+}
+
+.ambient-background::before {
+  content: "";
+  position: absolute;
+  inset: -18%;
+  background:
+    radial-gradient(
+      42% 38% at 18% 30%,
+      oklch(from #ffffff l c h / 5%) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      34% 34% at 72% 22%,
+      oklch(from #ffb400 l c h / 4%) 0%,
+      transparent 72%
+    ),
+    radial-gradient(
+      48% 42% at 58% 78%,
+      oklch(from #ffffff l c h / 3%) 0%,
+      transparent 74%
+    ),
+    linear-gradient(
+      115deg,
+      oklch(from #ffffff l c h / 2%) 0%,
+      transparent 60%
+    );
+  opacity: 0.58;
+  filter: blur(24px);
+  transform: translate3d(-4%, -2%, 0) scale(1.08);
+  animation: var(--animate-ambient);
+}
+
+.ambient-background::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      120% 100% at 50% 0%,
+      transparent 0%,
+      transparent 62%,
+      oklch(from #000000 l c h / 20%) 100%
+    );
+  opacity: 0.72;
+}
+
 .card-hover-radial {
   background:
     radial-gradient(
@@ -275,12 +341,16 @@ body {
 }
 
 @keyframes ambient {
-  from {
-    background-position: 0% 50%;
+  0% {
+    transform: translate3d(-4%, -2%, 0) scale(1.08);
   }
 
-  to {
-    background-position: 100% 50%;
+  50% {
+    transform: translate3d(4%, 3%, 0) scale(1.12);
+  }
+
+  100% {
+    transform: translate3d(-4%, -2%, 0) scale(1.08);
   }
 }
 
@@ -330,5 +400,12 @@ body {
   to {
     transform: translateX(100%);
     opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-background::before {
+    animation: none;
+    transform: translate3d(0, 0, 0) scale(1.05);
   }
 }
