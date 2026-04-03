@@ -6,13 +6,18 @@ import {
   useEffect,
   useState,
 } from 'react'
-import { motion, type HTMLMotionProps } from 'framer-motion'
+import type { HTMLMotionProps } from 'framer-motion'
 import { cn } from '../../lib/cn'
+import ExpandableItem, { type ExpandableItemPreset } from './ExpandableItem'
 
 type CardProps = HTMLMotionProps<'div'> & {
   children: ReactNode
   className?: string
+  closeRequestKey?: number
+  expansionPreset?: ExpandableItemPreset
   interactive?: boolean
+  onOverlayExitComplete?: () => void
+  overlay?: ReactNode
   opened?: boolean
 }
 
@@ -37,7 +42,11 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
     {
       children,
       className,
+      closeRequestKey = 0,
+      expansionPreset,
       interactive = true,
+      onOverlayExitComplete,
+      overlay,
       opened = false,
       onAnimationEnd,
       onPointerEnter,
@@ -102,10 +111,12 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
     }
 
     return (
-      <motion.div
+      <ExpandableItem
         ref={ref}
+        closeRequestKey={closeRequestKey}
         data-hover-phase={hoverPhase}
         data-opened={opened ? 'true' : 'false'}
+        expanded={opened}
         className={cn(
           'relative flex h-full w-full overflow-hidden rounded-lg border border-border-subtle bg-gradient-to-br from-bg-card to-bg-card-deep shadow-[var(--shadow-ambient)]',
           interactive &&
@@ -116,10 +127,13 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
           opened &&
             'fixed z-20 items-stretch justify-start overflow-hidden border-transparent bg-bg-expanded bg-none shadow-[var(--shadow-elevated)]'
         )}
+        onOverlayExitComplete={onOverlayExitComplete}
         onAnimationEnd={handleAnimationEnd}
         onPointerEnter={handlePointerEnter}
         onPointerLeave={handlePointerLeave}
         onPointerMove={handlePointerMove}
+        overlay={overlay}
+        preset={expansionPreset}
         style={style}
         {...props}
       >
@@ -146,9 +160,9 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
               '[transform:translateZ(0)] transition-transform duration-[400ms] ease-[var(--ease-standard)] motion-safe:pointer-fine:group-hover/card:[transform:translateZ(0)_scale(1.02)] motion-reduce:[transform:none] motion-reduce:transition-none group-data-[opened=true]/card:![transform:translateZ(0)]'
           )}
         >
-          {children}
+          {!opened ? children : null}
         </div>
-      </motion.div>
+      </ExpandableItem>
     )
   }
 )

@@ -36,6 +36,7 @@ const OverlayFallback = ({
 }
 
 export const MainPage = () => {
+  const [closeRequestKey, setCloseRequestKey] = useState(0)
   const [selectedId, setSelectedId] = useState<number | null>(null)
   const [openedCardStyle, setOpenedCardStyle] = useState<CSSProperties>()
   const isClosingRef = useRef(false)
@@ -110,12 +111,16 @@ export const MainPage = () => {
     [selectedId]
   )
 
-  const closeCard = useCallback(() => {
+  const requestClose = useCallback(() => {
     if (isClosingRef.current || selectedId === null) return
 
     isClosingRef.current = true
-    setSelectedId(null)
+    setCloseRequestKey((currentKey) => currentKey + 1)
   }, [selectedId])
+
+  const handleOverlayExitComplete = useCallback(() => {
+    setSelectedId(null)
+  }, [])
 
   useEffect(() => {
     if (selectedId === null) {
@@ -129,7 +134,7 @@ export const MainPage = () => {
 
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key !== 'Escape' || event.defaultPrevented) return
-      closeCard()
+      requestClose()
     }
 
     window.addEventListener('keydown', handleEscape)
@@ -137,7 +142,7 @@ export const MainPage = () => {
     return () => {
       window.removeEventListener('keydown', handleEscape)
     }
-  }, [closeCard, isOverlayOpen])
+  }, [isOverlayOpen, requestClose])
 
   useEffect(() => {
     if (!isOverlayOpen) return
@@ -200,7 +205,28 @@ export const MainPage = () => {
             interactive={cardInteractive}
             key={card.id}
             layout
+            closeRequestKey={isSelected ? closeRequestKey : undefined}
+            expansionPreset={card.expansionPreset}
+            onOverlayExitComplete={
+              isSelected ? handleOverlayExitComplete : undefined
+            }
             onClick={cardInteractive ? () => handleCardClick(card.id) : undefined}
+            overlay={
+              isSelected && selectedCard?.id === card.id ? (
+                <CardExpansionOverlay title={card.title} onClose={requestClose}>
+                  <Suspense fallback={<OverlayFallback title={card.title} />}>
+                    {SelectedContent ? (
+                      <SelectedContent />
+                    ) : (
+                      <OverlayFallback
+                        title={card.title}
+                        message={`Detailed content for ${card.title} is coming soon.`}
+                      />
+                    )}
+                  </Suspense>
+                </CardExpansionOverlay>
+              ) : undefined
+            }
             className={cn(
               isHeroCard &&
                 'hidden min-h-[22rem] bg-cover bg-center bg-no-repeat tablet:flex tablet:col-span-full desktop:col-span-1 desktop:row-span-2 desktop:min-h-0',
@@ -217,21 +243,7 @@ export const MainPage = () => {
                   : undefined
             }
           >
-            {!isSelected && card.preview}
-            {isSelected && selectedCard?.id === card.id && (
-              <CardExpansionOverlay title={card.title} onClose={closeCard}>
-                <Suspense fallback={<OverlayFallback title={card.title} />}>
-                  {SelectedContent ? (
-                    <SelectedContent />
-                  ) : (
-                    <OverlayFallback
-                      title={card.title}
-                      message={`Detailed content for ${card.title} is coming soon.`}
-                    />
-                  )}
-                </Suspense>
-              </CardExpansionOverlay>
-            )}
+            {card.preview}
           </Card>
         )
       })}
@@ -243,7 +255,7 @@ export const MainPage = () => {
             animate={{ opacity: 0.3 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            onClick={closeCard}
+            onClick={requestClose}
           />
         ) : null}
       </AnimatePresence>
