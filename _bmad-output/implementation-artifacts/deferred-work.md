@@ -129,3 +129,8 @@ Maps every deferred item to its natural resolution point. Items without a clear 
 - `supportsFineHoverPointer()` called per-render — `window.matchMedia()` invoked on every Card render. Cheap but unnecessary. Module-level lazy init or `useMemo` would avoid repeated calls. Not a correctness issue.
 - Inner `<div>` wrapper blocks Framer Motion `layout` propagation to children (Card.tsx:94-102) — The plain div between `motion.div` and children breaks the layout animation tree. No child currently uses `layoutId`, so no visible bug. Architectural consideration for future stories.
 - `group/card` naming collision risk — Generic group name could conflict if nested elements also use `group/card`. Safe today but fragile for future extensions.
+
+## Deferred from: code review of 2-3-card-expansion-and-overlay-system (2026-04-03)
+
+- `overscroll-contain` on mobile viewport may clip content with dynamic browser toolbar — `window.innerHeight` may not account for address bar. Known mobile browser limitation. `src/components/common/CardExpansionOverlay.tsx:~24`
+- Rapid open/close toggling can cause visual glitch — clicking same card during AnimatePresence exit animation reopens while closing. `src/components/MainPage.tsx:~51`
