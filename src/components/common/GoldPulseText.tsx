@@ -14,11 +14,11 @@ const GoldPulseText = ({
 }: GoldPulseTextProps) => {
   return (
     <span
+      data-gold-pulse-text={pulse ? 'true' : undefined}
       className={cn(
-        'inline-flex items-center justify-center uppercase',
-        pulse && 'motion-safe:animate-gold-pulse',
+        'inline-flex items-center justify-center uppercase [text-shadow:var(--text-shadow-gold-rest)] transition-[text-shadow] duration-[500ms] ease-[var(--ease-standard)] motion-reduce:transition-none',
         pulse &&
-          'motion-reduce:[text-shadow:0_0_18px_oklch(from_#ffb400_l_c_h_/_35%)]',
+          'motion-safe:pointer-fine:group-hover/card:[text-shadow:var(--text-shadow-gold-hover)] motion-safe:group-data-[hover-phase=animating]/card:animate-gold-pulse motion-reduce:pointer-fine:group-hover/card:[text-shadow:var(--text-shadow-gold-hover)]',
         className
       )}
     >

@@ -1,6 +1,7 @@
 import backgroundImage from '../../assets/warrick.jpg'
 import consolidatedProfile from '../../data/consolidatedProfile'
 import FaIcon from '../common/FaIcon'
+import OverlayContentGroup from '../common/OverlayContentGroup'
 import SectionHeading from '../common/SectionHeading'
 
 const personalInfo = [
@@ -21,8 +22,13 @@ const AboutContent = () => {
 
   return (
     <>
-      <SectionHeading>About Me</SectionHeading>
-      <div className="grid w-full grid-cols-[1fr_2fr] items-start gap-6 p-6 max-lg:grid-cols-1">
+      <OverlayContentGroup slot="heading">
+        <SectionHeading>About Me</SectionHeading>
+      </OverlayContentGroup>
+      <OverlayContentGroup
+        slot="body"
+        className="grid w-full grid-cols-[1fr_2fr] items-start gap-6 p-6 max-lg:grid-cols-1"
+      >
         <div className="col-span-full flex flex-col items-center justify-center">
           <div className="mb-spacing-3 flex items-center">
             <FaIcon
@@ -40,16 +46,6 @@ const AboutContent = () => {
         </div>
 
         <div className="grid grid-cols-1 gap-6 min-[551px]:grid-cols-2">
-          <a
-            href="https://github.com/WarrickSmith?tab=repositories"
-            target="_blank"
-            rel="noreferrer"
-            className="self-start bg-accent-primary p-4 text-left text-supporting font-medium text-text-primary no-underline max-md:text-center"
-          >
-            {`MY GITHUB REPOS' ${'\u00A0'}`}
-            <FaIcon icon="faGithub" />
-          </a>
-
           <div className="grid w-full grid-cols-1 gap-4 min-[551px]:grid-cols-2">
             <div>
               {personalInfo.map(([label, value]) => (
@@ -204,7 +200,18 @@ const AboutContent = () => {
             </p>
           </div>
         </div>
-      </div>
+      </OverlayContentGroup>
+      <OverlayContentGroup slot="actions" className="px-6 pb-6">
+        <a
+          href="https://github.com/WarrickSmith?tab=repositories"
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-2 bg-accent-primary p-4 text-left text-supporting font-medium text-text-primary no-underline max-md:w-full max-md:justify-center"
+        >
+          {`MY GITHUB REPOS' ${'\u00A0'}`}
+          <FaIcon icon="faGithub" />
+        </a>
+      </OverlayContentGroup>
     </>
   )
 }

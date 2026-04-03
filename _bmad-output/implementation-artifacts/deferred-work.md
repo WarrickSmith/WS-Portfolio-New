@@ -118,3 +118,31 @@ Maps every deferred item to its natural resolution point. Items without a clear 
 - AC7 constants vs accessor functions for env — **resolved**: `readEnv()` reads `window.__ENV` at call time; module-level constants work correctly with runtime injection.
 - ContactForm unsafe `process.env` access — **resolved**: ContactForm imports from `env.ts` gateway with empty-string guards.
 - `serve` installed globally in Docker — **partially resolved**: still global install but pinned to `serve@14.2.5`.
+
+## Deferred from: code review of 2-1-card-grid-layout-and-dark-theme-foundation (2026-04-02)
+
+- CloseButton uses legacy `rounded-radius-sm` class — pre-dates Story 2.1. Should be `rounded-sm` for Tailwind v4 utility resolution. `src/components/common/CloseButton.tsx:18`
+- Static cards (1 & 2) receive click events with no focus indication — keyboard users tabbing to non-interactive cards get no visual indication they are inert. Pre-exists Story 2.1.
+
+## Deferred from: code review of 2-2-card-hover-effects-and-goldpulsetext (2026-04-02)
+
+- `supportsFineHoverPointer()` called per-render — `window.matchMedia()` invoked on every Card render. Cheap but unnecessary. Module-level lazy init or `useMemo` would avoid repeated calls. Not a correctness issue.
+- Inner `<div>` wrapper blocks Framer Motion `layout` propagation to children (Card.tsx:94-102) — The plain div between `motion.div` and children breaks the layout animation tree. No child currently uses `layoutId`, so no visible bug. Architectural consideration for future stories.
+- `group/card` naming collision risk — Generic group name could conflict if nested elements also use `group/card`. Safe today but fragile for future extensions.
+
+## Deferred from: code review of 2-3-card-expansion-and-overlay-system (2026-04-03)
+
+- `overscroll-contain` on mobile viewport may clip content with dynamic browser toolbar — `window.innerHeight` may not account for address bar. Known mobile browser limitation. `src/components/common/CardExpansionOverlay.tsx:~24`
+- Rapid open/close toggling can cause visual glitch — clicking same card during AnimatePresence exit animation reopens while closing. `src/components/MainPage.tsx:~51`
+
+## Deferred from: code review of 2-4-per-card-expansion-animations-and-spring-physics (2026-04-03)
+
+- onExitComplete race on unmount — no timeout fallback if component unmounts mid-exit animation. Theoretical in this SPA, no concurrent mode. `src/components/common/ExpandableItem.tsx:136-139`
+- useReducedMotion() only reads on mount — Framer Motion limitation; runtime preference changes not reflected. `src/components/common/ExpandableItem.tsx:80`
+- Cards 1/2 run ExpandableItem overlay tracking unnecessarily — overlayVisible state, refs, and effects fire for non-interactive cards. Minor overhead, not a bug. `src/components/MainPage.tsx:208`
+- CSS mix-blend-mode: screen on overlay highlight — may render as solid band on some mobile GPUs or hardware-acceleration-disabled browsers. `src/styles/main.css:213`
+
+## Deferred from: code review of 2-5-ambient-background-motion (2026-04-03)
+
+- `blur(24px)` filter on continuously animated `::before` pseudo-element adds GPU compositing cost on low-end devices. Runtime-verified acceptable (8.2ms script, 0 long tasks in 3s capture). Flagged by all three review layers. Revisit if mobile performance complaints arise.
+- `oklch(from ...)` relative color syntax browser support — pre-existing pattern (28+ occurrences in codebase). Not introduced by this change. Tracked from Story 1.2 review.
