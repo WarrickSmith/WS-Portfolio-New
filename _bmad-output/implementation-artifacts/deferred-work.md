@@ -134,3 +134,10 @@ Maps every deferred item to its natural resolution point. Items without a clear 
 
 - `overscroll-contain` on mobile viewport may clip content with dynamic browser toolbar — `window.innerHeight` may not account for address bar. Known mobile browser limitation. `src/components/common/CardExpansionOverlay.tsx:~24`
 - Rapid open/close toggling can cause visual glitch — clicking same card during AnimatePresence exit animation reopens while closing. `src/components/MainPage.tsx:~51`
+
+## Deferred from: code review of 2-4-per-card-expansion-animations-and-spring-physics (2026-04-03)
+
+- onExitComplete race on unmount — no timeout fallback if component unmounts mid-exit animation. Theoretical in this SPA, no concurrent mode. `src/components/common/ExpandableItem.tsx:136-139`
+- useReducedMotion() only reads on mount — Framer Motion limitation; runtime preference changes not reflected. `src/components/common/ExpandableItem.tsx:80`
+- Cards 1/2 run ExpandableItem overlay tracking unnecessarily — overlayVisible state, refs, and effects fire for non-interactive cards. Minor overhead, not a bug. `src/components/MainPage.tsx:208`
+- CSS mix-blend-mode: screen on overlay highlight — may render as solid band on some mobile GPUs or hardware-acceleration-disabled browsers. `src/styles/main.css:213`
