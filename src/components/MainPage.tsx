@@ -1,94 +1,248 @@
 import backgroundImage from '../assets/warrick.jpg'
 import { AnimatePresence } from 'framer-motion'
-import { useEffect, useRef, useState } from 'react'
+import {
+  type CSSProperties,
+  Suspense,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import { cn } from '../lib/cn'
 import Card from './common/Card'
+import CardExpansionOverlay from './common/CardExpansionOverlay'
 import CardGrid from './common/CardGrid'
 import DimmedBackdrop from './common/DimmedBackdrop'
-import { renderChildDiv, cards } from './common/renderChildDiv'
-import CloseButton from './common/CloseButton'
+import { cards, getCardById } from './common/renderChildDiv'
+
+type OverlayFallbackProps = {
+  title: string
+  message?: string
+}
+
+const OverlayFallback = ({
+  title,
+  message = `Loading ${title}...`,
+}: OverlayFallbackProps) => {
+  return (
+    <div
+      role="status"
+      aria-live="polite"
+      className="card-expansion-loading-panel rounded-lg px-5 py-4 text-body-sm text-text-secondary"
+    >
+      {message}
+    </div>
+  )
+}
 
 export const MainPage = () => {
   const [selectedId, setSelectedId] = useState<number | null>(null)
+  const [openedCardStyle, setOpenedCardStyle] = useState<CSSProperties>()
   const isClosingRef = useRef(false)
+  const cardRefs = useRef(new Map<number, HTMLDivElement>())
+  const openScrollYRef = useRef(0)
 
-  const handleCardClick = (id: number | null) => {
-    if (id === 1 || id === 2) return
-    setSelectedId(id)
+  const selectedCard = getCardById(selectedId)
+  const SelectedContent = selectedCard?.expandedContent ?? null
+  const isOverlayOpen = selectedId !== null
+
+  const calculateOpenedCardStyle = (): CSSProperties => {
+    if (typeof window === 'undefined') {
+      return { top: 0, left: 0, width: 0, height: 0 }
+    }
+
+    if (window.innerWidth < 768) {
+      return {
+        top: 0,
+        left: 0,
+        width: window.innerWidth,
+        height: window.innerHeight,
+      }
+    }
+
+    const heroRect = cardRefs.current.get(1)?.getBoundingClientRect()
+    const firstInteractiveRect = cardRefs.current
+      .get(2)
+      ?.getBoundingClientRect()
+
+    if (!heroRect || !firstInteractiveRect) {
+      return {
+        top: 0,
+        left: 0,
+        width: window.innerWidth,
+        height: window.innerHeight,
+      }
+    }
+
+    if (window.innerWidth >= 1000) {
+      const horizontalGap = Math.max(firstInteractiveRect.left - heroRect.right, 0)
+      const left = heroRect.right + horizontalGap
+      const rightInset = heroRect.left
+
+      return {
+        top: heroRect.top,
+        left,
+        width: window.innerWidth - left - rightInset,
+        height: heroRect.height,
+      }
+    }
+
+    const verticalGap = Math.max(firstInteractiveRect.top - heroRect.bottom, 0)
+    const top = heroRect.bottom + verticalGap
+    const bottomInset = heroRect.top
+
+    return {
+      top,
+      left: heroRect.left,
+      width: heroRect.width,
+      height: window.innerHeight - top - bottomInset,
+    }
   }
 
-  const closeCard = () => {
+  const handleCardClick = useCallback(
+    (id: number | null) => {
+      if (selectedId !== null || id === null || id === 1 || id === 2) return
+
+      openScrollYRef.current = window.scrollY
+      setOpenedCardStyle(calculateOpenedCardStyle())
+      setSelectedId(id)
+    },
+    [selectedId]
+  )
+
+  const closeCard = useCallback(() => {
     if (isClosingRef.current || selectedId === null) return
 
     isClosingRef.current = true
     setSelectedId(null)
-  }
+  }, [selectedId])
 
   useEffect(() => {
     if (selectedId === null) {
       isClosingRef.current = false
+      setOpenedCardStyle(undefined)
     }
   }, [selectedId])
 
   useEffect(() => {
-    if (selectedId === null) return
+    if (!isOverlayOpen) return
 
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape' || event.defaultPrevented) return
+      closeCard()
+    }
+
+    window.addEventListener('keydown', handleEscape)
+
+    return () => {
+      window.removeEventListener('keydown', handleEscape)
+    }
+  }, [closeCard, isOverlayOpen])
+
+  useEffect(() => {
+    if (!isOverlayOpen) return
+
+    const scrollY = openScrollYRef.current
     const previousOverflow = document.body.style.overflow
     const previousOverflowX = document.body.style.overflowX
     const previousOverflowY = document.body.style.overflowY
+    const previousPosition = document.body.style.position
+    const previousTop = document.body.style.top
+    const previousLeft = document.body.style.left
+    const previousRight = document.body.style.right
+    const previousWidth = document.body.style.width
 
     document.body.style.overflow = 'hidden'
+    document.body.style.overflowX = 'hidden'
+    document.body.style.overflowY = 'hidden'
+    document.body.style.position = 'fixed'
+    document.body.style.top = `-${scrollY}px`
+    document.body.style.left = '0'
+    document.body.style.right = '0'
+    document.body.style.width = '100%'
 
     return () => {
       document.body.style.overflow = previousOverflow
       document.body.style.overflowX = previousOverflowX
       document.body.style.overflowY = previousOverflowY
+      document.body.style.position = previousPosition
+      document.body.style.top = previousTop
+      document.body.style.left = previousLeft
+      document.body.style.right = previousRight
+      document.body.style.width = previousWidth
+      window.scrollTo(0, scrollY)
     }
-  }, [selectedId])
+  }, [isOverlayOpen])
 
   return (
     <CardGrid>
       {cards.map((card) => {
         const isHeroCard = card.id === 1
-        const isStaticCard = card.id === 1 || card.id === 2
+        const isStaticCard = !card.interactive
+        const isSelected = selectedId === card.id
+        const backgroundInert = isOverlayOpen && !isSelected
+        const cardInteractive = card.interactive && !backgroundInert
 
         return (
           <Card
-            opened={selectedId === card.id}
-            interactive={!isStaticCard}
+            ref={(node) => {
+              if (node) {
+                cardRefs.current.set(card.id, node)
+              } else {
+                cardRefs.current.delete(card.id)
+              }
+            }}
+            data-card-id={card.id}
+            data-card-trigger-id={card.id}
+            aria-hidden={backgroundInert ? 'true' : undefined}
+            inert={backgroundInert || undefined}
+            opened={isSelected}
+            interactive={cardInteractive}
             key={card.id}
             layout
-            onClick={() => handleCardClick(card.id)}
+            onClick={cardInteractive ? () => handleCardClick(card.id) : undefined}
             className={cn(
               isHeroCard &&
                 'hidden min-h-[22rem] bg-cover bg-center bg-no-repeat tablet:flex tablet:col-span-full desktop:col-span-1 desktop:row-span-2 desktop:min-h-0',
               !isHeroCard &&
                 'min-h-32 items-stretch tablet:min-h-[14rem] desktop:min-h-0',
-              isStaticCard && 'cursor-default'
+              isStaticCard && !isSelected && 'cursor-default',
+              backgroundInert && 'pointer-events-none select-none'
             )}
             style={
-              isHeroCard
-                ? { backgroundImage: `url(${backgroundImage})` }
-                : undefined
+              isSelected
+                ? openedCardStyle
+                : isHeroCard
+                  ? { backgroundImage: `url(${backgroundImage})` }
+                  : undefined
             }
           >
-            {selectedId !== card.id && card.component}
-            {selectedId === card.id && (
-              <>
-                <CloseButton onClick={closeCard} />
-                <div>{renderChildDiv(selectedId)}</div>
-              </>
+            {!isSelected && card.preview}
+            {isSelected && selectedCard?.id === card.id && (
+              <CardExpansionOverlay title={card.title} onClose={closeCard}>
+                <Suspense fallback={<OverlayFallback title={card.title} />}>
+                  {SelectedContent ? (
+                    <SelectedContent />
+                  ) : (
+                    <OverlayFallback
+                      title={card.title}
+                      message={`Detailed content for ${card.title} is coming soon.`}
+                    />
+                  )}
+                </Suspense>
+              </CardExpansionOverlay>
             )}
           </Card>
         )
       })}
       <AnimatePresence>
-        {selectedId ? (
+        {isOverlayOpen ? (
           <DimmedBackdrop
             key="backdrop"
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.3 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
             onClick={closeCard}
           />
         ) : null}
