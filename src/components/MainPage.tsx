@@ -47,7 +47,7 @@ export const MainPage = () => {
   const SelectedContent = selectedCard?.expandedContent ?? null
   const isOverlayOpen = selectedId !== null
 
-  const calculateOpenedCardStyle = (): CSSProperties => {
+  const calculateOpenedCardStyle = useCallback((): CSSProperties => {
     if (typeof window === 'undefined') {
       return { top: 0, left: 0, width: 0, height: 0 }
     }
@@ -98,7 +98,7 @@ export const MainPage = () => {
       width: heroRect.width,
       height: window.innerHeight - top - bottomInset,
     }
-  }
+  }, [])
 
   const handleCardClick = useCallback(
     (id: number | null) => {
@@ -108,7 +108,7 @@ export const MainPage = () => {
       setOpenedCardStyle(calculateOpenedCardStyle())
       setSelectedId(id)
     },
-    [selectedId]
+    [calculateOpenedCardStyle, selectedId]
   )
 
   const requestClose = useCallback(() => {
@@ -143,6 +143,35 @@ export const MainPage = () => {
       window.removeEventListener('keydown', handleEscape)
     }
   }, [isOverlayOpen, requestClose])
+
+  useEffect(() => {
+    if (!isOverlayOpen) return
+
+    let frameId: number | null = null
+
+    const syncOpenedCardStyle = () => {
+      if (frameId !== null) {
+        cancelAnimationFrame(frameId)
+      }
+
+      frameId = window.requestAnimationFrame(() => {
+        setOpenedCardStyle(calculateOpenedCardStyle())
+      })
+    }
+
+    syncOpenedCardStyle()
+    window.addEventListener('resize', syncOpenedCardStyle)
+    window.addEventListener('orientationchange', syncOpenedCardStyle)
+
+    return () => {
+      if (frameId !== null) {
+        cancelAnimationFrame(frameId)
+      }
+
+      window.removeEventListener('resize', syncOpenedCardStyle)
+      window.removeEventListener('orientationchange', syncOpenedCardStyle)
+    }
+  }, [calculateOpenedCardStyle, isOverlayOpen])
 
   useEffect(() => {
     if (!isOverlayOpen) return
