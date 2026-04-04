@@ -146,3 +146,12 @@ Maps every deferred item to its natural resolution point. Items without a clear 
 
 - `blur(24px)` filter on continuously animated `::before` pseudo-element adds GPU compositing cost on low-end devices. Runtime-verified acceptable (8.2ms script, 0 long tasks in 3s capture). Flagged by all three review layers. Revisit if mobile performance complaints arise.
 - `oklch(from ...)` relative color syntax browser support — pre-existing pattern (28+ occurrences in codebase). Not introduced by this change. Tracked from Story 1.2 review.
+
+## Deferred from: code review of 3-1-about-me-content-layout-and-profile-information (2026-04-04)
+
+- `learningAdaptability` data wired but never rendered — Data exists in `personalData.tsx` and flows through `consolidatedProfile` but no component renders it. Preserved for future Story 4.3 (ApproachContent). `src/data/consolidatedProfile.tsx:36`
+- `overviewStats` recomputed on every render — Static data declared inside component body, not memoized. Negligible perf impact. `src/components/about/AboutContent.tsx:9-25`
+- Portrait image column fixed at 220px on desktop — Creates asymmetric layout on wide viewports. Works within current overlay max-width constraint. `src/components/about/AboutContent.tsx:38`
+- `h-full` on `<img>` with no explicit parent height — Relies on `min-h-64` fallback. Works in practice due to intrinsic aspect ratio. `src/components/about/AboutContent.tsx:82`
+- Dual data source split: profile from `personalData`, sections from `consolidatedProfile` — Architectural observation. Both resolve to same underlying data. Future refactor opportunity. `src/components/about/AboutContent.tsx:2-3`
+- Timeline dot may clip if `overflow:hidden` added to parent — Current layout has no overflow clipping. Fragile if styles change. `src/components/about/AboutContent.tsx:151`
