@@ -8,12 +8,17 @@ import {
   useRef,
   useState,
 } from 'react'
+import type { PortfolioProjectId } from '../data/portfolioData'
 import { cn } from '../lib/cn'
 import Card from './common/Card'
 import CardExpansionOverlay from './common/CardExpansionOverlay'
 import CardGrid from './common/CardGrid'
 import DimmedBackdrop from './common/DimmedBackdrop'
-import { cards, getCardById } from './common/renderChildDiv'
+import {
+  cards,
+  getCardById,
+  renderExpandedCardContent,
+} from './common/renderChildDiv'
 
 type OverlayFallbackProps = {
   title: string
@@ -35,19 +40,24 @@ const OverlayFallback = ({
   )
 }
 
+const CROSS_CARD_NAVIGATION_DELAY_MS = 150
+
 export const MainPage = () => {
   const [closeRequestKey, setCloseRequestKey] = useState(0)
   const [selectedId, setSelectedId] = useState<number | null>(null)
+  const [pendingProjectNavigation, setPendingProjectNavigation] =
+    useState<PortfolioProjectId | null>(null)
+  const [selectedProjectId, setSelectedProjectId] =
+    useState<PortfolioProjectId | null>(null)
   const [openedCardStyle, setOpenedCardStyle] = useState<CSSProperties>()
   const isClosingRef = useRef(false)
   const cardRefs = useRef(new Map<number, HTMLDivElement>())
   const openScrollYRef = useRef(0)
 
   const selectedCard = getCardById(selectedId)
-  const SelectedContent = selectedCard?.expandedContent ?? null
   const isOverlayOpen = selectedId !== null
 
-  const calculateOpenedCardStyle = (): CSSProperties => {
+  const calculateOpenedCardStyle = useCallback((): CSSProperties => {
     if (typeof window === 'undefined') {
       return { top: 0, left: 0, width: 0, height: 0 }
     }
@@ -98,17 +108,26 @@ export const MainPage = () => {
       width: heroRect.width,
       height: window.innerHeight - top - bottomInset,
     }
-  }
+  }, [])
+
+  const openCard = useCallback(
+    (id: number) => {
+      openScrollYRef.current = window.scrollY
+      setOpenedCardStyle(calculateOpenedCardStyle())
+      setSelectedId(id)
+    },
+    [calculateOpenedCardStyle]
+  )
 
   const handleCardClick = useCallback(
     (id: number | null) => {
       if (selectedId !== null || id === null || id === 1 || id === 2) return
 
-      openScrollYRef.current = window.scrollY
-      setOpenedCardStyle(calculateOpenedCardStyle())
-      setSelectedId(id)
+      setPendingProjectNavigation(null)
+      setSelectedProjectId(null)
+      openCard(id)
     },
-    [selectedId]
+    [openCard, selectedId]
   )
 
   const requestClose = useCallback(() => {
@@ -122,12 +141,42 @@ export const MainPage = () => {
     setSelectedId(null)
   }, [])
 
+  const handleNavigateToProject = useCallback(
+    (projectId: PortfolioProjectId) => {
+      if (selectedId !== 3) return
+
+      setPendingProjectNavigation(projectId)
+      requestClose()
+    },
+    [requestClose, selectedId]
+  )
+
   useEffect(() => {
     if (selectedId === null) {
       isClosingRef.current = false
       setOpenedCardStyle(undefined)
     }
   }, [selectedId])
+
+  useEffect(() => {
+    if (selectedId !== null) return
+
+    if (pendingProjectNavigation === null) {
+      setSelectedProjectId(null)
+      return
+    }
+
+    // Keep the card grid visible for a beat between overlay transitions.
+    const timeoutId = window.setTimeout(() => {
+      setSelectedProjectId(pendingProjectNavigation)
+      setPendingProjectNavigation(null)
+      openCard(4)
+    }, CROSS_CARD_NAVIGATION_DELAY_MS)
+
+    return () => {
+      window.clearTimeout(timeoutId)
+    }
+  }, [openCard, pendingProjectNavigation, selectedId])
 
   useEffect(() => {
     if (!isOverlayOpen) return
@@ -143,6 +192,35 @@ export const MainPage = () => {
       window.removeEventListener('keydown', handleEscape)
     }
   }, [isOverlayOpen, requestClose])
+
+  useEffect(() => {
+    if (!isOverlayOpen) return
+
+    let frameId: number | null = null
+
+    const syncOpenedCardStyle = () => {
+      if (frameId !== null) {
+        cancelAnimationFrame(frameId)
+      }
+
+      frameId = window.requestAnimationFrame(() => {
+        setOpenedCardStyle(calculateOpenedCardStyle())
+      })
+    }
+
+    syncOpenedCardStyle()
+    window.addEventListener('resize', syncOpenedCardStyle)
+    window.addEventListener('orientationchange', syncOpenedCardStyle)
+
+    return () => {
+      if (frameId !== null) {
+        cancelAnimationFrame(frameId)
+      }
+
+      window.removeEventListener('resize', syncOpenedCardStyle)
+      window.removeEventListener('orientationchange', syncOpenedCardStyle)
+    }
+  }, [calculateOpenedCardStyle, isOverlayOpen])
 
   useEffect(() => {
     if (!isOverlayOpen) return
@@ -178,6 +256,13 @@ export const MainPage = () => {
       window.scrollTo(0, scrollY)
     }
   }, [isOverlayOpen])
+
+  const expandedContent = selectedCard
+    ? renderExpandedCardContent(selectedCard.id, {
+        onNavigateToProject: handleNavigateToProject,
+        selectedProjectId,
+      })
+    : null
 
   return (
     <CardGrid>
@@ -215,8 +300,8 @@ export const MainPage = () => {
               isSelected && selectedCard?.id === card.id ? (
                 <CardExpansionOverlay title={card.title} onClose={requestClose}>
                   <Suspense fallback={<OverlayFallback title={card.title} />}>
-                    {SelectedContent ? (
-                      <SelectedContent />
+                    {expandedContent ? (
+                      expandedContent
                     ) : (
                       <OverlayFallback
                         title={card.title}
