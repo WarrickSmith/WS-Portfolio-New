@@ -2,19 +2,30 @@ import {
   lazy,
   type ComponentType,
   type LazyExoticComponent,
+  type ReactElement,
   type ReactNode,
 } from 'react'
+import type { PortfolioProjectId } from '../../data/portfolioData'
 import AboutCard from '../about/AboutCard'
+import type { AboutContentProps } from '../about/AboutContent'
 import ContactCard from '../contact/ContactCard'
 import NameCard from '../namecard/NameCard'
 import PortfolioCard from '../portfolio/PortfolioCard'
+import type { PortfolioContentProps } from '../portfolio/PortfolioContent'
 import type { ExpandableItemPreset } from './ExpandableItem'
 
-const AboutContent = lazy(() => import('../about/AboutContent'))
-const PortfolioContent = lazy(() => import('../portfolio/PortfolioContent'))
+const AboutContent = lazy(
+  () => import('../about/AboutContent')
+) as LazyExoticComponent<ComponentType<AboutContentProps>>
+const PortfolioContent = lazy(
+  () => import('../portfolio/PortfolioContent')
+) as LazyExoticComponent<ComponentType<PortfolioContentProps>>
 const ContactContent = lazy(() => import('../contact/ContactContent'))
 
-type ExpandedContentComponent = LazyExoticComponent<ComponentType>
+export type ExpandedCardContentProps = {
+  onNavigateToProject?: (projectId: PortfolioProjectId) => void
+  selectedProjectId?: PortfolioProjectId | null
+}
 
 const aboutExpansionPreset = {
   id: 'about-card-expansion',
@@ -97,7 +108,6 @@ export type CardDefinition = {
   title: string
   preview: ReactNode
   interactive: boolean
-  expandedContent?: ExpandedContentComponent
 }
 
 export const cards: CardDefinition[] = [
@@ -109,7 +119,6 @@ export const cards: CardDefinition[] = [
     preview: <AboutCard />,
     interactive: true,
     expansionPreset: aboutExpansionPreset,
-    expandedContent: AboutContent,
   },
   {
     id: 4,
@@ -117,7 +126,6 @@ export const cards: CardDefinition[] = [
     preview: <PortfolioCard />,
     interactive: true,
     expansionPreset: portfolioExpansionPreset,
-    expandedContent: PortfolioContent,
   },
   {
     id: 5,
@@ -125,7 +133,6 @@ export const cards: CardDefinition[] = [
     preview: <ContactCard />,
     interactive: true,
     expansionPreset: contactExpansionPreset,
-    expandedContent: ContactContent,
   },
 ]
 
@@ -133,4 +140,20 @@ export const getCardById = (selectedId: number | null) => {
   if (selectedId === null) return null
 
   return cards.find((card) => card.id === selectedId) ?? null
+}
+
+export const renderExpandedCardContent = (
+  cardId: number,
+  props: ExpandedCardContentProps
+): ReactElement | null => {
+  switch (cardId) {
+    case 3:
+      return <AboutContent onNavigateToProject={props.onNavigateToProject} />
+    case 4:
+      return <PortfolioContent selectedProjectId={props.selectedProjectId} />
+    case 5:
+      return <ContactContent />
+    default:
+      return null
+  }
 }

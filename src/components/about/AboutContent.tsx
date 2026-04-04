@@ -1,11 +1,26 @@
 import backgroundImage from '../../assets/warrick.jpg'
 import consolidatedProfile from '../../data/consolidatedProfile'
+import type { PortfolioProjectId } from '../../data/portfolioData'
 import personalData from '../../data/personalData'
 import FaIcon from '../common/FaIcon'
 import OverlayContentGroup from '../common/OverlayContentGroup'
 import SectionHeading from '../common/SectionHeading'
+import SkillBadge from '../common/SkillBadge'
 
-const AboutContent = () => {
+export type AboutContentProps = {
+  onNavigateToProject?: (projectId: PortfolioProjectId) => void
+}
+
+const skillCategoryLabels = {
+  frontend: 'Frontend',
+  backend: 'Backend',
+  data: 'Data',
+  delivery: 'Delivery',
+} as const
+
+const skillCategoryOrder = ['frontend', 'backend', 'data', 'delivery'] as const
+
+const AboutContent = ({ onNavigateToProject }: AboutContentProps) => {
   const overviewStats: Array<{
     icon: string
     label: string
@@ -27,6 +42,16 @@ const AboutContent = () => {
       value: String(consolidatedProfile.education.length),
     },
   ]
+
+  const skillGroups = skillCategoryOrder
+    .map((category) => ({
+      category,
+      label: skillCategoryLabels[category],
+      items: consolidatedProfile.skills
+        .filter((item) => item.category === category)
+        .sort((left, right) => left.order - right.order),
+    }))
+    .filter((group) => group.items.length > 0)
 
   return (
     <>
@@ -118,21 +143,51 @@ const AboutContent = () => {
               Core Skills
             </h3>
             <p className="max-w-[65ch] text-body-sm text-text-secondary">
-              A concise view of the stack and delivery tooling used across
-              product, platform, and deployment work.
+              Accent badges jump straight to a portfolio example, while the rest
+              stay visible as a complete snapshot of the stack used across
+              product, platform, and delivery work.
             </p>
           </div>
 
-          <ul className="flex flex-wrap gap-2">
-            {consolidatedProfile.skills.map((item) => (
-              <li
-                key={item.skill}
-                className="rounded-full border border-border-subtle bg-bg-card-hover px-3 py-2 text-body-sm font-medium text-text-primary"
+          <div className="grid gap-4 min-[760px]:grid-cols-2">
+            {skillGroups.map((group) => (
+              <section
+                key={group.category}
+                aria-labelledby={`skills-group-${group.category}`}
+                className="rounded-radius-md border border-border-subtle bg-bg-card-hover p-4"
               >
-                {item.skill}
-              </li>
+                <h4
+                  id={`skills-group-${group.category}`}
+                  className="text-caption font-semibold uppercase tracking-[0.16em] text-text-tertiary"
+                >
+                  {group.label}
+                </h4>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {group.items.map((item) => {
+                    const projectId = item.primaryProjectId
+                    const badgeProps =
+                      projectId !== null &&
+                      item.primaryProjectAriaLabel !== null &&
+                      onNavigateToProject
+                        ? {
+                            variant: 'linked' as const,
+                            ariaLabel: item.primaryProjectAriaLabel,
+                            onClick: () => onNavigateToProject(projectId),
+                          }
+                        : { variant: 'default' as const }
+
+                    return (
+                      <SkillBadge
+                        key={item.id}
+                        label={item.label}
+                        {...badgeProps}
+                      />
+                    )
+                  })}
+                </div>
+              </section>
             ))}
-          </ul>
+          </div>
         </section>
 
         <section className="rounded-radius-lg border border-border-subtle bg-bg-card p-6">
