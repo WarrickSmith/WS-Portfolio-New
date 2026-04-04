@@ -2,6 +2,16 @@ import portfolioImage from '../assets/ws-portfolio.jpg?url'
 import musicManagerImage from '../assets/music-manager.jpg?url'
 import raceDayImage from '../assets/raceday.png?url'
 
+export type PortfolioProjectId = 'portfolio-site' | 'music-manager' | 'race-day'
+
+export interface PortfolioProject {
+  id: PortfolioProjectId
+  href: string
+  title: string
+  points: string[]
+  image: string
+}
+
 const portfolioPoints = [
   'Personal Website',
   'React, Typescript',
@@ -23,20 +33,23 @@ const raceDayPoints = [
   'Live polling with NZ TAB API',
 ]
 
-const portfolioData = [
+const portfolioData: PortfolioProject[] = [
   {
+    id: 'portfolio-site',
     href: 'https://warricksmith.com',
     title: 'Portfolio Project',
     points: portfolioPoints,
     image: portfolioImage,
   },
   {
+    id: 'music-manager',
     href: 'https://mm.warricksmith.com',
     title: 'Music Manager Project',
     points: musicManagerPoints,
     image: musicManagerImage,
   },
   {
+    id: 'race-day',
     href: 'https://raceday.wsapz.com',
     title: 'RaceDay Project',
     points: raceDayPoints,

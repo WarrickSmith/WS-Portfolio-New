@@ -1,3 +1,5 @@
+import type { PortfolioProjectId } from './portfolioData'
+
 export interface ProfileFact {
   label: string
   value: string
@@ -27,9 +29,14 @@ export interface EducationItem {
   description: string
 }
 
+export type SkillCategory = 'frontend' | 'backend' | 'data' | 'delivery'
+
 export interface SkillItem {
-  skill: string
-  stars: number
+  id: string
+  label: string
+  category: SkillCategory
+  order: number
+  projectIds: PortfolioProjectId[]
 }
 
 export interface LearningAdaptabilityItem {
@@ -115,18 +122,90 @@ const personalData = {
     },
   ],
   skills: [
-    { skill: 'HTML', stars: 4 },
-    { skill: 'Auth0', stars: 3 },
-    { skill: 'CSS', stars: 3 },
-    { skill: 'Docker', stars: 3 },
-    { skill: 'JavaScript', stars: 4 },
-    { skill: 'PostgreSQL', stars: 3 },
-    { skill: 'Jest / Supertest', stars: 3 },
-    { skill: 'MongoDB', stars: 3 },
-    { skill: 'Node.js', stars: 4 },
-    { skill: 'Git / GitHub', stars: 4 },
-    { skill: 'Express', stars: 3 },
-    { skill: 'AWS CI/CD Pipelines & Copilot', stars: 3 },
+    {
+      id: 'html',
+      label: 'HTML',
+      category: 'frontend',
+      order: 1,
+      projectIds: ['portfolio-site'],
+    },
+    {
+      id: 'css',
+      label: 'CSS',
+      category: 'frontend',
+      order: 2,
+      projectIds: ['portfolio-site'],
+    },
+    {
+      id: 'javascript',
+      label: 'JavaScript',
+      category: 'frontend',
+      order: 3,
+      projectIds: ['portfolio-site', 'music-manager', 'race-day'],
+    },
+    {
+      id: 'node-js',
+      label: 'Node.js',
+      category: 'backend',
+      order: 4,
+      projectIds: ['music-manager', 'race-day'],
+    },
+    {
+      id: 'express',
+      label: 'Express',
+      category: 'backend',
+      order: 5,
+      projectIds: [],
+    },
+    {
+      id: 'auth0',
+      label: 'Auth0',
+      category: 'backend',
+      order: 6,
+      projectIds: [],
+    },
+    {
+      id: 'postgresql',
+      label: 'PostgreSQL',
+      category: 'data',
+      order: 7,
+      projectIds: [],
+    },
+    {
+      id: 'mongodb',
+      label: 'MongoDB',
+      category: 'data',
+      order: 8,
+      projectIds: [],
+    },
+    {
+      id: 'docker',
+      label: 'Docker',
+      category: 'delivery',
+      order: 9,
+      projectIds: [],
+    },
+    {
+      id: 'git-github',
+      label: 'Git / GitHub',
+      category: 'delivery',
+      order: 10,
+      projectIds: [],
+    },
+    {
+      id: 'jest-supertest',
+      label: 'Jest / Supertest',
+      category: 'delivery',
+      order: 11,
+      projectIds: [],
+    },
+    {
+      id: 'aws-cicd-copilot',
+      label: 'AWS CI/CD Pipelines & Copilot',
+      category: 'delivery',
+      order: 12,
+      projectIds: [],
+    },
   ],
   learningAdaptability: [
     {
