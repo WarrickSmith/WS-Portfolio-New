@@ -155,3 +155,11 @@ Maps every deferred item to its natural resolution point. Items without a clear 
 - `h-full` on `<img>` with no explicit parent height — Relies on `min-h-64` fallback. Works in practice due to intrinsic aspect ratio. `src/components/about/AboutContent.tsx:82`
 - Dual data source split: profile from `personalData`, sections from `consolidatedProfile` — Architectural observation. Both resolve to same underlying data. Future refactor opportunity. `src/components/about/AboutContent.tsx:2-3`
 - Timeline dot may clip if `overflow:hidden` added to parent — Current layout has no overflow clipping. Fragile if styles change. `src/components/about/AboutContent.tsx:151`
+
+## Deferred from: code review of 3-2-skills-grid-with-skills-to-proof-mapping (2026-04-04)
+
+- Missing key tech skills in data (React, TypeScript, Tailwind) — Portfolio bullets reference React, TypeScript, Tailwind, Next.js but no corresponding skill badges exist. Data completeness is a content decision outside story code scope. deferred, content decision
+- Race condition on rapid skill badge clicks — Multiple rapid clicks during close animation overwrite `pendingProjectNavigation`; last-clicked project wins. Acceptable behavior, no user-visible bug. deferred, acceptable behavior
+- useEffect cleanup cancels rAF but not pending state — Theoretical narrow window where effect cleanup cancels rAF but `pendingProjectNavigation` remains set. Extremely unlikely in practice. deferred, theoretical concern
+- PortfolioContent scrollIntoView fires on remount — If Suspense fallback triggers remount, scroll snaps back to the selected project. Unlikely in current architecture. deferred, unlikely
+- Skills section position pre-existing from Story 3.1 — Story 3.1 established the section order. 3.2 upgraded skills in-place without reordering. deferred, pre-existing layout from 3.1
