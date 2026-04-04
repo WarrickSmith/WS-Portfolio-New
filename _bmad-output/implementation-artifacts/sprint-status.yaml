@@ -1,5 +1,5 @@
 # generated: 2026-03-31 14:15:44 NZDT
-# last_updated: 2026-04-04 19:41:13 NZDT
+# last_updated: 2026-04-04 22:56:04 NZDT
 # project: WS-Portfolio-New
 # project_key: NOKEY
 # tracking_system: file-system
@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-03-31 14:15:44 NZDT
-last_updated: 2026-04-04 19:41:13 NZDT (story 3.2 review workflow completed and marked done)
+last_updated: 2026-04-04 22:56:04 NZDT (epic 3 retrospective completed)
 project: WS-Portfolio-New
 project_key: NOKEY
 tracking_system: file-system
@@ -61,7 +61,7 @@ development_status:
   epic-3: in-progress
   3-1-about-me-content-layout-and-profile-information: done
   3-2-skills-grid-with-skills-to-proof-mapping: done
-  epic-3-retrospective: optional
+  epic-3-retrospective: done
   epic-4: backlog
   4-1-portfolio-content-layout-and-project-cards: backlog
   4-2-portfolio-data-update-and-content-refresh: backlog
