@@ -183,14 +183,14 @@ const personalData = {
       label: 'Docker',
       category: 'delivery',
       order: 9,
-      projectIds: [],
+      projectIds: ['portfolio-site'],
     },
     {
       id: 'git-github',
       label: 'Git / GitHub',
       category: 'delivery',
       order: 10,
-      projectIds: [],
+      projectIds: ['portfolio-site', 'music-manager', 'race-day'],
     },
     {
       id: 'jest-supertest',
