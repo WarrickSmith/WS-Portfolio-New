@@ -164,6 +164,12 @@ Maps every deferred item to its natural resolution point. Items without a clear 
 - PortfolioContent scrollIntoView fires on remount — If Suspense fallback triggers remount, scroll snaps back to the selected project. Unlikely in current architecture. deferred, unlikely
 - Skills section position pre-existing from Story 3.1 — Story 3.1 established the section order. 3.2 upgraded skills in-place without reordering. deferred, pre-existing layout from 3.1
 
+## Deferred from: code review of 4-2-portfolio-data-update-and-content-refresh (2026-04-05)
+
+- Duplicate React key fragility in keyFeatures/techStack — pre-existing from Story 4.1. `key={feature}` / `key={technology}` risk if duplicate strings within same project. Low risk with current data. `ProjectCard.tsx:50,57`
+- ExternalLinkButton no guard for empty href — pre-existing from Story 4.1. Empty string would navigate to current page in new tab. Current data complete. `ExternalLinkButton.tsx:14`
+- consolidatedProfile silently swallows invalid projectIds — pre-existing. `.filter` drops undefined lookups silently. TS union type catches typos at compile time. `consolidatedProfile.tsx:54-56`
+
 ## Deferred from: code review of 4-1-portfolio-content-layout-and-project-cards (2026-04-05)
 
 - `key={feature}` / `key={technology}` fragile for duplicates — React key collision risk if duplicate strings appear within same project's arrays. Low risk with current data. `ProjectCard.tsx:50,57`
