@@ -22,7 +22,7 @@
 
 ### `src/components/common/CardGrid.tsx`
 
-- Responsive grid container for the five-card home layout
+- Responsive grid container for the six-card desktop layout and stacked mobile/tablet variants
 
 ### `src/components/common/DimmedBackdrop.tsx`
 
@@ -81,6 +81,16 @@
 
 - Expanded project gallery
 - Renders portfolio items from `src/data/portfolioData.tsx`
+- Exposes proof-to-skills reverse navigation actions inside project cards
+
+### `src/components/approach/ApproachCard.tsx`
+
+- Preview card for the approach section
+
+### `src/components/approach/ApproachContent.tsx`
+
+- Expanded methodology and adaptability view
+- Renders structured approach copy and learning-adaptability examples
 
 ### `src/components/contact/ContactCard.tsx`
 

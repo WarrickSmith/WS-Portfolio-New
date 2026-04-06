@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-This is a client-rendered React portfolio application with a five-card landing layout. Cards 3-5 expand into fullscreen overlays. Styling is Tailwind-first, animation is Framer Motion where layout choreography is needed, and deployment is Docker-based with runtime environment injection.
+This is a client-rendered React portfolio application with a six-card landing layout on desktop and a five-card stack on mobile (the hero image remains hidden on smaller screens). Cards 3-6 expand into fullscreen overlays. Styling is Tailwind-first, animation is Framer Motion where layout choreography is needed, and deployment is Docker-based with runtime environment injection.
 
 ## Entry Flow
 
@@ -21,8 +21,9 @@ index.html
 
 - `selectedId` controls which card is open
 - card IDs `1` and `2` are intentionally non-interactive
-- card IDs `3`, `4`, and `5` render expanded content through `renderChildDiv`
+- card IDs `3`, `4`, `5`, and `6` render expanded content through `renderChildDiv`
 - `AnimatePresence` + `DimmedBackdrop` manage the overlay transition
+- cross-card navigation works in both directions between About skills and Portfolio proof links
 
 ### Card Map
 
@@ -32,7 +33,8 @@ index.html
 | 2 | `NameCard` | none |
 | 3 | `AboutCard` | `AboutContent` |
 | 4 | `PortfolioCard` | `PortfolioContent` |
-| 5 | `ContactCard` | `ContactContent` |
+| 5 | `ApproachCard` | `ApproachContent` |
+| 6 | `ContactCard` | `ContactContent` |
 
 ## Feature Folder Layout
 
@@ -62,6 +64,10 @@ Shared building blocks:
 ### `src/components/portfolio/`
 
 - Preview card plus project grid rendered from `src/data/portfolioData.tsx`
+
+### `src/components/approach/`
+
+- Preview card plus expanded methodology and adaptability view
 
 ### `src/components/contact/`
 
