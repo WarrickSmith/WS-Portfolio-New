@@ -176,3 +176,8 @@ Maps every deferred item to its natural resolution point. Items without a clear 
 - `marker:text-text-accent` may not propagate to bullets in Safari — `::marker` color inheritance on `<ul>` is inconsistent across browsers. May show default color instead of accent gold. `ProjectCard.tsx:48`
 - Large unoptimized image assets (~1.26 MiB total) — PNG assets shipped as-is via webpack `asset/resource`. No compression, WebP/AVIF, or srcset. Pre-existing pattern. `src/assets/`
 - ExternalLinkButton no guard for empty href — Component requires href as non-optional string, but empty string would navigate to current page in new tab. Current data complete. `ExternalLinkButton.tsx:14`
+
+## Deferred from: code review of 4-3-proof-to-skills-reverse-navigation-and-approach-content (2026-04-06)
+
+- Card ID literals inconsistent with named constants — Switch statement in `renderChildDiv.tsx` uses raw `3`/`4`/`5`/`6` while `handleOpen` in `MainPage.tsx` uses raw `1`/`2`. Only `ABOUT_CARD_ID` and `PORTFOLIO_CARD_ID` have named constants. Pre-existing inconsistency. `src/components/common/renderChildDiv.tsx:196-215`, `src/components/MainPage.tsx:130`
+- Arbitrary `min-[860px]` breakpoint in ApproachContent — Does not align with project's `tablet`/`desktop` responsive tokens. Would need project-wide component breakpoint audit. Low priority. `src/components/approach/ApproachContent.tsx:32,67`
