@@ -15,6 +15,21 @@ export interface ProfileData {
   facts: ProfileFact[]
 }
 
+export interface ContactLink {
+  label: string
+  href: string
+  ariaLabel: string
+  icon: string
+  supportingText: string
+}
+
+export interface ContactData {
+  email: string
+  intro: string
+  availability: string
+  links: ContactLink[]
+}
+
 export interface ExperienceItem {
   role: string
   company: string
@@ -59,12 +74,16 @@ export type SkillId = SkillItem['id']
 
 export interface PersonalData {
   profile: ProfileData
+  contact: ContactData
   experience: ExperienceItem[]
   education: EducationItem[]
   skills: SkillItem[]
   approach: ApproachData
   learningAdaptability: LearningAdaptabilityItem[]
 }
+
+const githubUrl = 'https://github.com/WarrickSmith?tab=repositories'
+const directEmail = 'warrick@baybox.co.nz'
 
 const personalData = {
   profile: {
@@ -73,13 +92,30 @@ const personalData = {
     location: 'Auckland, New Zealand',
     summary:
       'Full stack developer with production experience across banking, cloud delivery, and customer-facing products. I enjoy turning business needs into practical software with clear UX, reliable systems, and maintainable code.',
-    githubUrl: 'https://github.com/WarrickSmith?tab=repositories',
+    githubUrl,
     experienceStartDate: '2021-06-01',
     facts: [
       { label: 'Name', value: 'Warrick Smith' },
       { label: 'Nationality', value: 'New Zealand' },
       { label: 'Status', value: 'Available' },
       { label: 'Languages', value: 'English' },
+    ],
+  },
+  contact: {
+    email: directEmail,
+    intro:
+      'Use the form for a quick introduction, or reach out directly if you already know what you would like to discuss.',
+    availability:
+      'Open to product, platform, job, frontend, and full-stack conversations.',
+    links: [
+      {
+        label: 'GitHub Repositories',
+        href: githubUrl,
+        ariaLabel: 'Open Warrick Smith GitHub repositories in a new tab',
+        icon: 'faGithub',
+        supportingText:
+          'Recent portfolio work, source code, and implementation detail.',
+      },
     ],
   },
   experience: [
