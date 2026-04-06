@@ -1,57 +1,55 @@
 import { VisitorGeolocation } from '../types/visitor.types'
 
+const GEOLOCATION_TIMEOUT_MS = 8000
+
+const FALLBACK_GEOLOCATION: VisitorGeolocation = {
+  ip: '0.0.0.0',
+  city: 'Unknown',
+  region: 'Unknown',
+  country: 'Unknown',
+  latitude: 0,
+  longitude: 0,
+  timezone: 'UTC',
+  isp: 'Unknown',
+}
+
 export class IpGeolocationService {
   private static readonly API_URL = 'https://ipapi.co/json/'
 
-  /**
-   * Fetches geolocation data for the current visitor
-   * @returns Promise<VisitorGeolocation> - Geolocation data
-   * @throws Error if API request fails
-   */
   static async getGeolocation(): Promise<VisitorGeolocation> {
     try {
-      const response = await fetch(this.API_URL)
+      const result = await Promise.race([
+        fetch(this.API_URL),
+        new Promise<never>((_, reject) =>
+          setTimeout(() => reject(new Error('Geolocation request timed out')), GEOLOCATION_TIMEOUT_MS)
+        ),
+      ])
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
+      if (!result.ok) {
+        throw new Error(`HTTP error! status: ${result.status}`)
       }
 
-      const data = await response.json()
-
-      // Validate required fields
-      if (!data.ip || !data.city || !data.region || !data.country) {
-        throw new Error('Invalid geolocation response format')
-      }
+      const data = await result.json()
 
       return {
-        ip: data.ip,
-        city: data.city,
-        region: data.region,
-        country: data.country,
+        ip: data.ip || FALLBACK_GEOLOCATION.ip,
+        city: data.city || FALLBACK_GEOLOCATION.city,
+        region: data.region || FALLBACK_GEOLOCATION.region,
+        country: data.country || FALLBACK_GEOLOCATION.country,
         latitude: parseFloat(data.latitude) || 0,
         longitude: parseFloat(data.longitude) || 0,
-        timezone: data.timezone || 'UTC',
+        timezone: data.timezone || FALLBACK_GEOLOCATION.timezone,
+        isp: data.org || FALLBACK_GEOLOCATION.isp,
       }
     } catch (error) {
-      console.error('Failed to fetch geolocation:', error)
-
-      // Return fallback data for privacy compliance
-      return {
-        ip: '0.0.0.0',
-        city: 'Unknown',
-        region: 'Unknown',
-        country: 'Unknown',
-        latitude: 0,
-        longitude: 0,
-        timezone: 'UTC',
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to fetch geolocation:', error)
       }
+
+      return { ...FALLBACK_GEOLOCATION }
     }
   }
 
-  /**
-   * Checks if geolocation service is available
-   * @returns boolean - Service availability
-   */
   static isAvailable(): boolean {
     return typeof window !== 'undefined' && window.fetch !== undefined
   }

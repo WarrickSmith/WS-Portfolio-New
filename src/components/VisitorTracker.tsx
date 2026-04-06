@@ -22,7 +22,7 @@ export const VisitorTracker = () => {
   }, [trackVisitor])
 
   useEffect(() => {
-    if (process.env.NODE_ENV !== 'development' || !DEBUG_VISITOR_TRACKING) {
+    if (!DEBUG_VISITOR_TRACKING) {
       return
     }
 
