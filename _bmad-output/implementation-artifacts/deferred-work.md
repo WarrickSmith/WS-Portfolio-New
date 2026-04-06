@@ -181,3 +181,8 @@ Maps every deferred item to its natural resolution point. Items without a clear 
 
 - Card ID literals inconsistent with named constants — Switch statement in `renderChildDiv.tsx` uses raw `3`/`4`/`5`/`6` while `handleOpen` in `MainPage.tsx` uses raw `1`/`2`. Only `ABOUT_CARD_ID` and `PORTFOLIO_CARD_ID` have named constants. Pre-existing inconsistency. `src/components/common/renderChildDiv.tsx:196-215`, `src/components/MainPage.tsx:130`
 - Arbitrary `min-[860px]` breakpoint in ApproachContent — Does not align with project's `tablet`/`desktop` responsive tokens. Would need project-wide component breakpoint audit. Low priority. `src/components/approach/ApproachContent.tsx:32,67`
+
+## Deferred from: code review of 5-1-contact-form-with-validation-and-submission (2026-04-06)
+
+- Cannot abort in-flight emailjs.sendForm after timeout — Library doesn't support AbortController. Promise.race timeout fires but network request continues, potentially causing duplicate sends if user retries after timeout error. No fix available without library changes or switching away from sendForm. `ContactForm.tsx:Promise.race`
+- Empty contact.links array renders empty Profiles section — If links array is empty, section heading and description render with no link items below. Data completeness concern, not a code bug. `ContactContent.tsx:profiles section`
