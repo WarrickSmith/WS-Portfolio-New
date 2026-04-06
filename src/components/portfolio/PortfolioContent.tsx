@@ -1,4 +1,6 @@
 import { useEffect, useRef } from 'react'
+import consolidatedProfile from '../../data/consolidatedProfile'
+import type { SkillId } from '../../data/personalData'
 import portfolioData from '../../data/portfolioData'
 import type { PortfolioProjectId } from '../../data/portfolioData'
 import OverlayContentGroup from '../common/OverlayContentGroup'
@@ -6,10 +8,12 @@ import SectionHeading from '../common/SectionHeading'
 import ProjectCard from './ProjectCard'
 
 export type PortfolioContentProps = {
+  onNavigateToSkill?: (skillId: SkillId) => void
   selectedProjectId?: PortfolioProjectId | null
 }
 
 const PortfolioContent = ({
+  onNavigateToSkill,
   selectedProjectId = null,
 }: PortfolioContentProps) => {
   const projectRefs = useRef(new Map<PortfolioProjectId, HTMLElement>())
@@ -50,7 +54,9 @@ const PortfolioContent = ({
           <ProjectCard
             key={data.id}
             project={data}
+            relatedSkills={consolidatedProfile.relatedSkillsByProjectId[data.id] ?? []}
             id={`portfolio-project-${data.id}`}
+            onNavigateToSkill={onNavigateToSkill}
             tabIndex={-1}
             ref={(node) => {
               if (node) {

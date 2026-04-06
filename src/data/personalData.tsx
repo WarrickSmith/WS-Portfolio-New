@@ -44,11 +44,25 @@ export interface LearningAdaptabilityItem {
   description: string
 }
 
+export interface ApproachProcessItem {
+  title: string
+  description: string
+}
+
+export interface ApproachData {
+  summary: string
+  process: ApproachProcessItem[]
+  adaptabilityStatement: string
+}
+
+export type SkillId = SkillItem['id']
+
 export interface PersonalData {
   profile: ProfileData
   experience: ExperienceItem[]
   education: EducationItem[]
   skills: SkillItem[]
+  approach: ApproachData
   learningAdaptability: LearningAdaptabilityItem[]
 }
 
@@ -207,6 +221,29 @@ const personalData = {
       projectIds: [],
     },
   ],
+  approach: {
+    summary:
+      'I work from the user outcome backwards, turning broad requirements into clear flows, practical delivery slices, and interfaces that feel deliberate rather than overloaded.',
+    process: [
+      {
+        title: 'Clarify the working brief',
+        description:
+          'I start by pinning down the user path, business constraint, and edge conditions so implementation decisions stay tied to the real problem instead of assumptions.',
+      },
+      {
+        title: 'Build the smallest credible solution',
+        description:
+          'I prefer composable components, data-driven content, and incremental changes that are easy to review, extend, and keep stable under real usage.',
+      },
+      {
+        title: 'Refine with evidence',
+        description:
+          'Once the core flow works, I tighten motion, hierarchy, accessibility, and operational details so the finished product feels polished as well as functional.',
+      },
+    ],
+    adaptabilityStatement:
+      'I am comfortable moving between product thinking, interface design, and implementation detail, adjusting depth and tooling to the constraints of each project without losing delivery momentum.',
+  },
   learningAdaptability: [
     {
       example: 'MERN & PERN Stack Mastery',

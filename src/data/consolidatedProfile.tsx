@@ -1,4 +1,5 @@
 import personalData, {
+  type ApproachData,
   type EducationItem,
   type ExperienceItem,
   type LearningAdaptabilityItem,
@@ -16,11 +17,20 @@ export interface ConsolidatedSkillItem extends SkillItem {
   primaryProjectAriaLabel: string | null
 }
 
+export interface ProjectRelatedSkill {
+  id: SkillItem['id']
+  label: string
+  category: SkillItem['category']
+  ariaLabel: string
+}
+
 export interface ConsolidatedProfile {
   experience: ExperienceItem[]
   education: EducationItem[]
   skills: ConsolidatedSkillItem[]
+  approach: ApproachData
   totalYearsExperience: number
+  relatedSkillsByProjectId: Record<PortfolioProjectId, ProjectRelatedSkill[]>
   learningAdaptability: LearningAdaptabilityItem[]
 }
 
@@ -68,13 +78,35 @@ const skills = personalData.skills.map<ConsolidatedSkillItem>((skill) => {
   }
 })
 
+const relatedSkillsByProjectId: Record<
+  PortfolioProjectId,
+  ProjectRelatedSkill[]
+> = {
+  'portfolio-site': [],
+  'music-manager': [],
+  'race-day': [],
+}
+
+portfolioData.forEach((project) => {
+  relatedSkillsByProjectId[project.id] = skills
+    .filter((skill) => skill.projectIds.includes(project.id))
+    .map((skill) => ({
+      id: skill.id,
+      label: skill.label,
+      category: skill.category,
+      ariaLabel: `View ${skill.label} in the About Me skills section`,
+    }))
+})
+
 const consolidatedProfile: ConsolidatedProfile = {
   experience: personalData.experience,
   education: personalData.education,
   skills,
+  approach: personalData.approach,
   totalYearsExperience: calculateTotalYearsExperience(
     personalData.profile.experienceStartDate
   ),
+  relatedSkillsByProjectId,
   learningAdaptability: personalData.learningAdaptability,
 }
 

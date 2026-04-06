@@ -5,9 +5,12 @@ import {
   type ReactElement,
   type ReactNode,
 } from 'react'
+import type { SkillId } from '../../data/personalData'
 import type { PortfolioProjectId } from '../../data/portfolioData'
 import AboutCard from '../about/AboutCard'
 import type { AboutContentProps } from '../about/AboutContent'
+import ApproachCard from '../approach/ApproachCard'
+import type { ApproachContentProps } from '../approach/ApproachContent'
 import ContactCard from '../contact/ContactCard'
 import NameCard from '../namecard/NameCard'
 import PortfolioCard from '../portfolio/PortfolioCard'
@@ -20,11 +23,16 @@ const AboutContent = lazy(
 const PortfolioContent = lazy(
   () => import('../portfolio/PortfolioContent')
 ) as LazyExoticComponent<ComponentType<PortfolioContentProps>>
+const ApproachContent = lazy(
+  () => import('../approach/ApproachContent')
+) as LazyExoticComponent<ComponentType<ApproachContentProps>>
 const ContactContent = lazy(() => import('../contact/ContactContent'))
 
 export type ExpandedCardContentProps = {
   onNavigateToProject?: (projectId: PortfolioProjectId) => void
+  onNavigateToSkill?: (skillId: SkillId) => void
   selectedProjectId?: PortfolioProjectId | null
+  selectedSkillId?: SkillId | null
 }
 
 const aboutExpansionPreset = {
@@ -102,8 +110,34 @@ const contactExpansionPreset = {
   },
 } satisfies ExpandableItemPreset
 
+const approachExpansionPreset = {
+  id: 'approach-card-expansion',
+  surfaceClassName: 'origin-bottom',
+  layoutTransition: {
+    type: 'spring',
+    stiffness: 220,
+    damping: 26,
+    mass: 0.98,
+    visualDuration: 0.5,
+  },
+  overlayMotion: {
+    className: 'origin-bottom',
+    initial: { opacity: 0, y: 18, scaleY: 0.98 },
+    animate: { opacity: 1, y: 0, scaleY: 1 },
+    exit: { opacity: 0, y: 18, scaleY: 0.98 },
+    transition: {
+      type: 'spring',
+      stiffness: 230,
+      damping: 27,
+      mass: 0.94,
+      visualDuration: 0.46,
+    },
+  },
+} satisfies ExpandableItemPreset
+
 export type CardDefinition = {
   expansionPreset?: ExpandableItemPreset
+  gridClassName?: string
   id: number
   title: string
   preview: ReactNode
@@ -112,13 +146,20 @@ export type CardDefinition = {
 
 export const cards: CardDefinition[] = [
   { id: 1, title: 'Hero Image', preview: <></>, interactive: false },
-  { id: 2, title: 'Name Card', preview: <NameCard />, interactive: false },
+  {
+    id: 2,
+    title: 'Name Card',
+    preview: <NameCard />,
+    interactive: false,
+    gridClassName: 'desktop:col-start-2 desktop:row-start-1',
+  },
   {
     id: 3,
     title: 'About Me',
     preview: <AboutCard />,
     interactive: true,
     expansionPreset: aboutExpansionPreset,
+    gridClassName: 'desktop:col-start-3 desktop:row-start-1',
   },
   {
     id: 4,
@@ -126,13 +167,23 @@ export const cards: CardDefinition[] = [
     preview: <PortfolioCard />,
     interactive: true,
     expansionPreset: portfolioExpansionPreset,
+    gridClassName: 'desktop:col-start-4 desktop:row-start-1',
   },
   {
     id: 5,
+    title: 'My Approach',
+    preview: <ApproachCard />,
+    interactive: true,
+    expansionPreset: approachExpansionPreset,
+    gridClassName: 'desktop:col-start-2 desktop:row-start-2',
+  },
+  {
+    id: 6,
     title: 'Get In Touch',
     preview: <ContactCard />,
     interactive: true,
     expansionPreset: contactExpansionPreset,
+    gridClassName: 'desktop:col-start-3 desktop:col-span-2 desktop:row-start-2',
   },
 ]
 
@@ -148,10 +199,22 @@ export const renderExpandedCardContent = (
 ): ReactElement | null => {
   switch (cardId) {
     case 3:
-      return <AboutContent onNavigateToProject={props.onNavigateToProject} />
+      return (
+        <AboutContent
+          onNavigateToProject={props.onNavigateToProject}
+          selectedSkillId={props.selectedSkillId}
+        />
+      )
     case 4:
-      return <PortfolioContent selectedProjectId={props.selectedProjectId} />
+      return (
+        <PortfolioContent
+          onNavigateToSkill={props.onNavigateToSkill}
+          selectedProjectId={props.selectedProjectId}
+        />
+      )
     case 5:
+      return <ApproachContent />
+    case 6:
       return <ContactContent />
     default:
       return null

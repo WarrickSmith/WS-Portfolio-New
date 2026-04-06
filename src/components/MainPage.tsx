@@ -8,6 +8,7 @@ import {
   useRef,
   useState,
 } from 'react'
+import type { SkillId } from '../data/personalData'
 import type { PortfolioProjectId } from '../data/portfolioData'
 import { cn } from '../lib/cn'
 import Card from './common/Card'
@@ -41,14 +42,19 @@ const OverlayFallback = ({
 }
 
 const CROSS_CARD_NAVIGATION_DELAY_MS = 150
+const ABOUT_CARD_ID = 3
+const PORTFOLIO_CARD_ID = 4
 
 export const MainPage = () => {
   const [closeRequestKey, setCloseRequestKey] = useState(0)
   const [selectedId, setSelectedId] = useState<number | null>(null)
   const [pendingProjectNavigation, setPendingProjectNavigation] =
     useState<PortfolioProjectId | null>(null)
+  const [pendingSkillNavigation, setPendingSkillNavigation] =
+    useState<SkillId | null>(null)
   const [selectedProjectId, setSelectedProjectId] =
     useState<PortfolioProjectId | null>(null)
+  const [selectedSkillId, setSelectedSkillId] = useState<SkillId | null>(null)
   const [openedCardStyle, setOpenedCardStyle] = useState<CSSProperties>()
   const isClosingRef = useRef(false)
   const cardRefs = useRef(new Map<number, HTMLDivElement>())
@@ -124,7 +130,9 @@ export const MainPage = () => {
       if (selectedId !== null || id === null || id === 1 || id === 2) return
 
       setPendingProjectNavigation(null)
+      setPendingSkillNavigation(null)
       setSelectedProjectId(null)
+      setSelectedSkillId(null)
       openCard(id)
     },
     [openCard, selectedId]
@@ -143,9 +151,23 @@ export const MainPage = () => {
 
   const handleNavigateToProject = useCallback(
     (projectId: PortfolioProjectId) => {
-      if (selectedId !== 3) return
+      if (selectedId !== ABOUT_CARD_ID) return
 
+      setPendingSkillNavigation(null)
+      setSelectedSkillId(null)
       setPendingProjectNavigation(projectId)
+      requestClose()
+    },
+    [requestClose, selectedId]
+  )
+
+  const handleNavigateToSkill = useCallback(
+    (skillId: SkillId) => {
+      if (selectedId !== PORTFOLIO_CARD_ID) return
+
+      setPendingProjectNavigation(null)
+      setSelectedProjectId(null)
+      setPendingSkillNavigation(skillId)
       requestClose()
     },
     [requestClose, selectedId]
@@ -161,22 +183,37 @@ export const MainPage = () => {
   useEffect(() => {
     if (selectedId !== null) return
 
-    if (pendingProjectNavigation === null) {
+    if (
+      pendingProjectNavigation === null &&
+      pendingSkillNavigation === null
+    ) {
       setSelectedProjectId(null)
+      setSelectedSkillId(null)
       return
     }
 
     // Keep the card grid visible for a beat between overlay transitions.
     const timeoutId = window.setTimeout(() => {
-      setSelectedProjectId(pendingProjectNavigation)
-      setPendingProjectNavigation(null)
-      openCard(4)
+      if (pendingProjectNavigation !== null) {
+        setSelectedProjectId(pendingProjectNavigation)
+        setSelectedSkillId(null)
+        setPendingProjectNavigation(null)
+        openCard(PORTFOLIO_CARD_ID)
+        return
+      }
+
+      if (pendingSkillNavigation !== null) {
+        setSelectedSkillId(pendingSkillNavigation)
+        setSelectedProjectId(null)
+        setPendingSkillNavigation(null)
+        openCard(ABOUT_CARD_ID)
+      }
     }, CROSS_CARD_NAVIGATION_DELAY_MS)
 
     return () => {
       window.clearTimeout(timeoutId)
     }
-  }, [openCard, pendingProjectNavigation, selectedId])
+  }, [openCard, pendingProjectNavigation, pendingSkillNavigation, selectedId])
 
   useEffect(() => {
     if (!isOverlayOpen) return
@@ -260,7 +297,9 @@ export const MainPage = () => {
   const expandedContent = selectedCard
     ? renderExpandedCardContent(selectedCard.id, {
         onNavigateToProject: handleNavigateToProject,
+        onNavigateToSkill: handleNavigateToSkill,
         selectedProjectId,
+        selectedSkillId,
       })
     : null
 
@@ -318,7 +357,8 @@ export const MainPage = () => {
               !isHeroCard &&
                 'min-h-32 items-stretch tablet:min-h-[14rem] desktop:min-h-0',
               isStaticCard && !isSelected && 'cursor-default',
-              backgroundInert && 'pointer-events-none select-none'
+              backgroundInert && 'pointer-events-none select-none',
+              card.gridClassName
             )}
             style={
               isSelected
