@@ -1,5 +1,5 @@
 # generated: 2026-03-31 14:15:44 NZDT
-# last_updated: 2026-04-06 13:03:09 NZST
+# last_updated: 2026-04-06 16:30:00 NZST
 # project: WS-Portfolio-New
 # project_key: NOKEY
 # tracking_system: file-system
@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-03-31 14:15:44 NZDT
-last_updated: 2026-04-06 13:03:09 NZST (story 4.3 done after review)
+last_updated: 2026-04-06 16:30:00 NZST (epic 4 retrospective done)
 project: WS-Portfolio-New
 project_key: NOKEY
 tracking_system: file-system
@@ -66,7 +66,7 @@ development_status:
   4-1-portfolio-content-layout-and-project-cards: done
   4-2-portfolio-data-update-and-content-refresh: done
   4-3-proof-to-skills-reverse-navigation-and-approach-content: done
-  epic-4-retrospective: optional
+  epic-4-retrospective: done
   epic-5: backlog
   5-1-contact-form-with-validation-and-submission: backlog
   5-2-visitor-tracking-and-notification-system: backlog
