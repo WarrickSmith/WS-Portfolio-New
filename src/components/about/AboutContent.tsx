@@ -1,7 +1,10 @@
+import { useEffect, useRef } from 'react'
 import backgroundImage from '../../assets/warrick.jpg'
 import consolidatedProfile from '../../data/consolidatedProfile'
+import type { SkillCategory, SkillId } from '../../data/personalData'
 import type { PortfolioProjectId } from '../../data/portfolioData'
 import personalData from '../../data/personalData'
+import { cn } from '../../lib/cn'
 import FaIcon from '../common/FaIcon'
 import OverlayContentGroup from '../common/OverlayContentGroup'
 import SectionHeading from '../common/SectionHeading'
@@ -9,6 +12,7 @@ import SkillBadge from '../common/SkillBadge'
 
 export type AboutContentProps = {
   onNavigateToProject?: (projectId: PortfolioProjectId) => void
+  selectedSkillId?: SkillId | null
 }
 
 const skillCategoryLabels = {
@@ -19,8 +23,19 @@ const skillCategoryLabels = {
 } as const
 
 const skillCategoryOrder = ['frontend', 'backend', 'data', 'delivery'] as const
+const skillCategoryById = new Map(
+  consolidatedProfile.skills.map((skill) => [skill.id, skill.category] satisfies [
+    SkillId,
+    SkillCategory,
+  ])
+)
 
-const AboutContent = ({ onNavigateToProject }: AboutContentProps) => {
+const AboutContent = ({
+  onNavigateToProject,
+  selectedSkillId = null,
+}: AboutContentProps) => {
+  const skillGroupRefs = useRef(new Map<SkillCategory, HTMLElement>())
+  const skillTargetRefs = useRef(new Map<SkillId, HTMLDivElement>())
   const overviewStats: Array<{
     icon: string
     label: string
@@ -52,6 +67,39 @@ const AboutContent = ({ onNavigateToProject }: AboutContentProps) => {
         .sort((left, right) => left.order - right.order),
     }))
     .filter((group) => group.items.length > 0)
+
+  const selectedSkillCategory =
+    selectedSkillId === null ? null : skillCategoryById.get(selectedSkillId) ?? null
+
+  useEffect(() => {
+    if (selectedSkillId === null) return
+
+    const category = skillCategoryById.get(selectedSkillId)
+    const target = skillTargetRefs.current.get(selectedSkillId)
+    const fallbackTarget =
+      category === undefined ? null : skillGroupRefs.current.get(category) ?? null
+    const resolvedTarget = target ?? fallbackTarget
+
+    if (!resolvedTarget) {
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn('About target not found for skill ID:', selectedSkillId)
+      }
+      return
+    }
+
+    const frameId = window.requestAnimationFrame(() => {
+      resolvedTarget.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+        inline: 'nearest',
+      })
+      resolvedTarget.focus({ preventScroll: true })
+    })
+
+    return () => {
+      window.cancelAnimationFrame(frameId)
+    }
+  }, [selectedSkillId])
 
   return (
     <>
@@ -154,7 +202,19 @@ const AboutContent = ({ onNavigateToProject }: AboutContentProps) => {
               <section
                 key={group.category}
                 aria-labelledby={`skills-group-${group.category}`}
-                className="rounded-radius-md border border-border-subtle bg-bg-card-hover p-4"
+                ref={(node) => {
+                  if (node) {
+                    skillGroupRefs.current.set(group.category, node)
+                  } else {
+                    skillGroupRefs.current.delete(group.category)
+                  }
+                }}
+                tabIndex={-1}
+                className={cn(
+                  'rounded-radius-md border border-border-subtle bg-bg-card-hover p-4 outline-none transition-[border-color,box-shadow] duration-150',
+                  selectedSkillCategory === group.category &&
+                    'border-border-accent shadow-[var(--shadow-glow)]'
+                )}
               >
                 <h4
                   id={`skills-group-${group.category}`}
@@ -177,11 +237,31 @@ const AboutContent = ({ onNavigateToProject }: AboutContentProps) => {
                         : { variant: 'default' as const }
 
                     return (
-                      <SkillBadge
+                      <div
                         key={item.id}
-                        label={item.label}
-                        {...badgeProps}
-                      />
+                        ref={(node) => {
+                          if (node) {
+                            skillTargetRefs.current.set(item.id, node)
+                          } else {
+                            skillTargetRefs.current.delete(item.id)
+                          }
+                        }}
+                        tabIndex={-1}
+                        className={cn(
+                          'inline-flex rounded-full outline-none',
+                          selectedSkillId === item.id && 'shadow-focus-ring'
+                        )}
+                      >
+                        <SkillBadge
+                          label={item.label}
+                          className={
+                            selectedSkillId === item.id
+                              ? 'border-border-accent bg-accent-primary-soft text-text-accent'
+                              : undefined
+                          }
+                          {...badgeProps}
+                        />
+                      </div>
                     )
                   })}
                 </div>

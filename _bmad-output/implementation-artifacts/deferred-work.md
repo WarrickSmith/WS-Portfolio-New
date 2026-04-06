@@ -163,3 +163,21 @@ Maps every deferred item to its natural resolution point. Items without a clear 
 - useEffect cleanup cancels rAF but not pending state — Theoretical narrow window where effect cleanup cancels rAF but `pendingProjectNavigation` remains set. Extremely unlikely in practice. deferred, theoretical concern
 - PortfolioContent scrollIntoView fires on remount — If Suspense fallback triggers remount, scroll snaps back to the selected project. Unlikely in current architecture. deferred, unlikely
 - Skills section position pre-existing from Story 3.1 — Story 3.1 established the section order. 3.2 upgraded skills in-place without reordering. deferred, pre-existing layout from 3.1
+
+## Deferred from: code review of 4-2-portfolio-data-update-and-content-refresh (2026-04-05)
+
+- Duplicate React key fragility in keyFeatures/techStack — pre-existing from Story 4.1. `key={feature}` / `key={technology}` risk if duplicate strings within same project. Low risk with current data. `ProjectCard.tsx:50,57`
+- ExternalLinkButton no guard for empty href — pre-existing from Story 4.1. Empty string would navigate to current page in new tab. Current data complete. `ExternalLinkButton.tsx:14`
+- consolidatedProfile silently swallows invalid projectIds — pre-existing. `.filter` drops undefined lookups silently. TS union type catches typos at compile time. `consolidatedProfile.tsx:54-56`
+
+## Deferred from: code review of 4-1-portfolio-content-layout-and-project-cards (2026-04-05)
+
+- `key={feature}` / `key={technology}` fragile for duplicates — React key collision risk if duplicate strings appear within same project's arrays. Low risk with current data. `ProjectCard.tsx:50,57`
+- `marker:text-text-accent` may not propagate to bullets in Safari — `::marker` color inheritance on `<ul>` is inconsistent across browsers. May show default color instead of accent gold. `ProjectCard.tsx:48`
+- Large unoptimized image assets (~1.26 MiB total) — PNG assets shipped as-is via webpack `asset/resource`. No compression, WebP/AVIF, or srcset. Pre-existing pattern. `src/assets/`
+- ExternalLinkButton no guard for empty href — Component requires href as non-optional string, but empty string would navigate to current page in new tab. Current data complete. `ExternalLinkButton.tsx:14`
+
+## Deferred from: code review of 4-3-proof-to-skills-reverse-navigation-and-approach-content (2026-04-06)
+
+- Card ID literals inconsistent with named constants — Switch statement in `renderChildDiv.tsx` uses raw `3`/`4`/`5`/`6` while `handleOpen` in `MainPage.tsx` uses raw `1`/`2`. Only `ABOUT_CARD_ID` and `PORTFOLIO_CARD_ID` have named constants. Pre-existing inconsistency. `src/components/common/renderChildDiv.tsx:196-215`, `src/components/MainPage.tsx:130`
+- Arbitrary `min-[860px]` breakpoint in ApproachContent — Does not align with project's `tablet`/`desktop` responsive tokens. Would need project-wide component breakpoint audit. Low priority. `src/components/approach/ApproachContent.tsx:32,67`

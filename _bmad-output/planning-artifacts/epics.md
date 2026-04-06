@@ -640,6 +640,16 @@ So that I can reach out to Warrick easily and know my message was sent successfu
 **And** reCAPTCHA unavailability shows a graceful error message, never permanently blocks the form (NFR29)
 **And** all external service calls include timeout handling (NFR30)
 
+**Story 5.1 Implementation Notes (from Epic 4 retrospective):**
+
+- **EmailJS local testing procedure:** `EMAILJS_PUBLIC_KEY` is commented out in `.env` to avoid burning monthly EmailJS usage limits. To test locally: uncomment the key, run controlled submission tests, re-comment when done. Production uses Portainer env vars via `docker-entrypoint.sh`, so the `.env` toggle does not affect production.
+- **Known ContactForm bugs to fix in this story:**
+  1. `e.preventDefault()` called after early return on captcha check — page reloads when captcha is incomplete. Must move `preventDefault()` before any conditional return.
+  2. `onCaptchaChange` always sets `true` on `null` — captcha expiration doesn't disable the submit button. Must handle `null` (expired) correctly.
+  3. EmailJS empty-string silent failure — `ContactForm` passes env values to `emailjs.sendForm()` without empty-string check. Must guard against missing config values.
+- **UX-spec 6-state audit required:** The existing `ContactForm.tsx` has never been audited against the UX-DR23 6-state model (empty, filling, validating, submitting, success, error). This story must bring the form into full compliance.
+- **Contact card position:** Contact is card 5 in the current six-card grid. Verify it opens and closes correctly on all breakpoints after the Story 4.3 grid expansion.
+
 ### Story 5.2: Visitor Tracking and Notification System
 
 As the site owner,
@@ -688,6 +698,15 @@ So that I get the full portfolio experience regardless of screen size.
 **And** project screenshots in Portfolio are responsive and load quickly on mobile
 **And** the site is fully functional and readable across device widths 375px, 390px, 414px, 768px, 1000px, and 1920px (NFR26)
 **And** mobile-first CSS is used: base Tailwind classes target mobile, `md:` for tablet, `lg:` for desktop (FR32)
+
+**Story 6.1 Scope Additions (from Epic 4 retrospective):**
+
+- **Card consolidation:** Merge the current Card 1 (hero image, visual-only, non-interactive) and Card 2 ("Warrick Smith Developer", text-only, non-interactive) into a single adaptive identity card. This reduces the main page grid from six cards back to five. Responsive layout for the merged card: desktop — hero image left, name/title text right; tablet — hero image above, text below; mobile — text replaces hero image entirely or sits beside a small image. The merged card is independently adaptive in size.
+- **Even card sizing constraint:** The merged hero/identity card may be independently sized. The remaining four interactive cards (About, Portfolio, Approach, Contact) MUST be equal size.
+- **Card preview layout rework:** Current card preview layout visually orphans the icon from the card title text. Fix: icon must be inline with the title text. Card content should be vertically centered or top-aligned across all cards.
+- **Card ID constants:** Replace raw card ID numbers (3/4/5/6) in `renderChildDiv.tsx` and `MainPage.tsx` with named constants for all card IDs.
+- **ApproachContent breakpoint alignment:** Replace arbitrary `min-[860px]` breakpoint in `ApproachContent.tsx` with project design tokens (`tablet`/`desktop`).
+- **Missing skill badges:** Add React, TypeScript, Tailwind CSS, Next.js, Fastify, and Appwrite to `personalData.tsx` skills with correct projectIds. Update PostgreSQL to link to race-day and MongoDB to link to music-manager. (Can be done as a separate data commit before or during this story.)
 
 ### Story 6.2: Keyboard Navigation and Focus Management
 
