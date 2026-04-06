@@ -186,3 +186,11 @@ Maps every deferred item to its natural resolution point. Items without a clear 
 
 - Cannot abort in-flight emailjs.sendForm after timeout — Library doesn't support AbortController. Promise.race timeout fires but network request continues, potentially causing duplicate sends if user retries after timeout error. No fix available without library changes or switching away from sendForm. `ContactForm.tsx:Promise.race`
 - Empty contact.links array renders empty Profiles section — If links array is empty, section heading and description render with no link items below. Data completeness concern, not a code bug. `ContactContent.tsx:profiles section`
+
+## Deferred from: code review of 5-2-visitor-tracking-and-notification-system (2026-04-06)
+
+- Timer leak in `Promise.race` — `setTimeout` timers never cleared when primary promise resolves first. Timer fires into settled promise (no-op but wasteful). Same pattern from Story 5.1. `ipGeolocationService.ts:21-25`, `useVisitorTracker.ts:175-179`
+- No AbortController on geolocation fetch — request not cancelled on timeout, continues running until server responds. Known SDK limitation. `ipGeolocationService.ts:22`
+- No rate-limit cooldown on EmailJS failure — every page load retries full cycle (geolocation + send) when EmailJS service is down. Pre-existing behavior, spec does not require cooldown. `useVisitorTracker.ts:~224`
+- Corrupted localStorage value bypasses rate limiting — `parseInt('abc')` → NaN → rate limit check evaluates false. Pre-existing, not introduced by this diff. `useVisitorTracker.ts:checkRateLimit`
+- Dead `isAvailable()` method — no callers remain after guard removal in Story 5.2. Spec only required removing the call, not the method. Minor dead code. `ipGeolocationService.ts:53-55`
