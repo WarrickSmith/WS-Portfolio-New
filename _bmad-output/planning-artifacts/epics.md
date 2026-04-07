@@ -124,7 +124,7 @@ This document provides the complete epic and story breakdown for WS-Portfolio-Ne
 - UX-DR3: **Spacing system** — 4px base unit. Scale: space-1 (4px) through space-24 (96px). Border radii: sm (8px), md (12px), lg (16px), xl (24px). Box shadows: ambient, elevated, glow, focus-ring with specified values.
 - UX-DR4: **5-layer card hover effect** — Cursor-tracking radial glow (`--mx`, `--my` CSS vars), `scale-[1.02]` transform, gold gradient corner bleed, gold text-shadow pulse on title (1.5s cycle, holds at glow-on), deepened ambient shadow. All effects 400-500ms `cubic-bezier(0.16, 1, 0.3, 1)`.
 - UX-DR5: **CardGrid component** — Desktop: 3×2 CSS Grid (Card 1 spans full left column). Tablet (768-999px): 2-column, Card 1 spans full width top. Mobile (<768px): single column, Card 1 hidden. Grid gaps: 48px desktop, 32px tablet, 24px mobile.
-- UX-DR6: **Card component** — Two variants: `interactive` (Cards 2-5) and `background` (Card 1, image only). Resting state: gradient surface. Focused state: gold border glow (keyboard equivalent of hover). `role="button"`, `aria-expanded`, `tabindex="0"`.
+- UX-DR6: **Card component** — Two variants: `interactive` (Cards 3-6: About, Portfolio, Approach, Contact) and `non-interactive` (Cards 1-2: hero image, identity text). Resting state: gradient surface. Focused state: gold border glow (keyboard equivalent of hover). `role="button"`, `aria-expanded`, `tabindex="0"` on interactive cards only.
 - UX-DR7: **CardExpansionOverlay** — Full viewport with `bg-expanded` surface + diagonal gradient. Content max-width 800px centred. Padding: 64px desktop, 48px tablet, 24px mobile. Scrollable overflow. Focus trap when open. `role="dialog"`, `aria-modal="true"`. Escape key closes. Focus returns to triggering card on close.
 - UX-DR8: **DimmedBackdrop** — Opacity 0.3, backdrop-blur. Fade in/out 300ms synced with card expansion. Click on backdrop closes expanded card. `aria-hidden="true"`, not focusable.
 - UX-DR9: **SkeletonGrid** — (**NOTE: Overridden by Architecture decision AR9. No SkeletonGrid component will be built. React.lazy() + Suspense fallback replaces skeleton loading.**)
@@ -402,13 +402,13 @@ So that I immediately see all content sections and sense this is a custom-built 
 
 **Given** the Tailwind CSS foundation from Epic 1 with all design tokens configured
 **When** the landing page loads
-**Then** a CardGrid component renders a 3×2 CSS Grid on desktop (≥1000px) with Card 1 spanning the full left column height and Cards 2-5 filling the remaining cells
+**Then** a CardGrid component renders a 3×2 CSS Grid on desktop (≥1000px) with Card 1 spanning the full left column height and Cards 2-6 filling the remaining cells
 **And** on tablet (768-999px) the grid reflows to 2 columns with Card 1 spanning full width top row
 **And** on mobile (<768px) cards stack in a single column with Card 1 hidden entirely
 **And** grid gaps are 48px (space-12) on desktop, 32px (space-8) on tablet, 24px (space-6) on mobile
 **And** the page background uses `bg-base` (#0a0a0a) as the deepest layer
 **And** Card 1 displays a background image and is non-interactive (no click handler, no hover effects)
-**And** Cards 2-5 display in their resting state: gradient surface (`bg-card` #161616 → #131313), 16px rounded corners, 1px `border-subtle` border
+**And** Cards 3-6 (interactive) display in their resting state: gradient surface (`bg-card` #161616 → #131313), 16px rounded corners, 1px `border-subtle` border
 **And** each interactive card shows an icon, title, and one-line description
 **And** the dark theme is consistent across all cards and the page background (FR35)
 **And** CardGrid uses semantic `<main aria-label="Portfolio">` landmark
@@ -422,7 +422,7 @@ So that I feel invited to click and immediately sense the craft and attention to
 **Acceptance Criteria:**
 
 **Given** the card grid from Story 2.1 is rendered with interactive cards
-**When** the visitor hovers over an interactive card (Cards 2-5)
+**When** the visitor hovers over an interactive card (Cards 3-6)
 **Then** 5 simultaneous hover effects activate:
 1. A cursor-tracking radial glow follows the mouse position using CSS custom properties (`--mx`, `--my`) set via a lightweight mousemove handler, with `accent-primary` at 6% opacity fading to transparent at 60% radius
 2. The card scales to 1.02x with spring physics easing
@@ -676,9 +676,40 @@ So that I know when someone visits my portfolio and can see where they came from
 
 ## Epic 6: Responsive Design, Accessibility & SEO
 
-The site works flawlessly across mobile, tablet, and desktop. Fully navigable by keyboard with focus trapping in overlays. Screen reader compatible with semantic HTML and ARIA. Reduced motion is a first-class experience. Search engine discoverable with meta tags and sitemap. Lighthouse ≥ 90 across all categories.
+The site works flawlessly across mobile, tablet, and desktop. Fully navigable by keyboard with focus trapping in overlays. Screen reader compatible with semantic HTML and ARIA. Reduced motion is a first-class experience. Search engine discoverable with meta tags and sitemap. Lighthouse ≥ 90 across all categories. All accumulated technical debt from Epics 1-5 resolved before production release.
 
-### Story 6.1: Responsive Layout Across Breakpoints
+### Story 6.1: Technical Debt and Housekeeping
+
+As the site owner,
+I want all accumulated technical debt and bugs from Epics 1-5 resolved before production release,
+So that the deployed site has no known bugs, dead code, or configuration issues.
+
+**Acceptance Criteria:**
+
+**Given** the codebase after Epics 1-5 are complete
+**When** all housekeeping tasks are executed
+**Then** `react-server-dom-parcel` and `react-server-dom-webpack` are removed from `package.json` (zero imports, dead dependencies since Epic 1)
+**And** `typescript` is moved from `dependencies` to `devDependencies` in `package.json`
+**And** `declaration: true` is set to `false` (or removed) in `tsconfig.json` — no `.d.ts` emission needed for client SPA
+**And** `Promise.race` timer leaks are fixed in `ContactForm.tsx`, `ipGeolocationService.ts`, and `useVisitorTracker.ts` — `clearTimeout` called when primary promise resolves
+**And** dead `isAvailable()` method is removed from `ipGeolocationService.ts`
+**And** `.env` is added to `.dockerignore` (currently only `.env.local` variants are excluded)
+**And** `body { font-weight: 700 }` global bold default in `main.css:141` is audited — either justified with a comment or changed to `font-weight: 400` with explicit bold where needed
+**And** WordSlider `setTimeout` cleanup: inner `setTimeout` in `useEffect` returns cleanup function on unmount (`WordSlider.tsx:17, 31`)
+**And** WordSlider empty `words` array guard: early return or fallback when `words.length === 0` to prevent `NaN` from modulo-by-zero (`WordSlider.tsx:19`)
+**And** rate-limit `parseInt` NaN guard in `useVisitorTracker.ts:117` — corrupted localStorage value handled gracefully
+**And** `overviewStats` in `AboutContent.tsx` moved outside component body or wrapped in `useMemo` — static data should not be recreated on every render
+**And** Docker health check added to `docker-compose.yml` — basic HTTP check on port 3000 so Portainer/Docker can detect a hung `serve` process
+**And** `npm run build` succeeds with zero errors after all changes
+**And** `npm run dev` confirms no visual regressions
+
+**Story 6.1 Implementation Notes:**
+- Items are independent and can be implemented in any order
+- All items are mechanical fixes with clear before/after states
+- No items affect user-visible behavior (except font-weight audit, which needs visual verification)
+- Run this story first to establish a clean foundation before layout and accessibility work
+
+### Story 6.2: Responsive Layout Across Breakpoints
 
 As a mobile visitor,
 I want the site to adapt cleanly to my device with readable content and touch-friendly interactions,
@@ -699,7 +730,7 @@ So that I get the full portfolio experience regardless of screen size.
 **And** the site is fully functional and readable across device widths 375px, 390px, 414px, 768px, 1000px, and 1920px (NFR26)
 **And** mobile-first CSS is used: base Tailwind classes target mobile, `md:` for tablet, `lg:` for desktop (FR32)
 
-**Story 6.1 Scope Additions (from Epic 4 retrospective):**
+**Story 6.2 Scope Additions (from Epic 4 retrospective):**
 
 - **Card consolidation:** Merge the current Card 1 (hero image, visual-only, non-interactive) and Card 2 ("Warrick Smith Developer", text-only, non-interactive) into a single adaptive identity card. This reduces the main page grid from six cards back to five. Responsive layout for the merged card: desktop — hero image left, name/title text right; tablet — hero image above, text below; mobile — text replaces hero image entirely or sits beside a small image. The merged card is independently adaptive in size.
 - **Even card sizing constraint:** The merged hero/identity card may be independently sized. The remaining four interactive cards (About, Portfolio, Approach, Contact) MUST be equal size.
@@ -708,7 +739,12 @@ So that I get the full portfolio experience regardless of screen size.
 - **ApproachContent breakpoint alignment:** Replace arbitrary `min-[860px]` breakpoint in `ApproachContent.tsx` with project design tokens (`tablet`/`desktop`).
 - **Missing skill badges:** Add React, TypeScript, Tailwind CSS, Next.js, Fastify, and Appwrite to `personalData.tsx` skills with correct projectIds. Update PostgreSQL to link to race-day and MongoDB to link to music-manager. (Can be done as a separate data commit before or during this story.)
 
-### Story 6.2: Keyboard Navigation and Focus Management
+**Story 6.2 Scope Additions (from course correction 2026-04-07):**
+
+- **Fix `rounded-radius-sm` → `rounded-sm`:** Replace legacy Tailwind v3 class name with correct Tailwind v4 utility in `ExternalLinkButton.tsx:26`, `AboutContent.tsx:361`, `ContactForm.tsx:469`, `ContactForm.tsx:637`.
+- **AboutContent arbitrary breakpoints:** Replace `min-[760px]` and `min-[1180px]` in `AboutContent.tsx:165,200` with project design tokens (`md:` for tablet, `lg:` for desktop), consistent with the ApproachContent breakpoint fix above.
+
+### Story 6.3: Keyboard Navigation and Focus Management
 
 As a visitor using keyboard navigation,
 I want to navigate the entire site without a mouse,
@@ -730,7 +766,7 @@ So that I can access all content and interactions using only Tab, Enter, Space, 
 **And** all Tier 1 and Tier 2 interactive elements (per UX-DR22) are reachable via keyboard (NFR21)
 **And** focus is trapped within expanded card overlays and restored on close (NFR22)
 
-### Story 6.3: Screen Reader Compatibility and Semantic HTML
+### Story 6.4: Screen Reader Compatibility and Semantic HTML
 
 As a visitor using a screen reader,
 I want the site structure and content to be announced correctly,
@@ -753,7 +789,7 @@ So that I can understand and navigate the portfolio without relying on visual pr
 **And** semantic HTML structure uses landmarks, headings hierarchy (h1-h3), and roles throughout (NFR24) (FR34)
 **And** colour is never the sole indicator of state — error states use red + text message + border change, success uses green + text confirmation
 
-### Story 6.4: Reduced Motion and Performance Validation
+### Story 6.5: Reduced Motion and Performance Validation
 
 As a visitor with motion sensitivity,
 I want all animations disabled when I have reduced motion enabled,
@@ -780,7 +816,12 @@ So that I get a fully functional and visually complete experience without any mo
 **And** production bundle size is within 2.5MB per asset/entrypoint (NFR7)
 **And** vendor chunk splitting is in place for cache efficiency (NFR9)
 
-### Story 6.5: SEO and Discoverability
+**Story 6.5 Scope Additions (from course correction 2026-04-07):**
+
+- **Ambient background animation tuning:** The ambient background 45s gradient drift is effectively invisible (flagged in Epic 2 retro, deferred to "after content lands" — all content epics now complete). Tune gradient opacity, animation range, or cycle timing so the effect is perceptible when looking for it over 10-15 seconds without becoming distracting. Static gradient preserved for `prefers-reduced-motion`.
+- **Per-card expansion animation tuning:** Card expansion animations are conservatively tuned (flagged in Epic 2 retro, deferred to "after Epic 4"). With all overlay content now in place, reassess spring configs and motion ranges so each card's unique character (slide-up, center-scale, bottom-unfold) is immediately striking. 60fps maintained. Reduced motion unaffected.
+
+### Story 6.6: SEO and Discoverability
 
 As a search engine crawler,
 I want proper meta tags, structured data, and a sitemap,
@@ -799,3 +840,7 @@ So that the portfolio is discoverable and generates good preview cards when shar
 **And** a favicon and Apple touch icon are present
 **And** Content Security Policy headers are configured to restrict script and resource origins (NFR18) — configured at Nginx Proxy Manager level
 **And** no API keys, service IDs, or secrets are present in the HTML source or client bundle (NFR13)
+
+**Story 6.6 Scope Additions (from course correction 2026-04-07):**
+
+- **Favicon MIME type fix:** Change `type="image/ico"` to `type="image/x-icon"` in `index.html:5`.

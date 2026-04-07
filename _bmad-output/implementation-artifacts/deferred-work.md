@@ -1,5 +1,62 @@
 # Deferred Work
 
+## Course Correction Disposition (2026-04-07)
+
+All items audited and assigned dispositions per Sprint Change Proposal `sprint-change-proposal-2026-04-07.md`.
+
+### Resolved — Remove from Tracking
+
+| Item | Resolution |
+|------|------------|
+| Dual CSS reset (Tailwind + GlobalStyle) | GlobalStyle.ts deleted in Story 1.5 |
+| CloseButton click propagation | stopPropagation added in Story 1.5 |
+| ContactForm unsafe process.env access | Uses env.ts gateway since Story 1.6 |
+| env.d.ts types non-optional string | All fields optional since Story 1.6 |
+| AC7 constants vs accessor functions | readEnv() pattern works correctly |
+| docker-compose version: '3.8' | No longer present in file |
+| Dead tsconfig paths @/* | Removed from tsconfig.json |
+| learningAdaptability never rendered | Now rendered in ApproachContent.tsx (Story 4.3) |
+| ContactForm e.preventDefault bug | ContactForm rewritten in Story 5.1 |
+| onCaptchaChange sets true on null | ContactForm rewritten in Story 5.1 |
+| EmailJS empty string silent failure | ContactForm rewritten in Story 5.1 |
+| closeCard/isClosed state churn | AnimatePresence pattern replaced this in Epic 2 |
+| oklch relative color syntax fallbacks | Design decision, 28+ occurrences |
+
+### Assigned to Epic 6 Stories
+
+| Item | Target |
+|------|--------|
+| Dead dependencies removal | Story 6.1 |
+| TypeScript → devDependencies | Story 6.1 |
+| declaration: true cleanup | Story 6.1 |
+| Promise.race timer leak (3 files) | Story 6.1 |
+| Dead isAvailable() method | Story 6.1 |
+| .env in .dockerignore | Story 6.1 |
+| body font-weight: 700 audit | Story 6.1 |
+| WordSlider setTimeout cleanup | Story 6.1 |
+| WordSlider empty array guard | Story 6.1 |
+| localStorage parseInt NaN guard | Story 6.1 |
+| overviewStats memoization | Story 6.1 |
+| Docker health check | Story 6.1 |
+| Card consolidation (merge Card 1 + Card 2) | Story 6.2 |
+| Card preview layout rework | Story 6.2 |
+| Even card sizing constraint | Story 6.2 |
+| Card ID magic numbers → named constants | Story 6.2 |
+| ApproachContent min-[860px] breakpoint | Story 6.2 |
+| Missing skill badges | Story 6.2 |
+| `rounded-radius-sm` → `rounded-sm` (4 files) | Story 6.2 |
+| AboutContent arbitrary breakpoints | Story 6.2 |
+| GoldPulseText no semantic heading role | Story 6.4 |
+| Ambient background tuning | Story 6.5 |
+| Per-card animation tuning | Story 6.5 |
+| Favicon MIME type fix | Story 6.6 |
+
+### Accepted / Dismissed — No Action
+
+Items with no practical impact, theoretical concerns, library limitations, or design decisions. Removed from active tracking. Full rationale in `sprint-change-proposal-2026-04-07.md` Section 4D (40 items).
+
+---
+
 ## Deferred from: code review of 1-1-upgrade-dependencies-and-runtime (2026-03-31)
 
 - Dead dependencies: `react-server-dom-parcel` and `react-server-dom-webpack` are unused in this client SPA — zero imports across all source files. Consider removing in a later cleanup story.
@@ -80,7 +137,7 @@ Maps every deferred item to its natural resolution point. Items without a clear 
 | ContactForm unsafe `process.env` access (may be undefined) | 1.2 review | **Resolved** — imports from `env.ts` gateway |
 | `env.d.ts` types ProcessEnv vars as non-optional string | 1.2 review | **Resolved** — all fields now optional |
 
-### Target: Epic 6 (Accessibility)
+### Target: Story 6.4 (Screen Reader Compatibility & Semantic HTML)
 
 | Item | Origin | Notes |
 |------|--------|-------|

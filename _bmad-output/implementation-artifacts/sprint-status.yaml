@@ -1,5 +1,5 @@
 # generated: 2026-03-31 14:15:44 NZDT
-# last_updated: 2026-04-07 09:00:00 NZST
+# last_updated: 2026-04-07 (stories renumbered to reflect execution order)
 # project: WS-Portfolio-New
 # project_key: NOKEY
 # tracking_system: file-system
@@ -35,14 +35,14 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-03-31 14:15:44 NZDT
-last_updated: 2026-04-07 09:00:00 NZST (epic 5 retrospective complete)
+last_updated: 2026-04-07 (stories renumbered to reflect execution order)
 project: WS-Portfolio-New
 project_key: NOKEY
 tracking_system: file-system
 story_location: /home/warrick/Dev/WS-Portfolio-New/_bmad-output/implementation-artifacts
 
 development_status:
-  epic-1: in-progress
+  epic-1: done
   1-1-upgrade-dependencies-and-runtime: done
   1-2-tailwind-css-integration-and-utility-helpers: done
   1-3-component-migration-common-and-leaf-components: done
@@ -51,18 +51,18 @@ development_status:
   1-6-docker-build-and-runtime-environment: done
   1-7-ci-cd-pipeline-and-deployment-configuration: done
   epic-1-retrospective: done
-  epic-2: in-progress
+  epic-2: done
   2-1-card-grid-layout-and-dark-theme-foundation: done
   2-2-card-hover-effects-and-goldpulsetext: done
   2-3-card-expansion-and-overlay-system: done
   2-4-per-card-expansion-animations-and-spring-physics: done
   2-5-ambient-background-motion: done
   epic-2-retrospective: done
-  epic-3: in-progress
+  epic-3: done
   3-1-about-me-content-layout-and-profile-information: done
   3-2-skills-grid-with-skills-to-proof-mapping: done
   epic-3-retrospective: done
-  epic-4: in-progress
+  epic-4: done
   4-1-portfolio-content-layout-and-project-cards: done
   4-2-portfolio-data-update-and-content-refresh: done
   4-3-proof-to-skills-reverse-navigation-and-approach-content: done
@@ -72,9 +72,10 @@ development_status:
   5-2-visitor-tracking-and-notification-system: done
   epic-5-retrospective: done
   epic-6: backlog
-  6-1-responsive-layout-across-breakpoints: backlog
-  6-2-keyboard-navigation-and-focus-management: backlog
-  6-3-screen-reader-compatibility-and-semantic-html: backlog
-  6-4-reduced-motion-and-performance-validation: backlog
-  6-5-seo-and-discoverability: backlog
+  6-1-technical-debt-and-housekeeping: backlog
+  6-2-responsive-layout-across-breakpoints: backlog
+  6-3-keyboard-navigation-and-focus-management: backlog
+  6-4-screen-reader-compatibility-and-semantic-html: backlog
+  6-5-reduced-motion-and-performance-validation: backlog
+  6-6-seo-and-discoverability: backlog
   epic-6-retrospective: optional
