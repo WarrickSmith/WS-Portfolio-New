@@ -11,10 +11,14 @@ const WordSlider = ({ words }: WordSliderProps) => {
   const [animateOut, setAnimateOut] = useState(false)
 
   useEffect(() => {
+    if (words.length === 0) return
+
+    let pendingTimeout: ReturnType<typeof setTimeout> | null = null
+
     const interval = setInterval(() => {
       setAnimateOut(true)
 
-      setTimeout(() => {
+      pendingTimeout = setTimeout(() => {
         setAnimateOut(false)
         setCurrentWordIndex((prevIndex) => (prevIndex + 1) % words.length)
         setAnimateIn(true)
@@ -23,16 +27,22 @@ const WordSlider = ({ words }: WordSliderProps) => {
 
     return () => {
       clearInterval(interval)
+      if (pendingTimeout !== null) clearTimeout(pendingTimeout)
     }
   }, [words])
 
   useEffect(() => {
     if (animateIn) {
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         setAnimateIn(false)
       }, 1000)
+      return () => clearTimeout(timer)
     }
   }, [animateIn])
+
+  if (words.length === 0) {
+    return <div className="flex w-full items-center justify-center" />
+  }
 
   return (
     <div className="flex w-full items-center justify-center">

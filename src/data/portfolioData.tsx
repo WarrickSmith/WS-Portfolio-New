@@ -36,7 +36,7 @@ const portfolioData: PortfolioProject[] = [
       'EmailJS 4.4.1',
       'Docker / Node 24',
     ],
-    liveDemoUrl: 'https://warricksmith.com',
+    liveDemoUrl: 'https://ws.wsapz.com',
     githubUrl: 'https://github.com/WarrickSmith/WS-Portfolio-New',
     image: portfolioImage,
     imageAlt:

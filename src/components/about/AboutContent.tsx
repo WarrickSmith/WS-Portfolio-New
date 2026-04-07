@@ -30,33 +30,34 @@ const skillCategoryById = new Map(
   ])
 )
 
+const overviewStats: Array<{
+  icon: string
+  label: string
+  value: string
+}> = [
+  {
+    icon: 'faBriefcase',
+    label: 'Years in Software Development',
+    value: `${consolidatedProfile.totalYearsExperience}+`,
+  },
+  {
+    icon: 'faCode',
+    label: 'Core skills',
+    value: String(consolidatedProfile.skills.length),
+  },
+  {
+    icon: 'faGraduationCap',
+    label: 'Qualifications',
+    value: String(consolidatedProfile.education.length),
+  },
+]
+
 const AboutContent = ({
   onNavigateToProject,
   selectedSkillId = null,
 }: AboutContentProps) => {
   const skillGroupRefs = useRef(new Map<SkillCategory, HTMLElement>())
   const skillTargetRefs = useRef(new Map<SkillId, HTMLDivElement>())
-  const overviewStats: Array<{
-    icon: string
-    label: string
-    value: string
-  }> = [
-    {
-      icon: 'faBriefcase',
-      label: 'Years in Software Development',
-      value: `${consolidatedProfile.totalYearsExperience}+`,
-    },
-    {
-      icon: 'faCode',
-      label: 'Core skills',
-      value: String(consolidatedProfile.skills.length),
-    },
-    {
-      icon: 'faGraduationCap',
-      label: 'Qualifications',
-      value: String(consolidatedProfile.education.length),
-    },
-  ]
 
   const skillGroups = skillCategoryOrder
     .map((category) => ({

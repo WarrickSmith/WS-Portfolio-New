@@ -17,12 +17,16 @@ export class IpGeolocationService {
   private static readonly API_URL = 'https://ipapi.co/json/'
 
   static async getGeolocation(): Promise<VisitorGeolocation> {
+    let timeoutId: ReturnType<typeof setTimeout>
     try {
       const result = await Promise.race([
-        fetch(this.API_URL),
-        new Promise<never>((_, reject) =>
-          setTimeout(() => reject(new Error('Geolocation request timed out')), GEOLOCATION_TIMEOUT_MS)
-        ),
+        fetch(this.API_URL).then((res) => {
+          clearTimeout(timeoutId)
+          return res
+        }),
+        new Promise<never>((_, reject) => {
+          timeoutId = setTimeout(() => reject(new Error('Geolocation request timed out')), GEOLOCATION_TIMEOUT_MS)
+        }),
       ])
 
       if (!result.ok) {
@@ -42,15 +46,12 @@ export class IpGeolocationService {
         isp: data.org || FALLBACK_GEOLOCATION.isp,
       }
     } catch (error) {
+      clearTimeout(timeoutId!)
       if (process.env.NODE_ENV === 'development') {
         console.error('Failed to fetch geolocation:', error)
       }
 
       return { ...FALLBACK_GEOLOCATION }
     }
-  }
-
-  static isAvailable(): boolean {
-    return typeof window !== 'undefined' && window.fetch !== undefined
   }
 }
