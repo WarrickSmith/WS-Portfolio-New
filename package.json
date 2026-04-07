@@ -23,10 +23,7 @@
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-google-recaptcha": "^3.1.0",
-    "react-server-dom-parcel": "^19.2.4",
-    "react-server-dom-webpack": "^19.2.4",
-    "tailwind-merge": "^3.5.0",
-    "typescript": "^6.0.2"
+    "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.2.2",
@@ -47,6 +44,7 @@
     "webpack": "^5.105.4",
     "webpack-cli": "^7.0.2",
     "webpack-dev-server": "^5.2.3",
-    "webpack-merge": "^6.0.1"
+    "webpack-merge": "^6.0.1",
+    "typescript": "^6.0.2"
   }
 }

@@ -15,7 +15,7 @@
     "isolatedModules": true,
     "noEmit": false,
     "jsx": "react-jsx",
-    "declaration": true,
+    "declaration": false,
     "rootDir": "./src",
     "outDir": "./dist",
     "paths": {
