@@ -28,7 +28,7 @@ const ContactContent = () => {
         <SectionHeading>Get In Touch</SectionHeading>
       </OverlayContentGroup>
 
-      <div className="grid gap-6 p-6 min-[1080px]:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
+      <div className="grid gap-6 p-6 @min-[700px]/overlay:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
         <OverlayContentGroup
           slot="body"
           className="space-y-6 rounded-radius-lg border border-border-subtle bg-gradient-to-br from-bg-card to-bg-card-deep p-6 shadow-[var(--shadow-ambient)]"

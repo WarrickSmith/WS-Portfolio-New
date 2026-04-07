@@ -1,4 +1,3 @@
-import backgroundImage from '../assets/warrick.jpg'
 import { AnimatePresence } from 'framer-motion'
 import {
   type CSSProperties,
@@ -8,6 +7,11 @@ import {
   useRef,
   useState,
 } from 'react'
+import {
+  ABOUT_CARD_ID,
+  IDENTITY_CARD_ID,
+  PORTFOLIO_CARD_ID,
+} from '../constants/cardIds'
 import type { SkillId } from '../data/personalData'
 import type { PortfolioProjectId } from '../data/portfolioData'
 import { cn } from '../lib/cn'
@@ -42,8 +46,6 @@ const OverlayFallback = ({
 }
 
 const CROSS_CARD_NAVIGATION_DELAY_MS = 150
-const ABOUT_CARD_ID = 3
-const PORTFOLIO_CARD_ID = 4
 
 export const MainPage = () => {
   const [closeRequestKey, setCloseRequestKey] = useState(0)
@@ -77,12 +79,11 @@ export const MainPage = () => {
       }
     }
 
-    const heroRect = cardRefs.current.get(1)?.getBoundingClientRect()
-    const firstInteractiveRect = cardRefs.current
-      .get(2)
+    const identityRect = cardRefs.current
+      .get(IDENTITY_CARD_ID)
       ?.getBoundingClientRect()
 
-    if (!heroRect || !firstInteractiveRect) {
+    if (!identityRect) {
       return {
         top: 0,
         left: 0,
@@ -92,26 +93,24 @@ export const MainPage = () => {
     }
 
     if (window.innerWidth >= 1000) {
-      const horizontalGap = Math.max(firstInteractiveRect.left - heroRect.right, 0)
-      const left = heroRect.right + horizontalGap
-      const rightInset = heroRect.left
+      const left = identityRect.right + 48
+      const rightInset = identityRect.left
 
       return {
-        top: heroRect.top,
+        top: identityRect.top,
         left,
         width: window.innerWidth - left - rightInset,
-        height: heroRect.height,
+        height: identityRect.height,
       }
     }
 
-    const verticalGap = Math.max(firstInteractiveRect.top - heroRect.bottom, 0)
-    const top = heroRect.bottom + verticalGap
-    const bottomInset = heroRect.top
+    const top = identityRect.bottom + 32
+    const bottomInset = identityRect.top
 
     return {
       top,
-      left: heroRect.left,
-      width: heroRect.width,
+      left: identityRect.left,
+      width: identityRect.width,
       height: window.innerHeight - top - bottomInset,
     }
   }, [])
@@ -127,7 +126,7 @@ export const MainPage = () => {
 
   const handleCardClick = useCallback(
     (id: number | null) => {
-      if (selectedId !== null || id === null || id === 1 || id === 2) return
+      if (selectedId !== null || id === null || id === IDENTITY_CARD_ID) return
 
       setPendingProjectNavigation(null)
       setPendingSkillNavigation(null)
@@ -306,7 +305,6 @@ export const MainPage = () => {
   return (
     <CardGrid>
       {cards.map((card) => {
-        const isHeroCard = card.id === 1
         const isStaticCard = !card.interactive
         const isSelected = selectedId === card.id
         const backgroundInert = isOverlayOpen && !isSelected
@@ -352,21 +350,12 @@ export const MainPage = () => {
               ) : undefined
             }
             className={cn(
-              isHeroCard &&
-                'hidden min-h-[22rem] bg-cover bg-center bg-no-repeat tablet:flex tablet:col-span-full desktop:col-span-1 desktop:row-span-2 desktop:min-h-0',
-              !isHeroCard &&
-                'min-h-32 items-stretch tablet:min-h-[14rem] desktop:min-h-0',
+              'min-h-32 items-stretch tablet:min-h-[14rem] desktop:min-h-0',
               isStaticCard && !isSelected && 'cursor-default',
               backgroundInert && 'pointer-events-none select-none',
               card.gridClassName
             )}
-            style={
-              isSelected
-                ? openedCardStyle
-                : isHeroCard
-                  ? { backgroundImage: `url(${backgroundImage})` }
-                  : undefined
-            }
+            style={isSelected ? openedCardStyle : undefined}
           >
             {card.preview}
           </Card>

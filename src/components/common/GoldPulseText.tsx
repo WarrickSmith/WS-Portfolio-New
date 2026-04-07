@@ -16,7 +16,7 @@ const GoldPulseText = ({
     <span
       data-gold-pulse-text={pulse ? 'true' : undefined}
       className={cn(
-        'inline-flex items-center justify-center uppercase [text-shadow:var(--text-shadow-gold-rest)] transition-[text-shadow] duration-[500ms] ease-[var(--ease-standard)] motion-reduce:transition-none',
+        'inline-flex flex-wrap items-center justify-center uppercase [text-shadow:var(--text-shadow-gold-rest)] transition-[text-shadow] duration-[500ms] ease-[var(--ease-standard)] motion-reduce:transition-none',
         pulse &&
           'motion-safe:pointer-fine:group-hover/card:[text-shadow:var(--text-shadow-gold-hover)] motion-safe:group-data-[hover-phase=animating]/card:animate-gold-pulse motion-reduce:pointer-fine:group-hover/card:[text-shadow:var(--text-shadow-gold-hover)]',
         className

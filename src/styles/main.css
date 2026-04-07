@@ -145,6 +145,29 @@ body {
   min-height: 100vh;
 }
 
+* {
+  scrollbar-color: oklch(0.45 0 0 / 0.5) transparent;
+  scrollbar-width: auto;
+}
+
+::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: oklch(0.45 0 0 / 0.5);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.55 0 0 / 0.6);
+}
+
 .ambient-background {
   overflow: hidden;
   background:

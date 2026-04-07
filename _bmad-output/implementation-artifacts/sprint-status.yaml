@@ -1,5 +1,5 @@
 # generated: 2026-03-31 14:15:44 NZDT
-# last_updated: 2026-04-07
+# last_updated: 2026-04-08
 # project: WS-Portfolio-New
 # project_key: NOKEY
 # tracking_system: file-system
@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-03-31 14:15:44 NZDT
-last_updated: 2026-04-07
+last_updated: 2026-04-08
 project: WS-Portfolio-New
 project_key: NOKEY
 tracking_system: file-system
@@ -73,7 +73,7 @@ development_status:
   epic-5-retrospective: done
   epic-6: in-progress
   6-1-technical-debt-and-housekeeping: done
-  6-2-responsive-layout-across-breakpoints: backlog
+  6-2-responsive-layout-across-breakpoints: review
   6-3-keyboard-navigation-and-focus-management: backlog
   6-4-screen-reader-compatibility-and-semantic-html: backlog
   6-5-reduced-motion-and-performance-validation: backlog

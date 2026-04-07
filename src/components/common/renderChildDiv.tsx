@@ -5,6 +5,13 @@ import {
   type ReactElement,
   type ReactNode,
 } from 'react'
+import {
+  ABOUT_CARD_ID,
+  APPROACH_CARD_ID,
+  CONTACT_CARD_ID,
+  IDENTITY_CARD_ID,
+  PORTFOLIO_CARD_ID,
+} from '../../constants/cardIds'
 import type { SkillId } from '../../data/personalData'
 import type { PortfolioProjectId } from '../../data/portfolioData'
 import AboutCard from '../about/AboutCard'
@@ -12,7 +19,7 @@ import type { AboutContentProps } from '../about/AboutContent'
 import ApproachCard from '../approach/ApproachCard'
 import type { ApproachContentProps } from '../approach/ApproachContent'
 import ContactCard from '../contact/ContactCard'
-import NameCard from '../namecard/NameCard'
+import IdentityCard from '../namecard/IdentityCard'
 import PortfolioCard from '../portfolio/PortfolioCard'
 import type { PortfolioContentProps } from '../portfolio/PortfolioContent'
 import type { ExpandableItemPreset } from './ExpandableItem'
@@ -145,45 +152,41 @@ export type CardDefinition = {
 }
 
 export const cards: CardDefinition[] = [
-  { id: 1, title: 'Hero Image', preview: <></>, interactive: false },
   {
-    id: 2,
-    title: 'Name Card',
-    preview: <NameCard />,
+    id: IDENTITY_CARD_ID,
+    title: 'Identity',
+    preview: <IdentityCard />,
     interactive: false,
-    gridClassName: 'desktop:col-start-2 desktop:row-start-1',
+    gridClassName:
+      'tablet:col-span-full desktop:col-span-1 desktop:row-span-2',
   },
   {
-    id: 3,
+    id: ABOUT_CARD_ID,
     title: 'About Me',
     preview: <AboutCard />,
     interactive: true,
     expansionPreset: aboutExpansionPreset,
-    gridClassName: 'desktop:col-start-3 desktop:row-start-1',
   },
   {
-    id: 4,
+    id: PORTFOLIO_CARD_ID,
     title: 'My Portfolio',
     preview: <PortfolioCard />,
     interactive: true,
     expansionPreset: portfolioExpansionPreset,
-    gridClassName: 'desktop:col-start-4 desktop:row-start-1',
   },
   {
-    id: 5,
+    id: APPROACH_CARD_ID,
     title: 'My Approach',
     preview: <ApproachCard />,
     interactive: true,
     expansionPreset: approachExpansionPreset,
-    gridClassName: 'desktop:col-start-2 desktop:row-start-2',
   },
   {
-    id: 6,
+    id: CONTACT_CARD_ID,
     title: 'Get In Touch',
     preview: <ContactCard />,
     interactive: true,
     expansionPreset: contactExpansionPreset,
-    gridClassName: 'desktop:col-start-3 desktop:col-span-2 desktop:row-start-2',
   },
 ]
 
@@ -198,23 +201,23 @@ export const renderExpandedCardContent = (
   props: ExpandedCardContentProps
 ): ReactElement | null => {
   switch (cardId) {
-    case 3:
+    case ABOUT_CARD_ID:
       return (
         <AboutContent
           onNavigateToProject={props.onNavigateToProject}
           selectedSkillId={props.selectedSkillId}
         />
       )
-    case 4:
+    case PORTFOLIO_CARD_ID:
       return (
         <PortfolioContent
           onNavigateToSkill={props.onNavigateToSkill}
           selectedProjectId={props.selectedProjectId}
         />
       )
-    case 5:
+    case APPROACH_CARD_ID:
       return <ApproachContent />
-    case 6:
+    case CONTACT_CARD_ID:
       return <ContactContent />
     default:
       return null

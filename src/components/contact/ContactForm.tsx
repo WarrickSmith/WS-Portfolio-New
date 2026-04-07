@@ -466,7 +466,7 @@ const ContactForm = () => {
         role="status"
         aria-live="polite"
         className={cn(
-          'min-h-6 rounded-radius-sm border px-4 py-3 text-body-sm',
+          'min-h-6 rounded-sm border px-4 py-3 text-body-sm',
           formMessage
             ? 'border-border-subtle bg-bg-card-hover'
             : 'border-transparent px-0 py-0',
@@ -597,10 +597,11 @@ const ContactForm = () => {
 
       <div className="space-y-3">
         {RECAPTCHA_SITE_KEY ? (
-          <div className="overflow-x-auto">
+          <div>
             <ReCAPTCHA
               ref={recaptchaRef}
               sitekey={RECAPTCHA_SITE_KEY}
+              theme="dark"
               onChange={handleCaptchaChange}
               onExpired={handleCaptchaExpired}
               onErrored={handleCaptchaErrored}
@@ -634,7 +635,7 @@ const ContactForm = () => {
         disabled={submitDisabled}
         aria-busy={phase === 'submitting'}
         className={cn(
-          'inline-flex min-h-12 items-center justify-center rounded-radius-sm border px-4 py-4 text-body-sm font-semibold transition-[border-color,background-color,color,box-shadow,opacity] duration-150 focus-visible:outline-none focus-visible:shadow-focus-ring',
+          'inline-flex min-h-12 items-center justify-center rounded-sm border px-4 py-4 text-body-sm font-semibold transition-[border-color,background-color,color,box-shadow,opacity] duration-150 focus-visible:outline-none focus-visible:shadow-focus-ring',
           phase === 'success'
             ? 'border-success bg-success/10 text-success'
             : phase === 'error'
