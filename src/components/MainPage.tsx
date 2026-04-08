@@ -61,6 +61,8 @@ export const MainPage = () => {
   const isClosingRef = useRef(false)
   const cardRefs = useRef(new Map<number, HTMLDivElement>())
   const openScrollYRef = useRef(0)
+  const triggerCardIdRef = useRef<number | null>(null)
+  const closeButtonRef = useRef<HTMLButtonElement>(null)
 
   const selectedCard = getCardById(selectedId)
   const isOverlayOpen = selectedId !== null
@@ -117,6 +119,7 @@ export const MainPage = () => {
 
   const openCard = useCallback(
     (id: number) => {
+      triggerCardIdRef.current = id
       openScrollYRef.current = window.scrollY
       setOpenedCardStyle(calculateOpenedCardStyle())
       setSelectedId(id)
@@ -145,8 +148,19 @@ export const MainPage = () => {
   }, [selectedId])
 
   const handleOverlayExitComplete = useCallback(() => {
+    const triggerCardId = triggerCardIdRef.current
+    const hasPendingNavigation =
+      pendingProjectNavigation !== null || pendingSkillNavigation !== null
+
     setSelectedId(null)
-  }, [])
+
+    if (!hasPendingNavigation && triggerCardId !== null) {
+      requestAnimationFrame(() => {
+        const triggerElement = cardRefs.current.get(triggerCardId)
+        triggerElement?.focus({ focusVisible: true } as FocusOptions)
+      })
+    }
+  }, [pendingProjectNavigation, pendingSkillNavigation])
 
   const handleNavigateToProject = useCallback(
     (projectId: PortfolioProjectId) => {
@@ -213,6 +227,33 @@ export const MainPage = () => {
       window.clearTimeout(timeoutId)
     }
   }, [openCard, pendingProjectNavigation, pendingSkillNavigation, selectedId])
+
+  useEffect(() => {
+    if (!isOverlayOpen) return
+
+    let attempt = 0
+    let timeoutId: number | null = null
+
+    const tryFocus = () => {
+      if (closeButtonRef.current) {
+        closeButtonRef.current.focus()
+        return
+      }
+
+      attempt += 1
+      if (attempt < 5) {
+        timeoutId = window.setTimeout(tryFocus, 50)
+      }
+    }
+
+    timeoutId = window.setTimeout(tryFocus, 50)
+
+    return () => {
+      if (timeoutId !== null) {
+        window.clearTimeout(timeoutId)
+      }
+    }
+  }, [isOverlayOpen])
 
   useEffect(() => {
     if (!isOverlayOpen) return
@@ -325,6 +366,7 @@ export const MainPage = () => {
             inert={backgroundInert || undefined}
             opened={isSelected}
             interactive={cardInteractive}
+            isExpanded={isSelected}
             key={card.id}
             layout
             closeRequestKey={isSelected ? closeRequestKey : undefined}
@@ -335,7 +377,7 @@ export const MainPage = () => {
             onClick={cardInteractive ? () => handleCardClick(card.id) : undefined}
             overlay={
               isSelected && selectedCard?.id === card.id ? (
-                <CardExpansionOverlay title={card.title} onClose={requestClose}>
+                <CardExpansionOverlay title={card.title} onClose={requestClose} closeButtonRef={closeButtonRef}>
                   <Suspense fallback={<OverlayFallback title={card.title} />}>
                     {expandedContent ? (
                       expandedContent

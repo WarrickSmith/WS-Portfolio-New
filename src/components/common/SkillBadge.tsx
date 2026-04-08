@@ -18,7 +18,7 @@ type LinkedSkillBadgeProps = BaseSkillBadgeProps & {
 export type SkillBadgeProps = DefaultSkillBadgeProps | LinkedSkillBadgeProps
 
 const baseClassName =
-  'inline-flex min-h-10 items-center rounded-full border px-3 py-2 text-left font-mono text-caption font-medium tracking-[0.02em] transition-[border-color,background-color,color,box-shadow] duration-150 focus-visible:outline-none'
+  'inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-left font-mono text-caption font-medium tracking-[0.02em] transition-[border-color,background-color,color,box-shadow] duration-150 focus-visible:outline-none'
 
 const SkillBadge = (props: SkillBadgeProps) => {
   const { label, className } = props

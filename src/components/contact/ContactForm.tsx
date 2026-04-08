@@ -508,7 +508,7 @@ const ContactForm = () => {
               </label>
               <div
                 className={cn(
-                  'flex items-start gap-3 rounded-radius-md border bg-bg-card px-4 py-3 transition-[border-color,box-shadow] duration-150',
+                  'flex min-h-11 items-start gap-3 rounded-radius-md border bg-bg-card px-4 py-3 transition-[border-color,box-shadow] duration-150',
                   fieldError
                     ? 'border-error/60 bg-error/5'
                     : 'border-border-subtle focus-within:border-border-accent focus-within:shadow-focus-ring'
@@ -558,7 +558,7 @@ const ContactForm = () => {
           </label>
           <div
             className={cn(
-              'flex items-start gap-3 rounded-radius-md border bg-bg-card px-4 py-3 transition-[border-color,box-shadow] duration-150',
+              'flex min-h-11 items-start gap-3 rounded-radius-md border bg-bg-card px-4 py-3 transition-[border-color,box-shadow] duration-150',
               errors.message
                 ? 'border-error/60 bg-error/5'
                 : 'border-border-subtle focus-within:border-border-accent focus-within:shadow-focus-ring'
