@@ -1,5 +1,10 @@
 # Deferred Work
 
+## Deferred from: code review of story 6.3 (2026-04-08)
+
+- `focusVisible: true` FocusOption not cross-browser — `element.focus({ focusVisible: true })` only works in Chrome/Edge. Firefox/Safari ignore it. Focus restoration works but gold `:focus-visible` ring may not appear after programmatic focus. Low impact.
+- Focus trap selector incomplete — `FOCUSABLE_SELECTOR` in `useFocusTrap.ts` omits `[contenteditable]`, `details`, and `summary`. Not currently used in overlays but would skip them if added.
+
 ## Course Correction Disposition (2026-04-07)
 
 All items audited and assigned dispositions per Sprint Change Proposal `sprint-change-proposal-2026-04-07.md`.
