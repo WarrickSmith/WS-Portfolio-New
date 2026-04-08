@@ -766,6 +766,14 @@ So that I can access all content and interactions using only Tab, Enter, Space, 
 **And** all Tier 1 and Tier 2 interactive elements (per UX-DR22) are reachable via keyboard (NFR21)
 **And** focus is trapped within expanded card overlays and restored on close (NFR22)
 
+**Story 6.3 Scope Additions (from story 6.2 review deferred items):**
+
+- **SkillBadge touch target:** SkillBadge buttons are 40px tall, below the 44px WCAG minimum for touch targets. Increase to ≥44px while preserving visual density.
+- **Contact form input touch targets:** Contact form text inputs are borderline at 42-44px. Verify and adjust to meet ≥44px minimum.
+- **Deferred-item triage:** Before completing this story, review all deferred items accumulated during implementation. Address items that fall within this story's scope, assign remaining items to the relevant epic 6 story, or add them to Story 6.7 (deferred items catch-all).
+
+**Story 6.3 Note:** The deferred-item triage task above applies to all remaining stories. Any new deferred items discovered during implementation must be addressed in the current story, assigned to a relevant remaining epic 6 story, or added to Story 6.7.
+
 ### Story 6.4: Screen Reader Compatibility and Semantic HTML
 
 As a visitor using a screen reader,
@@ -788,6 +796,10 @@ So that I can understand and navigate the portfolio without relying on visual pr
 **And** form submission states are communicated: submit button has `aria-busy="true"` during sending, success/error announced via live region
 **And** semantic HTML structure uses landmarks, headings hierarchy (h1-h3), and roles throughout (NFR24) (FR34)
 **And** colour is never the sole indicator of state — error states use red + text message + border change, success uses green + text confirmation
+
+**Story 6.4 Scope Additions (from story 6.2 review deferred items):**
+
+- **Deferred-item triage:** Before completing this story, review all deferred items accumulated during implementation. Address items that fall within this story's scope, assign remaining items to the relevant epic 6 story, or add them to Story 6.7 (deferred items catch-all).
 
 ### Story 6.5: Reduced Motion and Performance Validation
 
@@ -820,6 +832,7 @@ So that I get a fully functional and visually complete experience without any mo
 
 - **Ambient background animation tuning:** The ambient background 45s gradient drift is effectively invisible (flagged in Epic 2 retro, deferred to "after content lands" — all content epics now complete). Tune gradient opacity, animation range, or cycle timing so the effect is perceptible when looking for it over 10-15 seconds without becoming distracting. Static gradient preserved for `prefers-reduced-motion`.
 - **Per-card expansion animation tuning:** Card expansion animations are conservatively tuned (flagged in Epic 2 retro, deferred to "after Epic 4"). With all overlay content now in place, reassess spring configs and motion ranges so each card's unique character (slide-up, center-scale, bottom-unfold) is immediately striking. 60fps maintained. Reduced motion unaffected.
+- **Deferred-item triage:** Before completing this story, review all deferred items accumulated during implementation. Address items that fall within this story's scope, assign remaining items to the relevant epic 6 story, or add them to Story 6.7 (deferred items catch-all).
 
 ### Story 6.6: SEO and Discoverability
 
@@ -844,3 +857,27 @@ So that the portfolio is discoverable and generates good preview cards when shar
 **Story 6.6 Scope Additions (from course correction 2026-04-07):**
 
 - **Favicon MIME type fix:** Change `type="image/ico"` to `type="image/x-icon"` in `index.html:5`.
+- **Deferred-item triage:** Before completing this story, review all deferred items accumulated during implementation. Address items that fall within this story's scope, assign remaining items to the relevant epic 6 story, or add them to Story 6.7 (deferred items catch-all).
+
+### Story 6.7: Deferred Items Catch-All
+
+As a developer completing the polish epic,
+I want all deferred items from earlier stories resolved before the retrospective,
+So that no technical debt or review findings are left unaddressed.
+
+**Note:** This story must be completed before the epic 6 retrospective.
+
+**Acceptance Criteria:**
+
+**Given** deferred items have accumulated across epic 6 stories
+**When** this story is implemented
+**Then** the following known deferred items are resolved:
+
+- **Hardcoded gap magic numbers in MainPage.tsx:** The `calculateOpenedCardStyle` function uses hardcoded gap values (48 for desktop, 32 for tablet) instead of reading from the grid's computed style or a shared token. Extract these to a shared constant or compute them dynamically.
+- **Agile/REST APIs skills absent from personalData:** The spec listed Agile and REST APIs as skills to add, but these are methodologies not represented in the current SkillBadge/TechBadge system which maps skills to portfolio projects. Document this as a spec inaccuracy — no code change required unless the skill system is extended to support non-project-linked skills.
+- **TechBadge 36px height documentation:** TechBadge spans are 36px tall but are non-interactive `<span>` elements, not touch targets. The 44px WCAG minimum applies only to interactive elements. No code change required — document this as a non-issue for future reviewers.
+- **Any additional deferred items** accumulated from Stories 6.3–6.6 via their deferred-item triage tasks.
+
+**Story 6.7 Scope Additions:**
+
+- **Deferred-item triage:** Collect and resolve all remaining deferred items from Stories 6.3–6.6 that were not addressed in their respective stories.

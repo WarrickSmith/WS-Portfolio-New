@@ -1,6 +1,6 @@
 # Story 6.2: Responsive Layout Across Breakpoints
 
-Status: review
+Status: done
 
 ## Story
 
