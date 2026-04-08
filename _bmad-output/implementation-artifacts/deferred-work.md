@@ -248,6 +248,14 @@ Maps every deferred item to its natural resolution point. Items without a clear 
 
 - WordSlider `currentWordIndex` out of bounds when `words` shrinks — `useState(0)` never reset on `words` change. If array shrinks below current index, `words[currentWordIndex]` renders `undefined` until next interval tick. Pre-existing, not introduced by this diff. Current caller (NameCard) passes hardcoded `['full stack', 'developer']`, so never fires in production. `src/components/common/WordSlider.tsx:9`
 
+## Deferred from: code review of 6-2-responsive-layout-across-breakpoints (2026-04-08)
+
+- Hardcoded gap magic numbers (48, 32) in expansion position calc — `MainPage.tsx:96,107` uses `identityRect.right + 48` and `identityRect.bottom + 32` matching grid gap values. Currently correct but fragile if `CardGrid.tsx` gap changes. Pre-existing pattern.
+- Agile/REST APIs skills absent from data — Story spec listed 12 existing skills including Agile and REST APIs, but these were already absent before Story 6.2 diff. Pre-existing spec inaccuracy.
+- SkillBadge linked variant 40px min height below 44px touch target (AC 4) — `SkillBadge.tsx:21` uses `min-h-10` (40px) on clickable button variant. Not modified in this diff. Pre-existing.
+- TechBadge 36px min height — `TechBadge.tsx:7` uses `min-h-9` (36px). Non-interactive `<span>`, not subject to AC 4. Not modified in this diff. Pre-existing.
+- Contact form input touch targets borderline ~42-44px — `ContactForm.tsx:510-514` uses `px-4 py-3` without explicit `min-h-11`. Not changed in this diff. Pre-existing.
+
 ## Deferred from: code review of 5-2-visitor-tracking-and-notification-system (2026-04-06)
 
 - Timer leak in `Promise.race` — `setTimeout` timers never cleared when primary promise resolves first. Timer fires into settled promise (no-op but wasteful). Same pattern from Story 5.1. `ipGeolocationService.ts:21-25`, `useVisitorTracker.ts:175-179`

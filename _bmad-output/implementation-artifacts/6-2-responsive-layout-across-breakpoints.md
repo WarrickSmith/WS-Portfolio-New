@@ -355,9 +355,9 @@ The following changes were made during implementation based on user review and a
 
 **6. Dark scrollbar styling**
 - **Not in original ACs**
-- **Implemented:** Added `scrollbar-color`, `scrollbar-width: thin`, and `::-webkit-scrollbar` styles in `main.css` using semi-transparent neutral grey (`oklch(0.45 0 0 / 0.5)`) on transparent track
-- **Reason:** Default browser scrollbars had bright white backgrounds that created visual glare against the dark theme
-- **User directive:** "All scroll bars have a bright background that 'glares' in the dark themed layout. Can this be softened without making the scroll bars too hard to see?"
+- **Implemented:** Added `scrollbar-color`, `scrollbar-width: auto`, and `::-webkit-scrollbar` styles in `main.css` using semi-transparent neutral grey (`oklch(0.45 0 0 / 0.5)`) on transparent track, with 16px width for WebKit browsers
+- **Reason:** Default browser scrollbars had bright white backgrounds that created visual glare against the dark theme. User clarified "soften" referred to colour (not width), and subsequently requested wider scrollbars ("double their thickness"). Final result: dark-themed wider scrollbars with softened colour.
+- **User directives:** "All scroll bars have a bright background that 'glares' in the dark themed layout. Can this be softened without making the scroll bars too hard to see?" followed by "The scroll bars look skinny can you double their thickness"
 
 **7. Additional arbitrary breakpoint replaced in ContactContent**
 - **Not in original Task 9 subtasks** (Task 9 only listed ApproachContent and AboutContent breakpoints)
@@ -365,6 +365,16 @@ The following changes were made during implementation based on user review and a
 - **Reason:** Discovered during visual review. Consistent with AC 15/16 intent of eliminating arbitrary breakpoints.
 
 ### Review Findings
+
+- [x] [Review][Decision] `scrollbar-width: auto` — RESOLVED. User clarified "soften" referred to colour, not width. User explicitly requested wider scrollbars ("double their thickness"). `scrollbar-width: auto` is intentional. Dev notes item 6 updated to reflect correct intent: dark-themed wider scrollbars with softened colour.
+- [x] [Review][Patch] Remove dead `HERO_CARD_ID` constant — FIXED. Removed from `src/constants/cardIds.ts`. Card 1 was eliminated during consolidation.
+- [x] [Review][Patch] Delete dead `NameCard.tsx` file — FIXED. Deleted `src/components/namecard/NameCard.tsx`. Replaced by `IdentityCard.tsx`.
+- [x] [Review][Patch] Fix CardPreview.tsx inconsistent JSX indentation — FIXED. Corrected nesting indentation in `src/components/common/CardPreview.tsx`.
+- [x] [Review][Defer] Hardcoded gap magic numbers (48, 32) in expansion position calc — `src/components/MainPage.tsx:96,107` uses `identityRect.right + 48` and `identityRect.bottom + 32` matching `desktop:gap-12`/`tablet:gap-8`. Values are currently correct but fragile — will silently break if `CardGrid.tsx` gap values change. Pre-existing pattern, not introduced by this change. deferred, pre-existing
+- [x] [Review][Defer] Agile/REST APIs skills absent from data — Story spec lists these as existing (12 skills) but they were already absent before this diff. The 6 new skills were added correctly per AC 18. Pre-existing spec inaccuracy. deferred, pre-existing
+- [x] [Review][Defer] SkillBadge linked variant 40px min height below 44px touch target — `src/components/common/SkillBadge.tsx:21` uses `min-h-10` (40px) on the clickable button variant. Violates AC 4 (44x44px touch targets). File not modified in this diff. deferred, pre-existing
+- [x] [Review][Defer] TechBadge 36px min height — `src/components/common/TechBadge.tsx:7` uses `min-h-9` (36px). Non-interactive `<span>`, not an "interactive element" per AC 4. File not modified in this diff. deferred, pre-existing
+- [x] [Review][Defer] Contact form input touch targets borderline ~42-44px — `src/components/contact/ContactForm.tsx:510-514` uses `px-4 py-3` without explicit `min-h-11`. Not changed in this diff. deferred, pre-existing
 
 ### Change Log
 - 2026-04-08: Story 6.2 implementation complete — responsive layout, card consolidation, skill badges, breakpoint tokens, legacy class fixes
