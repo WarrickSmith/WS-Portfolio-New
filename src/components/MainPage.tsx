@@ -47,6 +47,11 @@ const OverlayFallback = ({
 
 const CROSS_CARD_NAVIGATION_DELAY_MS = 150
 
+const parseGridGap = (value: string): number => {
+  const parsedGap = Number.parseFloat(value)
+  return Number.isFinite(parsedGap) ? parsedGap : 0
+}
+
 export const MainPage = () => {
   const prefersReducedMotion = useReducedMotion()
   const [closeRequestKey, setCloseRequestKey] = useState(0)
@@ -82,9 +87,8 @@ export const MainPage = () => {
       }
     }
 
-    const identityRect = cardRefs.current
-      .get(IDENTITY_CARD_ID)
-      ?.getBoundingClientRect()
+    const identityElement = cardRefs.current.get(IDENTITY_CARD_ID)
+    const identityRect = identityElement?.getBoundingClientRect()
 
     if (!identityRect) {
       return {
@@ -95,8 +99,20 @@ export const MainPage = () => {
       }
     }
 
+    const cardGrid = identityElement?.closest('[data-card-grid]')
+    const computedGridStyle
+      = cardGrid instanceof HTMLElement
+        ? window.getComputedStyle(cardGrid)
+        : null
+    const columnGap = computedGridStyle
+      ? parseGridGap(computedGridStyle.columnGap)
+      : 0
+    const rowGap = computedGridStyle
+      ? parseGridGap(computedGridStyle.rowGap)
+      : 0
+
     if (window.innerWidth >= 1000) {
-      const left = identityRect.right + 48
+      const left = identityRect.right + columnGap
       const rightInset = identityRect.left
 
       return {
@@ -107,7 +123,7 @@ export const MainPage = () => {
       }
     }
 
-    const top = identityRect.bottom + 32
+    const top = identityRect.bottom + rowGap
     const bottomInset = identityRect.top
 
     return {
