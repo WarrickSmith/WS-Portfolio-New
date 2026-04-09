@@ -37,9 +37,9 @@ const ContactContent = () => {
             <p className="text-caption font-semibold uppercase tracking-[0.22em] text-text-accent">
               Contact
             </p>
-            <h2 className="text-h2 font-semibold text-text-primary">
+            <h3 className="text-h2 font-semibold text-text-primary">
               Let&apos;s talk about the next build.
-            </h2>
+            </h3>
             <p className="max-w-[34ch] text-body text-text-secondary">
               {contact.intro}
             </p>

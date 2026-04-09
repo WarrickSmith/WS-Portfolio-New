@@ -15,19 +15,22 @@ const IdentityCard = () => {
     >
       <div
         className={cn(
-          'hidden aspect-square w-20 shrink-0 rounded-full bg-cover bg-center bg-no-repeat',
+          'hidden aspect-square w-20 shrink-0 overflow-hidden rounded-full',
           'tablet:block tablet:w-28',
           'desktop:block desktop:w-32'
         )}
-        style={{ backgroundImage: `url(${backgroundImage})` }}
-        role="img"
-        aria-label="Warrick Smith portrait"
-      />
+      >
+        <img
+          src={backgroundImage}
+          alt="Portrait of Warrick Smith"
+          className="h-full w-full rounded-full object-cover object-center"
+        />
+      </div>
       <div className="flex flex-col items-center gap-3 tablet:items-start desktop:items-center">
         <p className="text-body-sm font-normal tracking-[0.18em] text-text-secondary">
           Hi There! - I&apos;m
         </p>
-        <h2 className="my-2 text-display font-bold">Warrick Smith</h2>
+        <h1 className="my-2 text-display font-bold">Warrick Smith</h1>
         <WordSlider words={words} />
       </div>
     </div>

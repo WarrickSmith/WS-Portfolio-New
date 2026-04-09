@@ -1,19 +1,21 @@
-import type { ReactNode } from 'react'
+import type { ElementType, ReactNode } from 'react'
 import { cn } from '../../lib/cn'
 
 type GoldPulseTextProps = {
+  as?: ElementType
   children: ReactNode
   className?: string
   pulse?: boolean
 }
 
 const GoldPulseText = ({
+  as: Component = 'span',
   children,
   className,
   pulse = false,
 }: GoldPulseTextProps) => {
   return (
-    <span
+    <Component
       data-gold-pulse-text={pulse ? 'true' : undefined}
       className={cn(
         'inline-flex flex-wrap items-center justify-center uppercase [text-shadow:var(--text-shadow-gold-rest)] transition-[text-shadow] duration-[500ms] ease-[var(--ease-standard)] motion-reduce:transition-none',
@@ -23,7 +25,7 @@ const GoldPulseText = ({
       )}
     >
       {children}
-    </span>
+    </Component>
   )
 }
 

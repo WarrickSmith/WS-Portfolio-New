@@ -17,7 +17,8 @@ const CardPreview = ({ description, icon, title }: CardPreviewProps) => {
             <FaIcon icon={icon} />
           </div>
           <GoldPulseText
-            className="justify-start text-2xl leading-[1.3] tracking-[-0.01em] font-semibold"
+            as="h2"
+            className="m-0 justify-start text-2xl leading-[1.3] tracking-[-0.01em] font-semibold"
             pulse
           >
             {title}

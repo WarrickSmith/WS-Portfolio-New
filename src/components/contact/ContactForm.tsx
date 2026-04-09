@@ -78,14 +78,6 @@ const hasAnyValue = (values: FormValues): boolean =>
 const hasErrors = (errors: FormErrors): boolean =>
   Object.values(errors).some((value) => Boolean(value))
 
-const getFirstErrorMessage = (errors: FormErrors): string | null => {
-  const firstError = Object.values(errors).find(
-    (value): value is string => Boolean(value)
-  )
-
-  return firstError ?? null
-}
-
 const validateField = (
   name: ContactFieldName,
   rawValue: string
@@ -223,20 +215,10 @@ const ContactForm = () => {
 
     if (hasErrors(nextErrors)) {
       setInteractionPhase('validating')
-      setFormMessage({
-        tone: 'info',
-        text:
-          getFirstErrorMessage(nextErrors)
-          ?? 'Please review the highlighted fields before sending.',
-      })
       return
     }
 
     setInteractionPhase(hasAnyValue(nextValues) ? 'filling' : 'empty')
-
-    if (formMessage?.tone === 'info') {
-      setFormMessage(null)
-    }
   }
 
   const handleCaptchaChange = (token: string | null) => {
@@ -316,12 +298,7 @@ const ContactForm = () => {
     if (hasErrors(nextErrors)) {
       setSubmitPhase(null)
       setInteractionPhase('validating')
-      setFormMessage({
-        tone: 'info',
-        text:
-          getFirstErrorMessage(nextErrors)
-          ?? 'Please review the highlighted fields before sending.',
-      })
+      setFormMessage(null)
       return
     }
 
@@ -465,6 +442,7 @@ const ContactForm = () => {
       <div
         role="status"
         aria-live="polite"
+        aria-atomic="true"
         className={cn(
           'min-h-6 rounded-sm border px-4 py-3 text-body-sm',
           formMessage
@@ -538,12 +516,14 @@ const ContactForm = () => {
                 />
               </div>
               {fieldError && touchedFields[field.name] && (
-                <p
+                <span
                   id={`${fieldId}-error`}
-                  className="text-body-sm text-[color:var(--color-error)]"
+                  aria-live="polite"
+                  aria-atomic="true"
+                  className="block text-body-sm text-[color:var(--color-error)]"
                 >
                   {fieldError}
-                </p>
+                </span>
               )}
             </div>
           )
@@ -585,12 +565,14 @@ const ContactForm = () => {
             />
           </div>
           {errors.message && touchedFields.message && (
-            <p
+            <span
               id={`${fieldIds.message}-error`}
-              className="text-body-sm text-[color:var(--color-error)]"
+              aria-live="polite"
+              aria-atomic="true"
+              className="block text-body-sm text-[color:var(--color-error)]"
             >
               {errors.message}
-            </p>
+            </span>
           )}
         </div>
       </div>
@@ -617,6 +599,7 @@ const ContactForm = () => {
         <p
           role="status"
           aria-live="polite"
+          aria-atomic="true"
           className={cn(
             'text-body-sm',
             captchaStatus === 'verified'

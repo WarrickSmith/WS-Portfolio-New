@@ -120,9 +120,9 @@ const AboutContent = ({
                   Professional Profile
                 </p>
                 <div className="space-y-2">
-                  <h2 className="text-h1 font-semibold text-text-primary">
+                  <h3 className="text-h1 font-semibold text-text-primary">
                     {personalData.profile.fullName}
-                  </h2>
+                  </h3>
                   <p className="text-callout font-medium text-text-accent">
                     {personalData.profile.headline}
                   </p>
