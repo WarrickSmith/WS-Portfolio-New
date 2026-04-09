@@ -14,6 +14,19 @@ const WordSlider = ({ reducedMotionText, words }: WordSliderProps) => {
   const [animateOut, setAnimateOut] = useState(false)
 
   useEffect(() => {
+    if (words.length === 0) {
+      setCurrentWordIndex(0)
+      setAnimateIn(false)
+      setAnimateOut(false)
+      return
+    }
+
+    setCurrentWordIndex((previousIndex) =>
+      Math.min(previousIndex, words.length - 1)
+    )
+  }, [words.length])
+
+  useEffect(() => {
     if (prefersReducedMotion || words.length === 0) return
 
     let pendingTimeout: ReturnType<typeof setTimeout> | null = null

@@ -142,7 +142,8 @@ export const useVisitorTracker = () => {
 
   const sendVisitorNotification = useCallback(
     async (visitorData: VisitorData): Promise<boolean> => {
-      let timeoutId: ReturnType<typeof setTimeout>
+      let timeoutId: ReturnType<typeof setTimeout> | null = null
+
       try {
         const serviceId = EMAILJS_SERVICE_ID
         const templateId = EMAILJS_TEMPLATE_ID
@@ -178,10 +179,7 @@ export const useVisitorTracker = () => {
         }
 
         await Promise.race([
-          emailjs.send(serviceId, templateId, templateParams, publicKey).then((res) => {
-            clearTimeout(timeoutId)
-            return res
-          }),
+          emailjs.send(serviceId, templateId, templateParams, publicKey),
           new Promise<never>((_, reject) => {
             timeoutId = setTimeout(() => reject(new Error('EmailJS send timed out')), EMAILJS_TIMEOUT_MS)
           }),
@@ -189,12 +187,15 @@ export const useVisitorTracker = () => {
 
         return true
       } catch (error) {
-        clearTimeout(timeoutId!)
         if (shouldLogDebug) {
           console.error('Failed to send visitor notification:', error)
         }
 
         return false
+      } finally {
+        if (timeoutId !== null) {
+          clearTimeout(timeoutId)
+        }
       }
     },
     [shouldLogDebug]
