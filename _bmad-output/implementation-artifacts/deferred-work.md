@@ -26,6 +26,7 @@ All items audited and assigned dispositions per Sprint Change Proposal `sprint-c
 | EmailJS empty string silent failure | ContactForm rewritten in Story 5.1 |
 | closeCard/isClosed state churn | AnimatePresence pattern replaced this in Epic 2 |
 | oklch relative color syntax fallbacks | Design decision, 28+ occurrences |
+| GoldPulseText no semantic heading role | Resolved in Story 6.4 via semantic preview `h2` titles |
 
 ### Assigned to Epic 6 Stories
 
@@ -51,7 +52,6 @@ All items audited and assigned dispositions per Sprint Change Proposal `sprint-c
 | Missing skill badges | Story 6.2 |
 | `rounded-radius-sm` → `rounded-sm` (4 files) | Story 6.2 |
 | AboutContent arbitrary breakpoints | Story 6.2 |
-| GoldPulseText no semantic heading role | Story 6.4 |
 | Ambient background tuning | Story 6.5 |
 | Per-card animation tuning | Story 6.5 |
 | Favicon MIME type fix | Story 6.6 |
@@ -88,7 +88,7 @@ Items with no practical impact, theoretical concerns, library limitations, or de
 
 - WordSlider setTimeout not cleaned up on unmount — inner setTimeout in useEffect not cleared on component unmount, may cause React state-update-on-unmount warning. Pre-existing.
 - CloseButton click event propagates to parent Card onClick — no stopPropagation on button click, event may bubble to Card's handleCardClick. Pre-existing.
-- GoldPulseText card preview titles have no semantic heading role — rendered as `<span>` without ARIA roles. Pre-existing, tracked for Epic 6 accessibility work. **→ Target: Epic 6 (Story 6.3)**
+- GoldPulseText card preview titles have no semantic heading role — rendered as `<span>` without ARIA roles. **Resolved in Story 6.4**: preview titles now render as semantic `h2` elements through `GoldPulseText`.
 - Empty words array crashes WordSlider — `(prevIndex + 1) % words.length` produces NaN when words is empty. Pre-existing. **→ Target: bug fix or housekeeping story**
 
 ## Deferred from: code review of 1-4-component-migration-feature-components-and-folder-renames (2026-04-01)
@@ -142,11 +142,11 @@ Maps every deferred item to its natural resolution point. Items without a clear 
 | ContactForm unsafe `process.env` access (may be undefined) | 1.2 review | **Resolved** — imports from `env.ts` gateway |
 | `env.d.ts` types ProcessEnv vars as non-optional string | 1.2 review | **Resolved** — all fields now optional |
 
-### Target: Story 6.4 (Screen Reader Compatibility & Semantic HTML)
+### ~~Target: Story 6.4 (Screen Reader Compatibility & Semantic HTML)~~ — RESOLVED
 
-| Item | Origin | Notes |
-|------|--------|-------|
-| GoldPulseText card titles have no semantic heading role | 1.3 review | Needs ARIA roles or semantic elements |
+| Item | Origin | Status |
+|------|--------|--------|
+| GoldPulseText card titles have no semantic heading role | 1.3 review | **Resolved** — preview titles now render as semantic `h2` elements via `GoldPulseText` |
 
 ### Bugs (fix opportunistically or in next touching story)
 
@@ -252,6 +252,17 @@ Maps every deferred item to its natural resolution point. Items without a clear 
 ## Deferred from: code review of 6-1-technical-debt-and-housekeeping (2026-04-07)
 
 - WordSlider `currentWordIndex` out of bounds when `words` shrinks — `useState(0)` never reset on `words` change. If array shrinks below current index, `words[currentWordIndex]` renders `undefined` until next interval tick. Pre-existing, not introduced by this diff. Current caller (NameCard) passes hardcoded `['full stack', 'developer']`, so never fires in production. `src/components/common/WordSlider.tsx:9`
+
+## Deferred from: code review of 6-4-screen-reader-compatibility-and-semantic-html (2026-04-09)
+
+- `aria-describedby` references non-existent element when field has error but untouched — `aria-describedby` points to `${fieldId}-error` but the span only renders when `touchedFields[field.name]` is true. Broken ARIA reference. Pre-existing pattern. `ContactForm.tsx:508-509,518`
+- `aria-invalid` set on inputs before user has touched the field — `aria-invalid={Boolean(fieldError)}` applied unconditionally, but visible error only shows after touch. Pre-existing. `ContactForm.tsx:508`
+- `GoldPulseText` `as` prop accepts any `ElementType` with no constraint — Could receive invalid elements or components that don't support `className`/`data-*`. Current usage is only `as="h2"`. Code quality concern. `GoldPulseText.tsx:5`
+- `m-0` heading reset fragile — Added in `CardPreview` rather than inside `GoldPulseText` when rendered as block element. Future consumers must remember to add it. `CardPreview.tsx:21`
+- `aria-atomic="true"` on live regions may cause chatty re-announcements — Full region re-announced on every message change. Theoretical concern, standard pattern. `ContactForm.tsx:442,521,571`
+- Field error spans conditionally mount/unmount — No announcement when error clears (span removed from DOM). Standard React pattern. `ContactForm.tsx:518,568`
+- `clearSubmissionFeedback` still guards on `formMessage?.tone !== 'info'` — Info-tone validation messages removed but info-tone still used for captcha/Sending states. Logic correct but confusing for maintainers. `ContactForm.tsx:158-166`
+- IdentityCard `<img>` no error handling for failed loads — Previous `backgroundImage` approach silently showed nothing. `<img>` shows broken icon on failure. Minor visual regression risk. `IdentityCard.tsx:23-27`
 
 ## Deferred from: code review of 6-2-responsive-layout-across-breakpoints (2026-04-08)
 
