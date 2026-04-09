@@ -104,6 +104,8 @@ services:
 - forward port: `3000`
 - SSL: Let's Encrypt
 
+Security headers such as Content Security Policy remain proxy-owned. Configure CSP in Nginx Proxy Manager or another upstream proxy layer, not in the SPA HTML template.
+
 ## Troubleshooting
 
 | Issue | Resolution |

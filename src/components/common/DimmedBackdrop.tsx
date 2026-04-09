@@ -9,7 +9,7 @@ const DimmedBackdrop = ({ className, ...props }: DimmedBackdropProps) => {
   return (
     <motion.div
       aria-hidden="true"
-      className={cn('fixed inset-0 z-10 bg-black', className)}
+      className={cn('dimmed-backdrop-layer fixed inset-0 z-10 bg-black', className)}
       {...props}
     />
   )

@@ -1,11 +1,17 @@
-import GoldPulseText from '../common/GoldPulseText'
+import CardPreview from '../common/CardPreview'
 
 const PortfolioCard = () => {
   return (
-    <GoldPulseText>
-      <span className="text-text-primary">My</span>{'\u00A0'}
-      <span className="text-text-accent">Portfolio</span>
-    </GoldPulseText>
+    <CardPreview
+      icon="faBriefcase"
+      description="Selected builds with live demos and code."
+      title={
+        <>
+          <span className="text-text-primary">My</span>{'\u00A0'}
+          <span className="text-text-accent">Portfolio</span>
+        </>
+      }
+    />
   )
 }
 
