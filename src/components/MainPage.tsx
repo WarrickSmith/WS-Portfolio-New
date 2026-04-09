@@ -1,4 +1,4 @@
-import { AnimatePresence } from 'framer-motion'
+import { AnimatePresence, MotionConfig, useReducedMotion } from 'framer-motion'
 import {
   type CSSProperties,
   Suspense,
@@ -48,6 +48,7 @@ const OverlayFallback = ({
 const CROSS_CARD_NAVIGATION_DELAY_MS = 150
 
 export const MainPage = () => {
+  const prefersReducedMotion = useReducedMotion()
   const [closeRequestKey, setCloseRequestKey] = useState(0)
   const [selectedId, setSelectedId] = useState<number | null>(null)
   const [pendingProjectNavigation, setPendingProjectNavigation] =
@@ -205,8 +206,7 @@ export const MainPage = () => {
       return
     }
 
-    // Keep the card grid visible for a beat between overlay transitions.
-    const timeoutId = window.setTimeout(() => {
+    const completePendingNavigation = () => {
       if (pendingProjectNavigation !== null) {
         setSelectedProjectId(pendingProjectNavigation)
         setSelectedSkillId(null)
@@ -221,12 +221,29 @@ export const MainPage = () => {
         setPendingSkillNavigation(null)
         openCard(ABOUT_CARD_ID)
       }
-    }, CROSS_CARD_NAVIGATION_DELAY_MS)
+    }
+
+    if (prefersReducedMotion) {
+      completePendingNavigation()
+      return
+    }
+
+    // Keep the card grid visible for a beat between overlay transitions.
+    const timeoutId = window.setTimeout(
+      completePendingNavigation,
+      CROSS_CARD_NAVIGATION_DELAY_MS
+    )
 
     return () => {
       window.clearTimeout(timeoutId)
     }
-  }, [openCard, pendingProjectNavigation, pendingSkillNavigation, selectedId])
+  }, [
+    openCard,
+    pendingProjectNavigation,
+    pendingSkillNavigation,
+    prefersReducedMotion,
+    selectedId,
+  ])
 
   useEffect(() => {
     if (!isOverlayOpen) return
@@ -344,7 +361,8 @@ export const MainPage = () => {
     : null
 
   return (
-    <CardGrid>
+    <MotionConfig reducedMotion="user">
+      <CardGrid>
       {cards.map((card) => {
         const isStaticCard = !card.interactive
         const isSelected = selectedId === card.id
@@ -410,11 +428,12 @@ export const MainPage = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.3 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
             onClick={requestClose}
           />
         ) : null}
       </AnimatePresence>
-    </CardGrid>
+      </CardGrid>
+    </MotionConfig>
   )
 }

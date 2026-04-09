@@ -1,17 +1,20 @@
 import { useEffect, useState } from 'react'
+import { useReducedMotion } from 'framer-motion'
 import { cn } from '../../lib/cn'
 
 interface WordSliderProps {
+  reducedMotionText?: string
   words: string[]
 }
 
-const WordSlider = ({ words }: WordSliderProps) => {
+const WordSlider = ({ reducedMotionText, words }: WordSliderProps) => {
+  const prefersReducedMotion = useReducedMotion()
   const [currentWordIndex, setCurrentWordIndex] = useState(0)
   const [animateIn, setAnimateIn] = useState(false)
   const [animateOut, setAnimateOut] = useState(false)
 
   useEffect(() => {
-    if (words.length === 0) return
+    if (prefersReducedMotion || words.length === 0) return
 
     let pendingTimeout: ReturnType<typeof setTimeout> | null = null
 
@@ -29,19 +32,31 @@ const WordSlider = ({ words }: WordSliderProps) => {
       clearInterval(interval)
       if (pendingTimeout !== null) clearTimeout(pendingTimeout)
     }
-  }, [words])
+  }, [prefersReducedMotion, words])
 
   useEffect(() => {
+    if (prefersReducedMotion) return
+
     if (animateIn) {
       const timer = setTimeout(() => {
         setAnimateIn(false)
       }, 1000)
       return () => clearTimeout(timer)
     }
-  }, [animateIn])
+  }, [animateIn, prefersReducedMotion])
 
   if (words.length === 0) {
     return <div className="flex w-full items-center justify-center" />
+  }
+
+  if (prefersReducedMotion) {
+    return (
+      <div className="flex w-full items-center justify-center">
+        <span className="text-emphasis text-text-accent">
+          {reducedMotionText ?? words[currentWordIndex]}
+        </span>
+      </div>
+    )
   }
 
   return (

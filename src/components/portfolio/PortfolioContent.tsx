@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { useReducedMotion } from 'framer-motion'
 import consolidatedProfile from '../../data/consolidatedProfile'
 import type { SkillId } from '../../data/personalData'
 import portfolioData from '../../data/portfolioData'
@@ -16,6 +17,7 @@ const PortfolioContent = ({
   onNavigateToSkill,
   selectedProjectId = null,
 }: PortfolioContentProps) => {
+  const prefersReducedMotion = useReducedMotion()
   const projectRefs = useRef(new Map<PortfolioProjectId, HTMLElement>())
 
   useEffect(() => {
@@ -32,7 +34,7 @@ const PortfolioContent = ({
 
     const frameId = window.requestAnimationFrame(() => {
       target.scrollIntoView({
-        behavior: 'smooth',
+        behavior: prefersReducedMotion ? 'auto' : 'smooth',
         block: 'start',
         inline: 'nearest',
       })
@@ -42,7 +44,7 @@ const PortfolioContent = ({
     return () => {
       window.cancelAnimationFrame(frameId)
     }
-  }, [selectedProjectId])
+  }, [prefersReducedMotion, selectedProjectId])
 
   return (
     <>

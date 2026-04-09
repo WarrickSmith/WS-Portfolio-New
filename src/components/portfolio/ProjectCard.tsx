@@ -32,7 +32,7 @@ const ProjectCard = forwardRef<HTMLElement, ProjectCardProps>(
       <article
         ref={ref}
         className={cn(
-          'grid gap-5 rounded-radius-lg border border-border-subtle bg-bg-card p-4 outline-none transition-[transform,border-color,background-color,box-shadow] duration-200 pointer-fine:hover:-translate-y-0.5 pointer-fine:hover:border-border-hover pointer-fine:hover:bg-bg-card-hover pointer-fine:hover:shadow-[var(--shadow-ambient)]',
+          'grid gap-5 rounded-radius-lg border border-border-subtle bg-bg-card p-4 outline-none transition-[transform,border-color,background-color,box-shadow] duration-200 pointer-fine:hover:border-border-hover pointer-fine:hover:bg-bg-card-hover pointer-fine:hover:shadow-[var(--shadow-ambient)] motion-safe:pointer-fine:hover:-translate-y-0.5 motion-reduce:transition-none',
           selected &&
             'border-border-accent bg-accent-primary-veil shadow-[var(--shadow-glow)]',
           className

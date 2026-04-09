@@ -19,7 +19,7 @@ const CloseButton = forwardRef<HTMLButtonElement, CloseButtonProps>(
       className={cn(
         'absolute top-6 right-6 z-30 flex h-11 w-11 items-center justify-center rounded-sm',
         'border border-border-subtle bg-bg-elevated text-[1.75rem] leading-none text-text-secondary',
-        'cursor-pointer transition-colors duration-150 hover:border-border-hover hover:text-text-primary',
+        'cursor-pointer transition-colors duration-150 hover:border-border-hover hover:text-text-primary motion-reduce:transition-none',
         'focus-visible:border-border-accent focus-visible:shadow-focus-ring',
         className
       )}

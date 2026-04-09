@@ -71,7 +71,7 @@ const ContactContent = () => {
                   <a
                     key={item.label}
                     href={item.href}
-                    className="flex items-start gap-4 rounded-radius-md border border-border-subtle bg-bg-card-hover p-4 text-left no-underline transition-[border-color,background-color,box-shadow] duration-150 hover:border-border-hover hover:bg-bg-card focus-visible:outline-none focus-visible:shadow-focus-ring"
+                    className="flex items-start gap-4 rounded-radius-md border border-border-subtle bg-bg-card-hover p-4 text-left no-underline transition-[border-color,background-color,box-shadow] duration-150 hover:border-border-hover hover:bg-bg-card focus-visible:outline-none focus-visible:shadow-focus-ring motion-reduce:transition-none"
                   >
                     {content}
                   </a>
@@ -114,7 +114,7 @@ const ContactContent = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={link.ariaLabel}
-                  className="flex items-start justify-between gap-4 rounded-radius-md border border-border-subtle bg-bg-card p-4 text-left no-underline transition-[border-color,background-color,box-shadow] duration-150 hover:border-border-hover hover:bg-bg-card-hover focus-visible:outline-none focus-visible:shadow-focus-ring"
+                  className="flex items-start justify-between gap-4 rounded-radius-md border border-border-subtle bg-bg-card p-4 text-left no-underline transition-[border-color,background-color,box-shadow] duration-150 hover:border-border-hover hover:bg-bg-card-hover focus-visible:outline-none focus-visible:shadow-focus-ring motion-reduce:transition-none"
                 >
                   <span className="flex items-start gap-4">
                     <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-accent-primary-soft text-text-accent">

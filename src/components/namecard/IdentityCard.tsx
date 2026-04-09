@@ -3,6 +3,8 @@ import { cn } from '../../lib/cn'
 import WordSlider from '../common/WordSlider'
 
 const words = ['full stack', 'developer']
+const transparentPixel =
+  'data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA='
 
 const IdentityCard = () => {
   return (
@@ -20,18 +22,21 @@ const IdentityCard = () => {
           'desktop:block desktop:w-32'
         )}
       >
-        <img
-          src={backgroundImage}
-          alt="Portrait of Warrick Smith"
-          className="h-full w-full rounded-full object-cover object-center"
-        />
+        <picture>
+          <source media="(min-width: 768px)" srcSet={backgroundImage} />
+          <img
+            src={transparentPixel}
+            alt="Portrait of Warrick Smith"
+            className="h-full w-full rounded-full object-cover object-center"
+          />
+        </picture>
       </div>
       <div className="flex flex-col items-center gap-3 tablet:items-start desktop:items-center">
         <p className="text-body-sm font-normal tracking-[0.18em] text-text-secondary">
           Hi There! - I&apos;m
         </p>
         <h1 className="my-2 text-display font-bold">Warrick Smith</h1>
-        <WordSlider words={words} />
+        <WordSlider words={words} reducedMotionText="full stack developer" />
       </div>
     </div>
   )

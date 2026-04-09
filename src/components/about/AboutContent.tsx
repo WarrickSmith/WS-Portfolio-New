@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { useReducedMotion } from 'framer-motion'
 import backgroundImage from '../../assets/warrick.jpg'
 import consolidatedProfile from '../../data/consolidatedProfile'
 import type { SkillCategory, SkillId } from '../../data/personalData'
@@ -56,6 +57,7 @@ const AboutContent = ({
   onNavigateToProject,
   selectedSkillId = null,
 }: AboutContentProps) => {
+  const prefersReducedMotion = useReducedMotion()
   const skillGroupRefs = useRef(new Map<SkillCategory, HTMLElement>())
   const skillTargetRefs = useRef(new Map<SkillId, HTMLDivElement>())
 
@@ -90,7 +92,7 @@ const AboutContent = ({
 
     const frameId = window.requestAnimationFrame(() => {
       resolvedTarget.scrollIntoView({
-        behavior: 'smooth',
+        behavior: prefersReducedMotion ? 'auto' : 'smooth',
         block: 'center',
         inline: 'nearest',
       })
@@ -100,7 +102,7 @@ const AboutContent = ({
     return () => {
       window.cancelAnimationFrame(frameId)
     }
-  }, [selectedSkillId])
+  }, [prefersReducedMotion, selectedSkillId])
 
   return (
     <>
@@ -212,7 +214,7 @@ const AboutContent = ({
                 }}
                 tabIndex={-1}
                 className={cn(
-                  'rounded-radius-md border border-border-subtle bg-bg-card-hover p-4 outline-none transition-[border-color,box-shadow] duration-150',
+                  'rounded-radius-md border border-border-subtle bg-bg-card-hover p-4 outline-none transition-[border-color,box-shadow] duration-150 motion-reduce:transition-none',
                   selectedSkillCategory === group.category &&
                     'border-border-accent shadow-[var(--shadow-glow)]'
                 )}
@@ -359,7 +361,7 @@ const AboutContent = ({
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Open Warrick Smith GitHub profile in a new tab"
-          className="inline-flex items-center gap-3 rounded-sm bg-accent-primary px-4 py-4 text-left text-body-sm font-semibold text-text-primary no-underline transition-opacity duration-150 hover:opacity-90 focus-visible:shadow-focus-ring max-md:w-full max-md:justify-center"
+          className="inline-flex items-center gap-3 rounded-sm bg-accent-primary px-4 py-4 text-left text-body-sm font-semibold text-text-primary no-underline transition-opacity duration-150 hover:opacity-90 focus-visible:shadow-focus-ring motion-reduce:transition-none max-md:w-full max-md:justify-center"
         >
           <span>View GitHub Profile</span>
           <span className="inline-flex items-center gap-3">

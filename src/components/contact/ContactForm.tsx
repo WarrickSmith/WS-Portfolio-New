@@ -486,7 +486,7 @@ const ContactForm = () => {
               </label>
               <div
                 className={cn(
-                  'flex min-h-11 items-start gap-3 rounded-radius-md border bg-bg-card px-4 py-3 transition-[border-color,box-shadow] duration-150',
+                  'flex min-h-11 items-start gap-3 rounded-radius-md border bg-bg-card px-4 py-3 transition-[border-color,box-shadow] duration-150 motion-reduce:transition-none',
                   fieldError
                     ? 'border-error/60 bg-error/5'
                     : 'border-border-subtle focus-within:border-border-accent focus-within:shadow-focus-ring'
@@ -538,7 +538,7 @@ const ContactForm = () => {
           </label>
           <div
             className={cn(
-              'flex min-h-11 items-start gap-3 rounded-radius-md border bg-bg-card px-4 py-3 transition-[border-color,box-shadow] duration-150',
+              'flex min-h-11 items-start gap-3 rounded-radius-md border bg-bg-card px-4 py-3 transition-[border-color,box-shadow] duration-150 motion-reduce:transition-none',
               errors.message
                 ? 'border-error/60 bg-error/5'
                 : 'border-border-subtle focus-within:border-border-accent focus-within:shadow-focus-ring'
@@ -618,7 +618,7 @@ const ContactForm = () => {
         disabled={submitDisabled}
         aria-busy={phase === 'submitting'}
         className={cn(
-          'inline-flex min-h-12 items-center justify-center rounded-sm border px-4 py-4 text-body-sm font-semibold transition-[border-color,background-color,color,box-shadow,opacity] duration-150 focus-visible:outline-none focus-visible:shadow-focus-ring',
+          'inline-flex min-h-12 items-center justify-center rounded-sm border px-4 py-4 text-body-sm font-semibold transition-[border-color,background-color,color,box-shadow,opacity] duration-150 focus-visible:outline-none focus-visible:shadow-focus-ring motion-reduce:transition-none',
           phase === 'success'
             ? 'border-success bg-success/10 text-success'
             : phase === 'error'
