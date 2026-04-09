@@ -27,6 +27,7 @@ All items audited and assigned dispositions per Sprint Change Proposal `sprint-c
 | closeCard/isClosed state churn | AnimatePresence pattern replaced this in Epic 2 |
 | oklch relative color syntax fallbacks | Design decision, 28+ occurrences |
 | GoldPulseText no semantic heading role | Resolved in Story 6.4 via semantic preview `h2` titles |
+| Favicon MIME type fix | Resolved in Story 6.6 via static head metadata update |
 
 ### Assigned to Epic 6 Stories
 
@@ -54,7 +55,6 @@ All items audited and assigned dispositions per Sprint Change Proposal `sprint-c
 | AboutContent arbitrary breakpoints | Story 6.2 |
 | Ambient background tuning | Story 6.5 |
 | Per-card animation tuning | Story 6.5 |
-| Favicon MIME type fix | Story 6.6 |
 
 ### Accepted / Dismissed — No Action
 
@@ -68,7 +68,7 @@ Items with no practical impact, theoretical concerns, library limitations, or de
 - TypeScript (`^6.0.2`) is in `dependencies` instead of `devDependencies`. Semantically incorrect for a build tool. Safe to move in a future housekeeping pass since Dockerfile uses `npm install` (not `npm ci --omit=dev`).
 - Dev server `static.directory` removal in `webpack.dev.cjs` is correct — old config served from `./dist` redundantly. CopyWebpackPlugin handles asset copying. If new static files are added to `public/` in future, they need CopyWebpackPlugin patterns, not devServer.static.
 - `declaration: true` + `noEmit: false` in tsconfig causes `.d.ts` files to be emitted into `dist/`. Unnecessary for a client SPA. Consider disabling in a later cleanup.
-- Favicon `<link>` uses `type="image/ico"` — correct MIME type is `image/x-icon`. Pre-existing.
+- Favicon `<link>` used `type="image/ico"` instead of `image/x-icon`. Resolved in Story 6.6.
 - `serve` is installed globally in Docker via `RUN npm install -g serve`. Works but adds attack surface. Consider copying from node_modules in a future Docker optimization pass.
 - `@types/node` at `^24.12.0` aligns with Node 24 runtime but may lag behind the TypeScript 6.0 `ts6.0` dist-tag target. Build passes. Low priority.
 - `tsconfig.json` `paths` config (`@/*`) is dead — no source files use `@/` imports. Webpack alias handles resolution. Not harmful but could mislead developers.
@@ -122,7 +122,6 @@ Maps every deferred item to its natural resolution point. Items without a clear 
 | Dead dependencies `react-server-dom-parcel`, `react-server-dom-webpack` | 1.1 review | Zero imports, safe to remove |
 | TypeScript in `dependencies` instead of `devDependencies` | 1.1 review | Semantically wrong, functionally harmless |
 | `declaration: true` + `noEmit: false` emits `.d.ts` into dist | 1.1 review | Unnecessary for client SPA |
-| Favicon MIME type `image/ico` → should be `image/x-icon` | 1.1 review | Pre-existing |
 | `@types/node` may lag behind TS 6.0 dist-tag | 1.1 review | Low priority |
 | Dead `tsconfig.json` paths config (`@/*` unused) | 1.1 review | Not harmful but misleading |
 
@@ -285,3 +284,9 @@ Maps every deferred item to its natural resolution point. Items without a clear 
 - No rate-limit cooldown on EmailJS failure — every page load retries full cycle (geolocation + send) when EmailJS service is down. Pre-existing behavior, spec does not require cooldown. `useVisitorTracker.ts:~224`
 - Corrupted localStorage value bypasses rate limiting — `parseInt('abc')` → NaN → rate limit check evaluates false. Pre-existing, not introduced by this diff. `useVisitorTracker.ts:checkRateLimit`
 - Dead `isAvailable()` method — no callers remain after guard removal in Story 5.2. Spec only required removing the call, not the method. Minor dead code. `ipGeolocationService.ts:53-55`
+
+## Deferred from: code review of 6-6-seo-and-discoverability (2026-04-09)
+
+- No Twitter Card meta tags — `twitter:card`, `twitter:site`, etc. absent. Twitter/X falls back to OG parsing, which mostly works. Potential future enhancement for optimal Twitter rendering. `index.html`
+- og-image.png is 367 KB uncompressed PNG — 1280x720 RGB PNG copied directly from source asset. Functional for crawlers but larger than necessary. Could be optimized to ~50-100 KB as JPEG or compressed PNG. `public/og-image.png`
+- favicon.ico only 32x32, single resolution — Modern browsers benefit from multi-resolution ICO with 16x16, 32x32, 48x48, 64x64 variants. Story 6.6 only required MIME type fix. May appear blurry on high-DPI displays. `public/favicon.ico`
