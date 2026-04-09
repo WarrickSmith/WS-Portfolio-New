@@ -6,6 +6,8 @@ Story 6.7 completed the final deferred-backlog audit against the current repo st
 
 **Final status:** no active deferred backlog remains after this audit.
 
+Epic 6 was later reopened on 2026-04-09 for Story 6.8 dependency-security verification triggered by new GitHub advisories. That follow-up is separate from the deferred backlog audited here.
+
 Historical note: every source section below this audit is archival only. The bullets below are preserved for traceability, but none of them remain open work after the Story 6.7 dispositions recorded here.
 
 ### Final Disposition Matrix

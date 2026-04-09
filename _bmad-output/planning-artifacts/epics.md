@@ -881,3 +881,30 @@ So that no technical debt or review findings are left unaddressed.
 **Story 6.7 Scope Additions:**
 
 - **Deferred-item triage:** Collect and resolve all remaining deferred items from Stories 6.3–6.6 that were not addressed in their respective stories.
+
+### Story 6.8: Dependency Vulnerability Verification and Remediation
+
+As the site owner,
+I want the GitHub-reported dependency vulnerabilities verified against the current toolchain and remediated if still valid,
+So that Epic 6 closes with an evidence-backed security posture instead of stale alerts or unverified assumptions.
+
+**Note:** This is a post-closure course-correction story created on 2026-04-09. It must be completed before the Epic 6 retrospective.
+
+**Acceptance Criteria:**
+
+**Given** Epic 6 was previously marked done after Story 6.7
+**When** the GitHub-reported dependency advisories are investigated against the current repo state
+**Then** the exact current dependency tree and introduction paths are documented for `path-to-regexp`, `picomatch`, and `lodash` using local repo evidence (`npm ls` and/or `package-lock.json`), not stale alert metadata
+**And** each advisory is assessed against the actual exposure model for this repo: local dev server, CI/build pipeline, and production client bundle
+**And** `path-to-regexp` 0.1.12 via `webpack-dev-server` / `express` is either remediated to a non-vulnerable version / chain or explicitly documented as a constrained dev-only/build-time risk with rationale, compensating controls, and a release decision
+**And** `picomatch` 2.3.1 via `ts-loader` / `webpack-dev-server` is either remediated to a non-vulnerable version / chain or explicitly documented as a constrained trusted-input-only risk with rationale, compensating controls, and a release decision
+**And** `lodash` 4.17.21 via `html-webpack-plugin` is either remediated to a non-vulnerable version / chain or explicitly documented as a constrained build-time-only risk with rationale, compensating controls, and a release decision
+**And** any selected remediation preserves the existing Webpack 5 architecture and does not introduce new runtime regressions or expose secrets
+**And** verification passes after remediation / disposition work: `npm run build` succeeds, `npm run dev` starts successfully, and the final story artifact records the disposition of all three advisories
+**And** Epic 6 is not considered ready for retrospective until Story 6.8 is complete
+
+**Story 6.8 Advisory Inputs:**
+
+- **`path-to-regexp`** vulnerable to Regular Expression Denial of Service via multiple route parameters. Reported path in this repo: `webpack-dev-server 5.2.3 -> express 4.22.1 -> path-to-regexp 0.1.12`. Patched version reported: `0.1.13`.
+- **`picomatch`** vulnerable to ReDoS via extglob quantifiers. Reported paths in this repo: `ts-loader 9.5.4 -> micromatch 4.0.8 -> picomatch 2.3.1` and `webpack-dev-server 5.2.3 -> chokidar 3.6.0 -> anymatch/readdirp -> picomatch 2.3.1`. Patched version reported: `2.3.2`.
+- **`lodash`** vulnerable to code injection via `_.template` imports key names. Reported path in this repo: `html-webpack-plugin 5.6.6 -> lodash 4.17.21`. Patched version reported: `4.18.0`.

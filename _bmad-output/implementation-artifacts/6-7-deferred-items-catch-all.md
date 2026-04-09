@@ -4,6 +4,12 @@ Status: done
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
+## Post-Completion Update
+
+Epic 6 was reopened on 2026-04-09 due to new GitHub dependency-security advisories discovered after Story 6.7 closed.
+Story 6.8 now owns verification and remediation of those findings.
+Story 6.7 still stands as the final closure of the pre-existing deferred backlog audited here.
+
 ## Story
 
 As a developer completing the polish epic,
@@ -334,3 +340,4 @@ GPT-5 Codex
 
 - `2026-04-09` - Completed Story 6.7 by closing the deferred backlog with a final disposition audit, implementing the remaining real Epic 6 polish fixes, validating the production build/runtime behavior, and moving the story to `review`.
 - `2026-04-09` - Closed the Story 6.7 review workflow after resolving the final metadata-alt patch and advanced Story 6.7 plus Epic 6 tracking to `done`.
+- `2026-04-09` - Post-completion course correction reopened Epic 6 with Story 6.8 for GitHub-reported dependency vulnerability verification. Story 6.7 remains the closure point for the prior deferred backlog.
