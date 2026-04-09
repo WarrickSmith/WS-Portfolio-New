@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { useReducedMotion } from 'framer-motion'
 import backgroundImage from '../../assets/warrick.jpg'
 import consolidatedProfile from '../../data/consolidatedProfile'
 import type { SkillCategory, SkillId } from '../../data/personalData'
@@ -30,33 +31,35 @@ const skillCategoryById = new Map(
   ])
 )
 
+const overviewStats: Array<{
+  icon: string
+  label: string
+  value: string
+}> = [
+  {
+    icon: 'faBriefcase',
+    label: 'Years in Software Development',
+    value: `${consolidatedProfile.totalYearsExperience}+`,
+  },
+  {
+    icon: 'faCode',
+    label: 'Core skills',
+    value: String(consolidatedProfile.skills.length),
+  },
+  {
+    icon: 'faGraduationCap',
+    label: 'Qualifications',
+    value: String(consolidatedProfile.education.length),
+  },
+]
+
 const AboutContent = ({
   onNavigateToProject,
   selectedSkillId = null,
 }: AboutContentProps) => {
+  const prefersReducedMotion = useReducedMotion()
   const skillGroupRefs = useRef(new Map<SkillCategory, HTMLElement>())
   const skillTargetRefs = useRef(new Map<SkillId, HTMLDivElement>())
-  const overviewStats: Array<{
-    icon: string
-    label: string
-    value: string
-  }> = [
-    {
-      icon: 'faBriefcase',
-      label: 'Years in Software Development',
-      value: `${consolidatedProfile.totalYearsExperience}+`,
-    },
-    {
-      icon: 'faCode',
-      label: 'Core skills',
-      value: String(consolidatedProfile.skills.length),
-    },
-    {
-      icon: 'faGraduationCap',
-      label: 'Qualifications',
-      value: String(consolidatedProfile.education.length),
-    },
-  ]
 
   const skillGroups = skillCategoryOrder
     .map((category) => ({
@@ -89,7 +92,7 @@ const AboutContent = ({
 
     const frameId = window.requestAnimationFrame(() => {
       resolvedTarget.scrollIntoView({
-        behavior: 'smooth',
+        behavior: prefersReducedMotion ? 'auto' : 'smooth',
         block: 'center',
         inline: 'nearest',
       })
@@ -99,7 +102,7 @@ const AboutContent = ({
     return () => {
       window.cancelAnimationFrame(frameId)
     }
-  }, [selectedSkillId])
+  }, [prefersReducedMotion, selectedSkillId])
 
   return (
     <>
@@ -112,16 +115,16 @@ const AboutContent = ({
         className="flex flex-col gap-6 p-6 text-body text-text-primary"
       >
         <section className="overflow-hidden rounded-radius-lg border border-border-subtle bg-gradient-to-br from-bg-card to-bg-card-deep shadow-[var(--shadow-ambient)]">
-          <div className="grid gap-6 p-6 min-[1180px]:grid-cols-[minmax(0,1.35fr)_220px] min-[1180px]:items-start">
+          <div className="grid gap-6 p-6 desktop:grid-cols-[minmax(0,1.35fr)_220px] desktop:items-start">
             <div className="space-y-6">
               <div className="space-y-3">
                 <p className="text-caption font-semibold uppercase tracking-[0.22em] text-text-accent">
                   Professional Profile
                 </p>
                 <div className="space-y-2">
-                  <h2 className="text-h1 font-semibold text-text-primary">
+                  <h3 className="text-h1 font-semibold text-text-primary">
                     {personalData.profile.fullName}
-                  </h2>
+                  </h3>
                   <p className="text-callout font-medium text-text-accent">
                     {personalData.profile.headline}
                   </p>
@@ -135,7 +138,7 @@ const AboutContent = ({
                 </div>
               </div>
 
-              <dl className="grid gap-3 min-[680px]:grid-cols-2">
+              <dl className="grid gap-3 tablet:grid-cols-2">
                 {personalData.profile.facts.map((fact) => (
                   <div
                     key={fact.label}
@@ -162,7 +165,7 @@ const AboutContent = ({
           </div>
         </section>
 
-        <section className="grid gap-3 min-[760px]:grid-cols-2 min-[1180px]:grid-cols-3">
+        <section className="grid gap-3 tablet:grid-cols-2 desktop:grid-cols-3">
           {overviewStats.map((stat, index) => (
             <div
               key={stat.label}
@@ -197,7 +200,7 @@ const AboutContent = ({
             </p>
           </div>
 
-          <div className="grid gap-4 min-[760px]:grid-cols-2">
+          <div className="grid gap-4 tablet:grid-cols-2">
             {skillGroups.map((group) => (
               <section
                 key={group.category}
@@ -211,7 +214,7 @@ const AboutContent = ({
                 }}
                 tabIndex={-1}
                 className={cn(
-                  'rounded-radius-md border border-border-subtle bg-bg-card-hover p-4 outline-none transition-[border-color,box-shadow] duration-150',
+                  'rounded-radius-md border border-border-subtle bg-bg-card-hover p-4 outline-none transition-[border-color,box-shadow] duration-150 motion-reduce:transition-none',
                   selectedSkillCategory === group.category &&
                     'border-border-accent shadow-[var(--shadow-glow)]'
                 )}
@@ -358,7 +361,7 @@ const AboutContent = ({
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Open Warrick Smith GitHub profile in a new tab"
-          className="inline-flex items-center gap-3 rounded-radius-sm bg-accent-primary px-4 py-4 text-left text-body-sm font-semibold text-text-primary no-underline transition-opacity duration-150 hover:opacity-90 focus-visible:shadow-focus-ring max-md:w-full max-md:justify-center"
+          className="inline-flex items-center gap-3 rounded-sm bg-accent-primary px-4 py-4 text-left text-body-sm font-semibold text-text-primary no-underline transition-opacity duration-150 hover:opacity-90 focus-visible:shadow-focus-ring motion-reduce:transition-none max-md:w-full max-md:justify-center"
         >
           <span>View GitHub Profile</span>
           <span className="inline-flex items-center gap-3">

@@ -17,13 +17,15 @@ export class IpGeolocationService {
   private static readonly API_URL = 'https://ipapi.co/json/'
 
   static async getGeolocation(): Promise<VisitorGeolocation> {
+    const abortController = new AbortController()
+    const timeoutId = setTimeout(() => {
+      abortController.abort()
+    }, GEOLOCATION_TIMEOUT_MS)
+
     try {
-      const result = await Promise.race([
-        fetch(this.API_URL),
-        new Promise<never>((_, reject) =>
-          setTimeout(() => reject(new Error('Geolocation request timed out')), GEOLOCATION_TIMEOUT_MS)
-        ),
-      ])
+      const result = await fetch(this.API_URL, {
+        signal: abortController.signal,
+      })
 
       if (!result.ok) {
         throw new Error(`HTTP error! status: ${result.status}`)
@@ -47,10 +49,8 @@ export class IpGeolocationService {
       }
 
       return { ...FALLBACK_GEOLOCATION }
+    } finally {
+      clearTimeout(timeoutId)
     }
-  }
-
-  static isAvailable(): boolean {
-    return typeof window !== 'undefined' && window.fetch !== undefined
   }
 }

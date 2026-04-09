@@ -18,7 +18,23 @@ export const VisitorTracker = () => {
       return
     }
 
-    void trackVisitor()
+    const runTracking = () => {
+      void trackVisitor()
+    }
+
+    if (typeof window.requestIdleCallback === 'function') {
+      const idleId = window.requestIdleCallback(runTracking, { timeout: 3000 })
+
+      return () => {
+        window.cancelIdleCallback(idleId)
+      }
+    }
+
+    const timeoutId = window.setTimeout(runTracking, 1500)
+
+    return () => {
+      window.clearTimeout(timeoutId)
+    }
   }, [trackVisitor])
 
   useEffect(() => {

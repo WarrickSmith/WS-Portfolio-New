@@ -1,6 +1,7 @@
 import {
   type AnimationEvent as ReactAnimationEvent,
   forwardRef,
+  type KeyboardEvent as ReactKeyboardEvent,
   type PointerEvent as ReactPointerEvent,
   type ReactNode,
   useEffect,
@@ -16,6 +17,7 @@ type CardProps = HTMLMotionProps<'div'> & {
   closeRequestKey?: number
   expansionPreset?: ExpandableItemPreset
   interactive?: boolean
+  isExpanded?: boolean
   onOverlayExitComplete?: () => void
   overlay?: ReactNode
   opened?: boolean
@@ -45,6 +47,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
       closeRequestKey = 0,
       expansionPreset,
       interactive = true,
+      isExpanded = false,
       onOverlayExitComplete,
       overlay,
       opened = false,
@@ -99,6 +102,13 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
       event.currentTarget.style.setProperty('--my', DEFAULT_POINTER_POSITION)
     }
 
+    const handleKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault()
+        props.onClick?.(event as unknown as React.MouseEvent<HTMLDivElement>)
+      }
+    }
+
     const handleAnimationEnd = (event: ReactAnimationEvent<HTMLDivElement>) => {
       onAnimationEnd?.(event)
 
@@ -113,6 +123,10 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
     return (
       <ExpandableItem
         ref={ref}
+        role={previewInteractive ? 'button' : undefined}
+        tabIndex={previewInteractive ? 0 : undefined}
+        aria-expanded={previewInteractive ? isExpanded : undefined}
+        onKeyDown={previewInteractive ? handleKeyDown : undefined}
         closeRequestKey={closeRequestKey}
         data-hover-phase={hoverPhase}
         data-opened={opened ? 'true' : 'false'}
@@ -123,6 +137,8 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
             'group/card isolate transition-[border-color,box-shadow] duration-[400ms] ease-[var(--ease-standard)] motion-reduce:transition-none',
           previewInteractive &&
             'cursor-pointer pointer-fine:hover:border-border-hover pointer-fine:hover:shadow-[var(--shadow-card-hover)] pointer-coarse:active:border-border-accent pointer-coarse:active:shadow-[var(--shadow-touch-feedback)]',
+          previewInteractive &&
+            'focus-visible:outline-none focus-visible:border-border-accent focus-visible:shadow-focus-ring',
           className,
           opened &&
             'fixed z-20 items-stretch justify-start overflow-hidden border-transparent bg-bg-expanded bg-none shadow-[var(--shadow-elevated)]'

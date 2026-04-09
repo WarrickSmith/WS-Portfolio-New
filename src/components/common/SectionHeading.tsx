@@ -8,14 +8,14 @@ type SectionHeadingProps = {
 
 const SectionHeading = ({ children, className }: SectionHeadingProps) => {
   return (
-    <h3
+    <h2
       className={cn(
         'mb-spacing-3 text-h3 font-semibold text-text-accent',
         className
       )}
     >
       {children}
-    </h3>
+    </h2>
   )
 }
 

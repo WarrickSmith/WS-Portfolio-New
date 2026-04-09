@@ -15,10 +15,11 @@ const CardGrid = ({ children, className }: CardGridProps) => {
     >
       <AmbientBackground />
       <div
+        data-card-grid="true"
         className={cn(
           'relative z-[1] mx-auto grid min-h-[calc(100vh-3rem)] w-full max-w-[108rem] grid-cols-1 gap-6',
           'tablet:min-h-[calc(100vh-4rem)] tablet:grid-cols-2 tablet:gap-8',
-          'desktop:min-h-[calc(100vh-6rem)] desktop:grid-cols-4 desktop:grid-rows-2 desktop:gap-8',
+          'desktop:min-h-[calc(100vh-6rem)] desktop:grid-cols-3 desktop:grid-rows-2 desktop:gap-12',
           className
         )}
       >

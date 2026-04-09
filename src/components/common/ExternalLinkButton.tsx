@@ -23,7 +23,7 @@ const ExternalLinkButton = ({
       rel="noopener noreferrer"
       aria-label={ariaLabel}
       className={cn(
-        'inline-flex min-h-11 items-center gap-2 rounded-radius-sm border px-4 py-2 text-body-sm font-semibold no-underline transition-[border-color,background-color,color,box-shadow] duration-150 focus-visible:outline-none focus-visible:shadow-focus-ring',
+        'inline-flex min-h-11 items-center gap-2 rounded-sm border px-4 py-2 text-body-sm font-semibold no-underline transition-[border-color,background-color,color,box-shadow] duration-150 focus-visible:outline-none focus-visible:shadow-focus-ring motion-reduce:transition-none',
         variant === 'primary'
           ? 'border-border-accent text-text-accent hover:bg-accent-primary-soft active:bg-accent-primary-soft'
           : 'border-border-subtle text-text-secondary hover:border-border-hover hover:bg-bg-card-hover hover:text-text-primary active:bg-bg-card-hover',

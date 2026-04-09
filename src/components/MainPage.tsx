@@ -1,5 +1,4 @@
-import backgroundImage from '../assets/warrick.jpg'
-import { AnimatePresence } from 'framer-motion'
+import { AnimatePresence, MotionConfig, useReducedMotion } from 'framer-motion'
 import {
   type CSSProperties,
   Suspense,
@@ -8,6 +7,11 @@ import {
   useRef,
   useState,
 } from 'react'
+import {
+  ABOUT_CARD_ID,
+  IDENTITY_CARD_ID,
+  PORTFOLIO_CARD_ID,
+} from '../constants/cardIds'
 import type { SkillId } from '../data/personalData'
 import type { PortfolioProjectId } from '../data/portfolioData'
 import { cn } from '../lib/cn'
@@ -42,10 +46,14 @@ const OverlayFallback = ({
 }
 
 const CROSS_CARD_NAVIGATION_DELAY_MS = 150
-const ABOUT_CARD_ID = 3
-const PORTFOLIO_CARD_ID = 4
+
+const parseGridGap = (value: string): number => {
+  const parsedGap = Number.parseFloat(value)
+  return Number.isFinite(parsedGap) ? parsedGap : 0
+}
 
 export const MainPage = () => {
+  const prefersReducedMotion = useReducedMotion()
   const [closeRequestKey, setCloseRequestKey] = useState(0)
   const [selectedId, setSelectedId] = useState<number | null>(null)
   const [pendingProjectNavigation, setPendingProjectNavigation] =
@@ -59,6 +67,8 @@ export const MainPage = () => {
   const isClosingRef = useRef(false)
   const cardRefs = useRef(new Map<number, HTMLDivElement>())
   const openScrollYRef = useRef(0)
+  const triggerCardIdRef = useRef<number | null>(null)
+  const closeButtonRef = useRef<HTMLButtonElement>(null)
 
   const selectedCard = getCardById(selectedId)
   const isOverlayOpen = selectedId !== null
@@ -77,12 +87,10 @@ export const MainPage = () => {
       }
     }
 
-    const heroRect = cardRefs.current.get(1)?.getBoundingClientRect()
-    const firstInteractiveRect = cardRefs.current
-      .get(2)
-      ?.getBoundingClientRect()
+    const identityElement = cardRefs.current.get(IDENTITY_CARD_ID)
+    const identityRect = identityElement?.getBoundingClientRect()
 
-    if (!heroRect || !firstInteractiveRect) {
+    if (!identityRect) {
       return {
         top: 0,
         left: 0,
@@ -91,33 +99,44 @@ export const MainPage = () => {
       }
     }
 
+    const cardGrid = identityElement?.closest('[data-card-grid]')
+    const computedGridStyle
+      = cardGrid instanceof HTMLElement
+        ? window.getComputedStyle(cardGrid)
+        : null
+    const columnGap = computedGridStyle
+      ? parseGridGap(computedGridStyle.columnGap)
+      : 0
+    const rowGap = computedGridStyle
+      ? parseGridGap(computedGridStyle.rowGap)
+      : 0
+
     if (window.innerWidth >= 1000) {
-      const horizontalGap = Math.max(firstInteractiveRect.left - heroRect.right, 0)
-      const left = heroRect.right + horizontalGap
-      const rightInset = heroRect.left
+      const left = identityRect.right + columnGap
+      const rightInset = identityRect.left
 
       return {
-        top: heroRect.top,
+        top: identityRect.top,
         left,
         width: window.innerWidth - left - rightInset,
-        height: heroRect.height,
+        height: identityRect.height,
       }
     }
 
-    const verticalGap = Math.max(firstInteractiveRect.top - heroRect.bottom, 0)
-    const top = heroRect.bottom + verticalGap
-    const bottomInset = heroRect.top
+    const top = identityRect.bottom + rowGap
+    const bottomInset = identityRect.top
 
     return {
       top,
-      left: heroRect.left,
-      width: heroRect.width,
+      left: identityRect.left,
+      width: identityRect.width,
       height: window.innerHeight - top - bottomInset,
     }
   }, [])
 
   const openCard = useCallback(
     (id: number) => {
+      triggerCardIdRef.current = id
       openScrollYRef.current = window.scrollY
       setOpenedCardStyle(calculateOpenedCardStyle())
       setSelectedId(id)
@@ -127,7 +146,7 @@ export const MainPage = () => {
 
   const handleCardClick = useCallback(
     (id: number | null) => {
-      if (selectedId !== null || id === null || id === 1 || id === 2) return
+      if (selectedId !== null || id === null || id === IDENTITY_CARD_ID) return
 
       setPendingProjectNavigation(null)
       setPendingSkillNavigation(null)
@@ -146,8 +165,19 @@ export const MainPage = () => {
   }, [selectedId])
 
   const handleOverlayExitComplete = useCallback(() => {
+    const triggerCardId = triggerCardIdRef.current
+    const hasPendingNavigation =
+      pendingProjectNavigation !== null || pendingSkillNavigation !== null
+
     setSelectedId(null)
-  }, [])
+
+    if (!hasPendingNavigation && triggerCardId !== null) {
+      requestAnimationFrame(() => {
+        const triggerElement = cardRefs.current.get(triggerCardId)
+        triggerElement?.focus({ focusVisible: true } as FocusOptions)
+      })
+    }
+  }, [pendingProjectNavigation, pendingSkillNavigation])
 
   const handleNavigateToProject = useCallback(
     (projectId: PortfolioProjectId) => {
@@ -192,8 +222,7 @@ export const MainPage = () => {
       return
     }
 
-    // Keep the card grid visible for a beat between overlay transitions.
-    const timeoutId = window.setTimeout(() => {
+    const completePendingNavigation = () => {
       if (pendingProjectNavigation !== null) {
         setSelectedProjectId(pendingProjectNavigation)
         setSelectedSkillId(null)
@@ -208,12 +237,56 @@ export const MainPage = () => {
         setPendingSkillNavigation(null)
         openCard(ABOUT_CARD_ID)
       }
-    }, CROSS_CARD_NAVIGATION_DELAY_MS)
+    }
+
+    if (prefersReducedMotion) {
+      completePendingNavigation()
+      return
+    }
+
+    // Keep the card grid visible for a beat between overlay transitions.
+    const timeoutId = window.setTimeout(
+      completePendingNavigation,
+      CROSS_CARD_NAVIGATION_DELAY_MS
+    )
 
     return () => {
       window.clearTimeout(timeoutId)
     }
-  }, [openCard, pendingProjectNavigation, pendingSkillNavigation, selectedId])
+  }, [
+    openCard,
+    pendingProjectNavigation,
+    pendingSkillNavigation,
+    prefersReducedMotion,
+    selectedId,
+  ])
+
+  useEffect(() => {
+    if (!isOverlayOpen) return
+
+    let attempt = 0
+    let timeoutId: number | null = null
+
+    const tryFocus = () => {
+      if (closeButtonRef.current) {
+        closeButtonRef.current.focus()
+        return
+      }
+
+      attempt += 1
+      if (attempt < 5) {
+        timeoutId = window.setTimeout(tryFocus, 50)
+      }
+    }
+
+    timeoutId = window.setTimeout(tryFocus, 50)
+
+    return () => {
+      if (timeoutId !== null) {
+        window.clearTimeout(timeoutId)
+      }
+    }
+  }, [isOverlayOpen])
 
   useEffect(() => {
     if (!isOverlayOpen) return
@@ -304,9 +377,9 @@ export const MainPage = () => {
     : null
 
   return (
-    <CardGrid>
+    <MotionConfig reducedMotion="user">
+      <CardGrid>
       {cards.map((card) => {
-        const isHeroCard = card.id === 1
         const isStaticCard = !card.interactive
         const isSelected = selectedId === card.id
         const backgroundInert = isOverlayOpen && !isSelected
@@ -327,6 +400,7 @@ export const MainPage = () => {
             inert={backgroundInert || undefined}
             opened={isSelected}
             interactive={cardInteractive}
+            isExpanded={isSelected}
             key={card.id}
             layout
             closeRequestKey={isSelected ? closeRequestKey : undefined}
@@ -337,7 +411,7 @@ export const MainPage = () => {
             onClick={cardInteractive ? () => handleCardClick(card.id) : undefined}
             overlay={
               isSelected && selectedCard?.id === card.id ? (
-                <CardExpansionOverlay title={card.title} onClose={requestClose}>
+                <CardExpansionOverlay title={card.title} onClose={requestClose} closeButtonRef={closeButtonRef}>
                   <Suspense fallback={<OverlayFallback title={card.title} />}>
                     {expandedContent ? (
                       expandedContent
@@ -352,21 +426,12 @@ export const MainPage = () => {
               ) : undefined
             }
             className={cn(
-              isHeroCard &&
-                'hidden min-h-[22rem] bg-cover bg-center bg-no-repeat tablet:flex tablet:col-span-full desktop:col-span-1 desktop:row-span-2 desktop:min-h-0',
-              !isHeroCard &&
-                'min-h-32 items-stretch tablet:min-h-[14rem] desktop:min-h-0',
+              'min-h-32 items-stretch tablet:min-h-[14rem] desktop:min-h-0',
               isStaticCard && !isSelected && 'cursor-default',
               backgroundInert && 'pointer-events-none select-none',
               card.gridClassName
             )}
-            style={
-              isSelected
-                ? openedCardStyle
-                : isHeroCard
-                  ? { backgroundImage: `url(${backgroundImage})` }
-                  : undefined
-            }
+            style={isSelected ? openedCardStyle : undefined}
           >
             {card.preview}
           </Card>
@@ -379,11 +444,12 @@ export const MainPage = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.3 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
             onClick={requestClose}
           />
         ) : null}
       </AnimatePresence>
-    </CardGrid>
+      </CardGrid>
+    </MotionConfig>
   )
 }

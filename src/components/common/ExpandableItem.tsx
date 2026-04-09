@@ -53,11 +53,11 @@ const DEFAULT_OVERLAY_TRANSITION: Transition = {
 }
 
 const REDUCED_MOTION_LAYOUT_TRANSITION: Transition = {
-  duration: 0.01,
+  duration: 0,
 }
 
 const REDUCED_MOTION_OVERLAY_TRANSITION: Transition = {
-  duration: 0.12,
+  duration: 0,
   ease: 'linear',
 }
 
@@ -153,7 +153,8 @@ const ExpandableItem = forwardRef<HTMLDivElement, ExpandableItemProps>(
               exit={overlayMotion.exit}
               transition={overlayMotion.transition}
               className={cn(
-                'absolute inset-0 z-20 will-change-transform',
+                'absolute inset-0 z-20',
+                prefersReducedMotion ? 'will-change-auto' : 'will-change-transform',
                 overlayMotion.className
               )}
             >

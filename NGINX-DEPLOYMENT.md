@@ -58,6 +58,8 @@ ENABLE_VISITOR_TRACKING=false
 - Websocket Support: enabled
 - SSL: Let's Encrypt
 
+Content Security Policy and other response headers must be configured here at the proxy layer. Do not try to replace proxy-managed CSP with an app-level `<meta http-equiv>` tag in the SPA.
+
 ## Notes
 
 - GitHub Actions publishes `registry.wsapz.com/ws-portfolio-new:latest` on pushes to `main`.

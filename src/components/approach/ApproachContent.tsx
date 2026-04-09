@@ -30,7 +30,7 @@ const ApproachContent = (_props: ApproachContentProps) => {
             </p>
           </div>
 
-          <ol className="grid gap-4 min-[860px]:grid-cols-3">
+          <ol className="grid gap-4 tablet:grid-cols-2 desktop:grid-cols-3">
             {consolidatedProfile.approach.process.map((item, index) => (
               <li
                 key={item.title}
@@ -60,7 +60,7 @@ const ApproachContent = (_props: ApproachContentProps) => {
             </p>
           </div>
 
-          <div className="grid gap-4 min-[860px]:grid-cols-2">
+          <div className="grid gap-4 tablet:grid-cols-2">
             {consolidatedProfile.learningAdaptability.map((item) => (
               <article
                 key={item.example}

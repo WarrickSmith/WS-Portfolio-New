@@ -23,7 +23,7 @@ const portfolioData: PortfolioProject[] = [
     summary:
       'A modern single-page portfolio that packages selected work, proof-linked skills, and contact details into a polished card-expansion experience built for a fast recruiter scan.',
     keyFeatures: [
-      'Six-card desktop surface with a responsive mobile stack, animated overlay expansions, and cross-card proof navigation.',
+      'Five-card desktop surface with a responsive mobile stack, animated overlay expansions, and cross-card proof navigation.',
       'Cross-card proof navigation that jumps from About badges straight to relevant portfolio work.',
       'Docker deployment and GitHub Actions publishing aligned with the production container pipeline.',
     ],
@@ -36,11 +36,11 @@ const portfolioData: PortfolioProject[] = [
       'EmailJS 4.4.1',
       'Docker / Node 24',
     ],
-    liveDemoUrl: 'https://warricksmith.com',
+    liveDemoUrl: 'https://ws.wsapz.com',
     githubUrl: 'https://github.com/WarrickSmith/WS-Portfolio-New',
     image: portfolioImage,
     imageAlt:
-      'WS Portfolio landing page showing the six-card desktop layout, dark visual theme, and expanded-content entry points.',
+      'WS Portfolio landing page showing the five-card desktop layout, dark visual theme, and expanded-content entry points.',
   },
   {
     id: 'music-manager',

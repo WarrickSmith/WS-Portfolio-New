@@ -17,7 +17,7 @@ const slotDelay: Record<OverlayContentSlot, number> = {
 }
 
 const reducedMotionTransition: Transition = {
-  duration: 0.12,
+  duration: 0,
   ease: 'linear',
 }
 
@@ -30,9 +30,9 @@ const OverlayContentGroup = ({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 18 }}
+      initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 18 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 0 }}
+      exit={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 0 }}
       transition={
         prefersReducedMotion
           ? reducedMotionTransition

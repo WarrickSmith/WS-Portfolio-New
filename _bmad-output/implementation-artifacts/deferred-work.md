@@ -1,12 +1,117 @@
 # Deferred Work
 
+## Story 6.7 Final Closure Audit (2026-04-09)
+
+Story 6.7 completed the final deferred-backlog audit against the current repo state, the Epic 6 story artifacts, and the original planning notes.
+
+**Final status:** no active deferred backlog remains after this audit.
+
+Epic 6 was later reopened on 2026-04-09 for Story 6.8 dependency-security verification triggered by new GitHub advisories. That follow-up is separate from the deferred backlog audited here.
+
+Historical note: every source section below this audit is archival only. The bullets below are preserved for traceability, but none of them remain open work after the Story 6.7 dispositions recorded here.
+
+### Final Disposition Matrix
+
+#### `fix in 6.7`
+
+- Focus-trap coverage: `useFocusTrap.ts` now includes `[contenteditable]` and `details > summary:first-of-type`, closing the remaining selector gap from the Story 6.3 review.
+- Overlay positioning drift: `MainPage.tsx` no longer hardcodes `48` and `32` for the expanded-card gap. It now reads the live grid row/column gap from `[data-card-grid]`, keeping overlay placement aligned with `CardGrid.tsx`.
+- Contact form semantics: `ContactForm.tsx` now ties `aria-invalid` and `aria-describedby` to the same touched-and-visible error contract used by the rendered error message.
+- GoldPulseText API drift: `GoldPulseText.tsx` now constrains `as` to intrinsic elements and owns the zero-margin heading reset instead of relying on `CardPreview.tsx`.
+- WordSlider prop-shrink edge case: `WordSlider.tsx` now clamps `currentWordIndex` when the `words` prop length changes, preventing out-of-bounds rendering.
+- Contact profiles empty-state: `ContactContent.tsx` now suppresses the Profiles section when `contact.links` is empty.
+- Visitor-tracking timeout cleanup: `useVisitorTracker.ts` now clears EmailJS timeout handles deterministically, and `ipGeolocationService.ts` now aborts the geolocation fetch on timeout instead of leaving the request running.
+- Discoverability polish: `index.html` now includes explicit Twitter Card metadata (`twitter:card`, title, description, image, image alt), closing the residual Story 6.6 metadata gap.
+
+#### `close as already resolved`
+
+- Story 1.1-1.7 repo hardening drift: dead `react-server-dom-*` dependencies are gone, TypeScript already lives in `devDependencies`, env access and env typing fixes already shipped, favicon MIME was fixed in Story 6.6, the ContactForm captcha/null-form/email-config regressions are already fixed, CloseButton already stops propagation, the old dual-reset/body-bold issues are gone, `.env` is already excluded from Docker build context, Docker Compose now includes a healthcheck, and the deprecated compose `version:` field is already absent.
+- Early WordSlider / CloseButton regressions: the empty-array guard and timeout cleanup already exist in `WordSlider.tsx`, and `CloseButton.tsx` already uses `rounded-sm` plus `stopPropagation()`.
+- Story 3/4 stale audit drift: `learningAdaptability` is now rendered in `ApproachContent.tsx`, the missing React/TypeScript/Tailwind skill badges are already present in `personalData.tsx`, card IDs are already centralized in `src/constants/cardIds.ts`, and the old `min-[860px]` breakpoint is no longer present in `ApproachContent.tsx`.
+- Touch-target stale entries: `SkillBadge.tsx` already uses `min-h-11`, `ContactForm.tsx` already uses `min-h-11` field wrappers, and the dead `isAvailable()` geolocation helper plus the localStorage `NaN` rate-limit gap were already fixed before Story 6.7.
+- Identity portrait fallback: the current `IdentityCard.tsx` `<picture>` path already degrades to a transparent fallback image instead of surfacing a broken-image icon.
+
+#### `close as non-issue / limitation`
+
+- Browser or library limitations that are real but not repo-fixable: the `focusVisible: true` focus-ring behavior varies by browser, Framer Motion's `useReducedMotion()` remains non-reactive mid-session, and EmailJS `sendForm()` still cannot be cancelled via `AbortController`.
+- Low-risk theoretical interaction notes that do not represent a current defect: per-render `matchMedia()` checks in `Card.tsx`, the inner layout wrapper note, `group/card` naming fragility, rapid close/reopen race observations, the `overscroll-contain` mobile-toolbar caveat, `AnimatePresence` unmount timing, cards 1/2 running minor overlay bookkeeping, and possible `mix-blend-mode` variance on some GPUs.
+- Acceptable content/presentation observations without a current bug: `overviewStats` recomputation, portrait column asymmetry, intrinsic-image sizing, the split between `personalData` and `consolidatedProfile`, duplicate-key fragility with the current data set, Safari `::marker` color variance, `ExternalLinkButton` empty-href handling with complete data, the root-element cast in `main.tsx`, and the absence of a live `BulletPoints` overflow issue in the current component set.
+- Theme/platform tradeoffs that are intentional or low value to revisit right now: the existing `oklch(from ...)` token pattern, ambient blur compositing cost on low-end devices, the unused `@/*` tsconfig alias, the current `serve@14.2.5` global-install Docker pattern, `@types/node` version drift risk, and other purely documentary Docker/CI notes such as `cancel-in-progress`, build-output validation comments, or local `.env` setup gaps.
+- Planning/spec drift rather than code defects: Agile / REST APIs were never modeled as proof-linked skills in this portfolio data system, and `TechBadge`'s 36px height is acceptable because it renders as a non-interactive `<span>`, not a touch target.
+- Story 6.5 residual performance note: the remaining mobile lab `FCP` / `LCP` miss from Story 6.5 requires broader initial-route or image-pipeline work than this closure pass should reopen. Story 6.5 already met the Lighthouse score gate, so this is accepted as a documented limitation rather than an active deferred item.
+- Story 6.6 residual asset polish: `public/og-image.png` remains a functional but unoptimized static asset, and `public/favicon.ico` remains a single-resolution ICO. Both are acceptable current-state optimizations, not active defects blocking Epic 6 closure.
+
+## Historical Source Notes (archival only)
+
+## Deferred from: code review of story 6.3 (2026-04-08)
+
+- `focusVisible: true` FocusOption not cross-browser — `element.focus({ focusVisible: true })` only works in Chrome/Edge. Firefox/Safari ignore it. Focus restoration works but gold `:focus-visible` ring may not appear after programmatic focus. Low impact.
+- Focus trap selector incomplete — `FOCUSABLE_SELECTOR` in `useFocusTrap.ts` omits `[contenteditable]`, `details`, and `summary`. Not currently used in overlays but would skip them if added.
+
+## Course Correction Disposition (2026-04-07)
+
+All items audited and assigned dispositions per Sprint Change Proposal `sprint-change-proposal-2026-04-07.md`.
+
+### Resolved — Remove from Tracking
+
+| Item | Resolution |
+|------|------------|
+| Dual CSS reset (Tailwind + GlobalStyle) | GlobalStyle.ts deleted in Story 1.5 |
+| CloseButton click propagation | stopPropagation added in Story 1.5 |
+| ContactForm unsafe process.env access | Uses env.ts gateway since Story 1.6 |
+| env.d.ts types non-optional string | All fields optional since Story 1.6 |
+| AC7 constants vs accessor functions | readEnv() pattern works correctly |
+| docker-compose version: '3.8' | No longer present in file |
+| Dead tsconfig paths @/* | Removed from tsconfig.json |
+| learningAdaptability never rendered | Now rendered in ApproachContent.tsx (Story 4.3) |
+| ContactForm e.preventDefault bug | ContactForm rewritten in Story 5.1 |
+| onCaptchaChange sets true on null | ContactForm rewritten in Story 5.1 |
+| EmailJS empty string silent failure | ContactForm rewritten in Story 5.1 |
+| closeCard/isClosed state churn | AnimatePresence pattern replaced this in Epic 2 |
+| oklch relative color syntax fallbacks | Design decision, 28+ occurrences |
+| GoldPulseText no semantic heading role | Resolved in Story 6.4 via semantic preview `h2` titles |
+| Favicon MIME type fix | Resolved in Story 6.6 via static head metadata update |
+
+### Assigned to Epic 6 Stories
+
+| Item | Target |
+|------|--------|
+| Dead dependencies removal | Story 6.1 |
+| TypeScript → devDependencies | Story 6.1 |
+| declaration: true cleanup | Story 6.1 |
+| Promise.race timer leak (3 files) | Story 6.1 |
+| Dead isAvailable() method | Story 6.1 |
+| .env in .dockerignore | Story 6.1 |
+| body font-weight: 700 audit | Story 6.1 |
+| WordSlider setTimeout cleanup | Story 6.1 |
+| WordSlider empty array guard | Story 6.1 |
+| localStorage parseInt NaN guard | Story 6.1 |
+| overviewStats memoization | Story 6.1 |
+| Docker health check | Story 6.1 |
+| Card consolidation (merge Card 1 + Card 2) | Story 6.2 |
+| Card preview layout rework | Story 6.2 |
+| Even card sizing constraint | Story 6.2 |
+| Card ID magic numbers → named constants | Story 6.2 |
+| ApproachContent min-[860px] breakpoint | Story 6.2 |
+| Missing skill badges | Story 6.2 |
+| `rounded-radius-sm` → `rounded-sm` (4 files) | Story 6.2 |
+| AboutContent arbitrary breakpoints | Story 6.2 |
+| Ambient background tuning | Story 6.5 |
+| Per-card animation tuning | Story 6.5 |
+
+### Accepted / Dismissed — No Action
+
+Items with no practical impact, theoretical concerns, library limitations, or design decisions. Removed from active tracking. Full rationale in `sprint-change-proposal-2026-04-07.md` Section 4D (40 items).
+
+---
+
 ## Deferred from: code review of 1-1-upgrade-dependencies-and-runtime (2026-03-31)
 
 - Dead dependencies: `react-server-dom-parcel` and `react-server-dom-webpack` are unused in this client SPA — zero imports across all source files. Consider removing in a later cleanup story.
 - TypeScript (`^6.0.2`) is in `dependencies` instead of `devDependencies`. Semantically incorrect for a build tool. Safe to move in a future housekeeping pass since Dockerfile uses `npm install` (not `npm ci --omit=dev`).
 - Dev server `static.directory` removal in `webpack.dev.cjs` is correct — old config served from `./dist` redundantly. CopyWebpackPlugin handles asset copying. If new static files are added to `public/` in future, they need CopyWebpackPlugin patterns, not devServer.static.
 - `declaration: true` + `noEmit: false` in tsconfig causes `.d.ts` files to be emitted into `dist/`. Unnecessary for a client SPA. Consider disabling in a later cleanup.
-- Favicon `<link>` uses `type="image/ico"` — correct MIME type is `image/x-icon`. Pre-existing.
+- Favicon `<link>` used `type="image/ico"` instead of `image/x-icon`. Resolved in Story 6.6.
 - `serve` is installed globally in Docker via `RUN npm install -g serve`. Works but adds attack surface. Consider copying from node_modules in a future Docker optimization pass.
 - `@types/node` at `^24.12.0` aligns with Node 24 runtime but may lag behind the TypeScript 6.0 `ts6.0` dist-tag target. Build passes. Low priority.
 - `tsconfig.json` `paths` config (`@/*`) is dead — no source files use `@/` imports. Webpack alias handles resolution. Not harmful but could mislead developers.
@@ -26,7 +131,7 @@
 
 - WordSlider setTimeout not cleaned up on unmount — inner setTimeout in useEffect not cleared on component unmount, may cause React state-update-on-unmount warning. Pre-existing.
 - CloseButton click event propagates to parent Card onClick — no stopPropagation on button click, event may bubble to Card's handleCardClick. Pre-existing.
-- GoldPulseText card preview titles have no semantic heading role — rendered as `<span>` without ARIA roles. Pre-existing, tracked for Epic 6 accessibility work. **→ Target: Epic 6 (Story 6.3)**
+- GoldPulseText card preview titles have no semantic heading role — rendered as `<span>` without ARIA roles. **Resolved in Story 6.4**: preview titles now render as semantic `h2` elements through `GoldPulseText`.
 - Empty words array crashes WordSlider — `(prevIndex + 1) % words.length` produces NaN when words is empty. Pre-existing. **→ Target: bug fix or housekeeping story**
 
 ## Deferred from: code review of 1-4-component-migration-feature-components-and-folder-renames (2026-04-01)
@@ -60,7 +165,6 @@ Maps every deferred item to its natural resolution point. Items without a clear 
 | Dead dependencies `react-server-dom-parcel`, `react-server-dom-webpack` | 1.1 review | Zero imports, safe to remove |
 | TypeScript in `dependencies` instead of `devDependencies` | 1.1 review | Semantically wrong, functionally harmless |
 | `declaration: true` + `noEmit: false` emits `.d.ts` into dist | 1.1 review | Unnecessary for client SPA |
-| Favicon MIME type `image/ico` → should be `image/x-icon` | 1.1 review | Pre-existing |
 | `@types/node` may lag behind TS 6.0 dist-tag | 1.1 review | Low priority |
 | Dead `tsconfig.json` paths config (`@/*` unused) | 1.1 review | Not harmful but misleading |
 
@@ -80,11 +184,11 @@ Maps every deferred item to its natural resolution point. Items without a clear 
 | ContactForm unsafe `process.env` access (may be undefined) | 1.2 review | **Resolved** — imports from `env.ts` gateway |
 | `env.d.ts` types ProcessEnv vars as non-optional string | 1.2 review | **Resolved** — all fields now optional |
 
-### Target: Epic 6 (Accessibility)
+### ~~Target: Story 6.4 (Screen Reader Compatibility & Semantic HTML)~~ — RESOLVED
 
-| Item | Origin | Notes |
-|------|--------|-------|
-| GoldPulseText card titles have no semantic heading role | 1.3 review | Needs ARIA roles or semantic elements |
+| Item | Origin | Status |
+|------|--------|--------|
+| GoldPulseText card titles have no semantic heading role | 1.3 review | **Resolved** — preview titles now render as semantic `h2` elements via `GoldPulseText` |
 
 ### Bugs (fix opportunistically or in next touching story)
 
@@ -187,6 +291,35 @@ Maps every deferred item to its natural resolution point. Items without a clear 
 - Cannot abort in-flight emailjs.sendForm after timeout — Library doesn't support AbortController. Promise.race timeout fires but network request continues, potentially causing duplicate sends if user retries after timeout error. No fix available without library changes or switching away from sendForm. `ContactForm.tsx:Promise.race`
 - Empty contact.links array renders empty Profiles section — If links array is empty, section heading and description render with no link items below. Data completeness concern, not a code bug. `ContactContent.tsx:profiles section`
 
+## Deferred from: code review of 6-1-technical-debt-and-housekeeping (2026-04-07)
+
+- WordSlider `currentWordIndex` out of bounds when `words` shrinks — `useState(0)` never reset on `words` change. If array shrinks below current index, `words[currentWordIndex]` renders `undefined` until next interval tick. Pre-existing, not introduced by this diff. Current caller (NameCard) passes hardcoded `['full stack', 'developer']`, so never fires in production. `src/components/common/WordSlider.tsx:9`
+
+## Deferred from: code review of 6-4-screen-reader-compatibility-and-semantic-html (2026-04-09)
+
+- `aria-describedby` references non-existent element when field has error but untouched — `aria-describedby` points to `${fieldId}-error` but the span only renders when `touchedFields[field.name]` is true. Broken ARIA reference. Pre-existing pattern. `ContactForm.tsx:508-509,518`
+- `aria-invalid` set on inputs before user has touched the field — `aria-invalid={Boolean(fieldError)}` applied unconditionally, but visible error only shows after touch. Pre-existing. `ContactForm.tsx:508`
+- `GoldPulseText` `as` prop accepts any `ElementType` with no constraint — Could receive invalid elements or components that don't support `className`/`data-*`. Current usage is only `as="h2"`. Code quality concern. `GoldPulseText.tsx:5`
+- `m-0` heading reset fragile — Added in `CardPreview` rather than inside `GoldPulseText` when rendered as block element. Future consumers must remember to add it. `CardPreview.tsx:21`
+- `aria-atomic="true"` on live regions may cause chatty re-announcements — Full region re-announced on every message change. Theoretical concern, standard pattern. `ContactForm.tsx:442,521,571`
+- Field error spans conditionally mount/unmount — No announcement when error clears (span removed from DOM). Standard React pattern. `ContactForm.tsx:518,568`
+- `clearSubmissionFeedback` still guards on `formMessage?.tone !== 'info'` — Info-tone validation messages removed but info-tone still used for captcha/Sending states. Logic correct but confusing for maintainers. `ContactForm.tsx:158-166`
+- IdentityCard `<img>` no error handling for failed loads — Previous `backgroundImage` approach silently showed nothing. `<img>` shows broken icon on failure. Minor visual regression risk. `IdentityCard.tsx:23-27`
+
+## Deferred from: code review of 6-5-reduced-motion-and-performance-validation (2026-04-09)
+
+- Remaining mobile lab performance gap after Story 6.5 transfer-size trims — Mobile Lighthouse still measures `FCP 1.73s` vs target `< 1.5s` and `LCP 2.74s` vs target `< 2.5s` on the `serve@14.2.5` runtime. Further improvement likely requires broader initial-route work such as additional lazy-loading, image pipeline changes, or deeper React/Framer runtime reduction. Assigned to Story 6.7 to keep Story 6.5 within its no-architecture-change boundary.
+- `useReducedMotion()` is non-reactive — Framer Motion's hook captures preference at mount time via `useState` and never updates. Users toggling OS reduced-motion setting mid-session must refresh. Library limitation. Already tracked from Story 2.4 review. `ExpandableItem.tsx`, `OverlayContentGroup.tsx`, `WordSlider.tsx`, `AboutContent.tsx`, `PortfolioContent.tsx`
+- Card.tsx uses different reduced-motion detection — Uses synchronous `window.matchMedia()` on every render instead of `useReducedMotion()` hook. Subtle inconsistency but Card hover phases are cosmetic. Not changed in Story 6.5. `Card.tsx:36-40`
+
+## Deferred from: code review of 6-2-responsive-layout-across-breakpoints (2026-04-08)
+
+- Hardcoded gap magic numbers (48, 32) in expansion position calc — `MainPage.tsx:96,107` uses `identityRect.right + 48` and `identityRect.bottom + 32` matching grid gap values. Currently correct but fragile if `CardGrid.tsx` gap changes. Pre-existing pattern.
+- Agile/REST APIs skills absent from data — Story spec listed 12 existing skills including Agile and REST APIs, but these were already absent before Story 6.2 diff. Pre-existing spec inaccuracy.
+- SkillBadge linked variant 40px min height below 44px touch target (AC 4) — `SkillBadge.tsx:21` uses `min-h-10` (40px) on clickable button variant. Not modified in this diff. Pre-existing.
+- TechBadge 36px min height — `TechBadge.tsx:7` uses `min-h-9` (36px). Non-interactive `<span>`, not subject to AC 4. Not modified in this diff. Pre-existing.
+- Contact form input touch targets borderline ~42-44px — `ContactForm.tsx:510-514` uses `px-4 py-3` without explicit `min-h-11`. Not changed in this diff. Pre-existing.
+
 ## Deferred from: code review of 5-2-visitor-tracking-and-notification-system (2026-04-06)
 
 - Timer leak in `Promise.race` — `setTimeout` timers never cleared when primary promise resolves first. Timer fires into settled promise (no-op but wasteful). Same pattern from Story 5.1. `ipGeolocationService.ts:21-25`, `useVisitorTracker.ts:175-179`
@@ -194,3 +327,9 @@ Maps every deferred item to its natural resolution point. Items without a clear 
 - No rate-limit cooldown on EmailJS failure — every page load retries full cycle (geolocation + send) when EmailJS service is down. Pre-existing behavior, spec does not require cooldown. `useVisitorTracker.ts:~224`
 - Corrupted localStorage value bypasses rate limiting — `parseInt('abc')` → NaN → rate limit check evaluates false. Pre-existing, not introduced by this diff. `useVisitorTracker.ts:checkRateLimit`
 - Dead `isAvailable()` method — no callers remain after guard removal in Story 5.2. Spec only required removing the call, not the method. Minor dead code. `ipGeolocationService.ts:53-55`
+
+## Deferred from: code review of 6-6-seo-and-discoverability (2026-04-09)
+
+- No Twitter Card meta tags — `twitter:card`, `twitter:site`, etc. absent. Twitter/X falls back to OG parsing, which mostly works. Potential future enhancement for optimal Twitter rendering. `index.html`
+- og-image.png is 367 KB uncompressed PNG — 1280x720 RGB PNG copied directly from source asset. Functional for crawlers but larger than necessary. Could be optimized to ~50-100 KB as JPEG or compressed PNG. `public/og-image.png`
+- favicon.ico only 32x32, single resolution — Modern browsers benefit from multi-resolution ICO with 16x16, 32x32, 48x48, 64x64 variants. Story 6.6 only required MIME type fix. May appear blurry on high-DPI displays. `public/favicon.ico`

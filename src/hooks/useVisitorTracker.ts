@@ -115,6 +115,8 @@ export const useVisitorTracker = () => {
     if (!lastSent) return false
 
     const lastSentTime = parseInt(lastSent, 10)
+    if (isNaN(lastSentTime)) return false
+
     const now = Date.now()
 
     return now - lastSentTime < RATE_LIMIT_CONFIG.windowMs
@@ -140,6 +142,8 @@ export const useVisitorTracker = () => {
 
   const sendVisitorNotification = useCallback(
     async (visitorData: VisitorData): Promise<boolean> => {
+      let timeoutId: ReturnType<typeof setTimeout> | null = null
+
       try {
         const serviceId = EMAILJS_SERVICE_ID
         const templateId = EMAILJS_TEMPLATE_ID
@@ -176,9 +180,9 @@ export const useVisitorTracker = () => {
 
         await Promise.race([
           emailjs.send(serviceId, templateId, templateParams, publicKey),
-          new Promise<never>((_, reject) =>
-            setTimeout(() => reject(new Error('EmailJS send timed out')), EMAILJS_TIMEOUT_MS)
-          ),
+          new Promise<never>((_, reject) => {
+            timeoutId = setTimeout(() => reject(new Error('EmailJS send timed out')), EMAILJS_TIMEOUT_MS)
+          }),
         ])
 
         return true
@@ -188,6 +192,10 @@ export const useVisitorTracker = () => {
         }
 
         return false
+      } finally {
+        if (timeoutId !== null) {
+          clearTimeout(timeoutId)
+        }
       }
     },
     [shouldLogDebug]
