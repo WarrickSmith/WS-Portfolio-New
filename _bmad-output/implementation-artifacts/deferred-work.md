@@ -264,6 +264,12 @@ Maps every deferred item to its natural resolution point. Items without a clear 
 - `clearSubmissionFeedback` still guards on `formMessage?.tone !== 'info'` — Info-tone validation messages removed but info-tone still used for captcha/Sending states. Logic correct but confusing for maintainers. `ContactForm.tsx:158-166`
 - IdentityCard `<img>` no error handling for failed loads — Previous `backgroundImage` approach silently showed nothing. `<img>` shows broken icon on failure. Minor visual regression risk. `IdentityCard.tsx:23-27`
 
+## Deferred from: code review of 6-5-reduced-motion-and-performance-validation (2026-04-09)
+
+- Remaining mobile lab performance gap after Story 6.5 transfer-size trims — Mobile Lighthouse still measures `FCP 1.73s` vs target `< 1.5s` and `LCP 2.74s` vs target `< 2.5s` on the `serve@14.2.5` runtime. Further improvement likely requires broader initial-route work such as additional lazy-loading, image pipeline changes, or deeper React/Framer runtime reduction. Assigned to Story 6.7 to keep Story 6.5 within its no-architecture-change boundary.
+- `useReducedMotion()` is non-reactive — Framer Motion's hook captures preference at mount time via `useState` and never updates. Users toggling OS reduced-motion setting mid-session must refresh. Library limitation. Already tracked from Story 2.4 review. `ExpandableItem.tsx`, `OverlayContentGroup.tsx`, `WordSlider.tsx`, `AboutContent.tsx`, `PortfolioContent.tsx`
+- Card.tsx uses different reduced-motion detection — Uses synchronous `window.matchMedia()` on every render instead of `useReducedMotion()` hook. Subtle inconsistency but Card hover phases are cosmetic. Not changed in Story 6.5. `Card.tsx:36-40`
+
 ## Deferred from: code review of 6-2-responsive-layout-across-breakpoints (2026-04-08)
 
 - Hardcoded gap magic numbers (48, 32) in expansion position calc — `MainPage.tsx:96,107` uses `identityRect.right + 48` and `identityRect.bottom + 32` matching grid gap values. Currently correct but fragile if `CardGrid.tsx` gap changes. Pre-existing pattern.
