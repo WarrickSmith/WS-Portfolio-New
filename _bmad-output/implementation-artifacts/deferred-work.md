@@ -1,5 +1,46 @@
 # Deferred Work
 
+## Story 6.7 Final Closure Audit (2026-04-09)
+
+Story 6.7 completed the final deferred-backlog audit against the current repo state, the Epic 6 story artifacts, and the original planning notes.
+
+**Final status:** no active deferred backlog remains after this audit.
+
+Historical note: every source section below this audit is archival only. The bullets below are preserved for traceability, but none of them remain open work after the Story 6.7 dispositions recorded here.
+
+### Final Disposition Matrix
+
+#### `fix in 6.7`
+
+- Focus-trap coverage: `useFocusTrap.ts` now includes `[contenteditable]` and `details > summary:first-of-type`, closing the remaining selector gap from the Story 6.3 review.
+- Overlay positioning drift: `MainPage.tsx` no longer hardcodes `48` and `32` for the expanded-card gap. It now reads the live grid row/column gap from `[data-card-grid]`, keeping overlay placement aligned with `CardGrid.tsx`.
+- Contact form semantics: `ContactForm.tsx` now ties `aria-invalid` and `aria-describedby` to the same touched-and-visible error contract used by the rendered error message.
+- GoldPulseText API drift: `GoldPulseText.tsx` now constrains `as` to intrinsic elements and owns the zero-margin heading reset instead of relying on `CardPreview.tsx`.
+- WordSlider prop-shrink edge case: `WordSlider.tsx` now clamps `currentWordIndex` when the `words` prop length changes, preventing out-of-bounds rendering.
+- Contact profiles empty-state: `ContactContent.tsx` now suppresses the Profiles section when `contact.links` is empty.
+- Visitor-tracking timeout cleanup: `useVisitorTracker.ts` now clears EmailJS timeout handles deterministically, and `ipGeolocationService.ts` now aborts the geolocation fetch on timeout instead of leaving the request running.
+- Discoverability polish: `index.html` now includes explicit Twitter Card metadata (`twitter:card`, title, description, image, image alt), closing the residual Story 6.6 metadata gap.
+
+#### `close as already resolved`
+
+- Story 1.1-1.7 repo hardening drift: dead `react-server-dom-*` dependencies are gone, TypeScript already lives in `devDependencies`, env access and env typing fixes already shipped, favicon MIME was fixed in Story 6.6, the ContactForm captcha/null-form/email-config regressions are already fixed, CloseButton already stops propagation, the old dual-reset/body-bold issues are gone, `.env` is already excluded from Docker build context, Docker Compose now includes a healthcheck, and the deprecated compose `version:` field is already absent.
+- Early WordSlider / CloseButton regressions: the empty-array guard and timeout cleanup already exist in `WordSlider.tsx`, and `CloseButton.tsx` already uses `rounded-sm` plus `stopPropagation()`.
+- Story 3/4 stale audit drift: `learningAdaptability` is now rendered in `ApproachContent.tsx`, the missing React/TypeScript/Tailwind skill badges are already present in `personalData.tsx`, card IDs are already centralized in `src/constants/cardIds.ts`, and the old `min-[860px]` breakpoint is no longer present in `ApproachContent.tsx`.
+- Touch-target stale entries: `SkillBadge.tsx` already uses `min-h-11`, `ContactForm.tsx` already uses `min-h-11` field wrappers, and the dead `isAvailable()` geolocation helper plus the localStorage `NaN` rate-limit gap were already fixed before Story 6.7.
+- Identity portrait fallback: the current `IdentityCard.tsx` `<picture>` path already degrades to a transparent fallback image instead of surfacing a broken-image icon.
+
+#### `close as non-issue / limitation`
+
+- Browser or library limitations that are real but not repo-fixable: the `focusVisible: true` focus-ring behavior varies by browser, Framer Motion's `useReducedMotion()` remains non-reactive mid-session, and EmailJS `sendForm()` still cannot be cancelled via `AbortController`.
+- Low-risk theoretical interaction notes that do not represent a current defect: per-render `matchMedia()` checks in `Card.tsx`, the inner layout wrapper note, `group/card` naming fragility, rapid close/reopen race observations, the `overscroll-contain` mobile-toolbar caveat, `AnimatePresence` unmount timing, cards 1/2 running minor overlay bookkeeping, and possible `mix-blend-mode` variance on some GPUs.
+- Acceptable content/presentation observations without a current bug: `overviewStats` recomputation, portrait column asymmetry, intrinsic-image sizing, the split between `personalData` and `consolidatedProfile`, duplicate-key fragility with the current data set, Safari `::marker` color variance, `ExternalLinkButton` empty-href handling with complete data, the root-element cast in `main.tsx`, and the absence of a live `BulletPoints` overflow issue in the current component set.
+- Theme/platform tradeoffs that are intentional or low value to revisit right now: the existing `oklch(from ...)` token pattern, ambient blur compositing cost on low-end devices, the unused `@/*` tsconfig alias, the current `serve@14.2.5` global-install Docker pattern, `@types/node` version drift risk, and other purely documentary Docker/CI notes such as `cancel-in-progress`, build-output validation comments, or local `.env` setup gaps.
+- Planning/spec drift rather than code defects: Agile / REST APIs were never modeled as proof-linked skills in this portfolio data system, and `TechBadge`'s 36px height is acceptable because it renders as a non-interactive `<span>`, not a touch target.
+- Story 6.5 residual performance note: the remaining mobile lab `FCP` / `LCP` miss from Story 6.5 requires broader initial-route or image-pipeline work than this closure pass should reopen. Story 6.5 already met the Lighthouse score gate, so this is accepted as a documented limitation rather than an active deferred item.
+- Story 6.6 residual asset polish: `public/og-image.png` remains a functional but unoptimized static asset, and `public/favicon.ico` remains a single-resolution ICO. Both are acceptable current-state optimizations, not active defects blocking Epic 6 closure.
+
+## Historical Source Notes (archival only)
+
 ## Deferred from: code review of story 6.3 (2026-04-08)
 
 - `focusVisible: true` FocusOption not cross-browser — `element.focus({ focusVisible: true })` only works in Chrome/Edge. Firefox/Safari ignore it. Focus restoration works but gold `:focus-visible` ring may not appear after programmatic focus. Low impact.
