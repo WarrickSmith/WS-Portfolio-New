@@ -6,6 +6,7 @@ import SectionHeading from '../common/SectionHeading'
 
 const ContactContent = () => {
   const { profile, contact } = personalData
+  const hasProfileLinks = contact.links.length > 0
 
   const contactInfoItems = [
     {
@@ -89,53 +90,55 @@ const ContactContent = () => {
             })}
           </div>
 
-          <section
-            aria-labelledby="contact-profiles-heading"
-            className="rounded-radius-md border border-border-subtle bg-bg-card-hover p-4"
-          >
-            <div className="mb-4 space-y-2">
-              <h3
-                id="contact-profiles-heading"
-                className="text-body font-semibold text-text-primary"
-              >
-                Profiles
-              </h3>
-              <p className="text-body-sm text-text-secondary">
-                Browse recent code, shipped portfolio work, and the implementation detail
-                behind it.
-              </p>
-            </div>
-
-            <div className="grid gap-3">
-              {contact.links.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={link.ariaLabel}
-                  className="flex items-start justify-between gap-4 rounded-radius-md border border-border-subtle bg-bg-card p-4 text-left no-underline transition-[border-color,background-color,box-shadow] duration-150 hover:border-border-hover hover:bg-bg-card-hover focus-visible:outline-none focus-visible:shadow-focus-ring motion-reduce:transition-none"
+          {hasProfileLinks ? (
+            <section
+              aria-labelledby="contact-profiles-heading"
+              className="rounded-radius-md border border-border-subtle bg-bg-card-hover p-4"
+            >
+              <div className="mb-4 space-y-2">
+                <h3
+                  id="contact-profiles-heading"
+                  className="text-body font-semibold text-text-primary"
                 >
-                  <span className="flex items-start gap-4">
-                    <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-accent-primary-soft text-text-accent">
-                      <FaIcon icon={link.icon} />
-                    </span>
-                    <span className="min-w-0">
-                      <span className="block text-body-sm font-semibold text-text-primary">
-                        {link.label}
+                  Profiles
+                </h3>
+                <p className="text-body-sm text-text-secondary">
+                  Browse recent code, shipped portfolio work, and the implementation detail
+                  behind it.
+                </p>
+              </div>
+
+              <div className="grid gap-3">
+                {contact.links.map((link) => (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={link.ariaLabel}
+                    className="flex items-start justify-between gap-4 rounded-radius-md border border-border-subtle bg-bg-card p-4 text-left no-underline transition-[border-color,background-color,box-shadow] duration-150 hover:border-border-hover hover:bg-bg-card-hover focus-visible:outline-none focus-visible:shadow-focus-ring motion-reduce:transition-none"
+                  >
+                    <span className="flex items-start gap-4">
+                      <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-accent-primary-soft text-text-accent">
+                        <FaIcon icon={link.icon} />
                       </span>
-                      <span className="mt-1 block text-body-sm text-text-secondary">
-                        {link.supportingText}
+                      <span className="min-w-0">
+                        <span className="block text-body-sm font-semibold text-text-primary">
+                          {link.label}
+                        </span>
+                        <span className="mt-1 block text-body-sm text-text-secondary">
+                          {link.supportingText}
+                        </span>
                       </span>
                     </span>
-                  </span>
-                  <span className="pt-1 text-text-tertiary">
-                    <FaIcon icon="faArrowUpRightFromSquare" className="text-caption" />
-                  </span>
-                </a>
-              ))}
-            </div>
-          </section>
+                    <span className="pt-1 text-text-tertiary">
+                      <FaIcon icon="faArrowUpRightFromSquare" className="text-caption" />
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </section>
+          ) : null}
         </OverlayContentGroup>
 
         <OverlayContentGroup

@@ -421,6 +421,9 @@ const ContactForm = () => {
     return 'Send message'
   })()
 
+  const messageError = errors.message
+  const showMessageError = Boolean(messageError && touchedFields.message)
+
   return (
     <form
       ref={formRef}
@@ -475,6 +478,7 @@ const ContactForm = () => {
         ).map((field) => {
           const fieldError = errors[field.name]
           const fieldId = fieldIds[field.name]
+          const showFieldError = Boolean(fieldError && touchedFields[field.name])
 
           return (
             <div key={field.name} className="space-y-2">
@@ -487,7 +491,7 @@ const ContactForm = () => {
               <div
                 className={cn(
                   'flex min-h-11 items-start gap-3 rounded-radius-md border bg-bg-card px-4 py-3 transition-[border-color,box-shadow] duration-150 motion-reduce:transition-none',
-                  fieldError
+                  showFieldError
                     ? 'border-error/60 bg-error/5'
                     : 'border-border-subtle focus-within:border-border-accent focus-within:shadow-focus-ring'
                 )}
@@ -505,8 +509,10 @@ const ContactForm = () => {
                   onChange={handleFieldChange}
                   onBlur={handleFieldBlur}
                   disabled={inputsLocked}
-                  aria-invalid={Boolean(fieldError)}
-                  aria-describedby={fieldError ? `${fieldId}-error` : undefined}
+                  aria-invalid={showFieldError}
+                  aria-describedby={
+                    showFieldError ? `${fieldId}-error` : undefined
+                  }
                   className="w-full border-0 bg-transparent text-body text-text-primary outline-none placeholder:text-text-tertiary disabled:cursor-not-allowed disabled:opacity-70"
                   placeholder={
                     field.name === 'user_name'
@@ -515,7 +521,7 @@ const ContactForm = () => {
                   }
                 />
               </div>
-              {fieldError && touchedFields[field.name] && (
+              {showFieldError && (
                 <span
                   id={`${fieldId}-error`}
                   aria-live="polite"
@@ -539,7 +545,7 @@ const ContactForm = () => {
           <div
             className={cn(
               'flex min-h-11 items-start gap-3 rounded-radius-md border bg-bg-card px-4 py-3 transition-[border-color,box-shadow] duration-150 motion-reduce:transition-none',
-              errors.message
+              showMessageError
                 ? 'border-error/60 bg-error/5'
                 : 'border-border-subtle focus-within:border-border-accent focus-within:shadow-focus-ring'
             )}
@@ -556,22 +562,22 @@ const ContactForm = () => {
               onChange={handleFieldChange}
               onBlur={handleFieldBlur}
               disabled={inputsLocked}
-              aria-invalid={Boolean(errors.message)}
+              aria-invalid={showMessageError}
               aria-describedby={
-                errors.message ? `${fieldIds.message}-error` : undefined
+                showMessageError ? `${fieldIds.message}-error` : undefined
               }
               className="w-full resize-y border-0 bg-transparent text-body text-text-primary outline-none placeholder:text-text-tertiary disabled:cursor-not-allowed disabled:opacity-70"
               placeholder="A short note about the role, product, or project."
             />
           </div>
-          {errors.message && touchedFields.message && (
+          {showMessageError && (
             <span
               id={`${fieldIds.message}-error`}
               aria-live="polite"
               aria-atomic="true"
               className="block text-body-sm text-[color:var(--color-error)]"
             >
-              {errors.message}
+              {messageError}
             </span>
           )}
         </div>
